@@ -1,0 +1,68 @@
+create database rcitydb;
+use rcitydb;
+    CREATE TABLE users  
+    (PREFIX varchar(20),
+     USERID varchar(20),    
+     FNAME varchar(50),    
+     MNAME varchar(50),
+     LNAME varchar(50),
+     USERNAME varchar(50),
+     MOBILENUMBER varchar(10),
+     USERTYPE varchar(50),
+     BIRTHDATE date,
+     GENDER varchar(20),
+     ADDRESS varchar(50),
+     STATE varchar(50),
+     CITY varchar(50),
+     ZIPCODE varchar(50),
+     PASSWORD varchar(50),
+     MARITALSTATUS varchar(50),
+     EMAIL varchar(50),
+     ACCOUNTID varchar(50),
+     OCCUPATION varchar(50),
+     VCODE varchar(50),
+     STATUS varchar(50),
+     CREATEDDATE datetime,
+     UPDATEDDATE datetime   
+    );    
+     CREATE TABLE registration  
+    (ACCOUNTNUMBER varchar(50),    
+     ACCOUNTTYPE varchar(50),    
+     ACCOUNTHOLDERNAME varchar(50),
+     BRANCHADDRESS varchar(60),
+     IFSCCODE varchar(50),
+     STATUS varchar(30),
+     BALANCE decimal(15,2)  
+    );    
+     CREATE TABLE transaction  
+    (TRANSACTIONID varchar(50),    
+     ACCOUNTNUMBER varchar(50),    
+     USERID varchar(50),
+     STATUS varchar(30),
+     APPROVAL varchar(50),
+     TRANSACTIONDATE date,
+     AMMOUNT decimal(15,2)  
+    );  
+     CREATE TABLE loandetails  
+    (ID varchar(50),    
+     LOANTYPE varchar(50),
+     USERID varchar(50),     
+     LOANAMMOUNT decimal(15,2),
+     APPLYDATE date,
+     APPROVALDATE date,
+     ACCOUNTID varchar(50),
+     OCCUPATION varchar(50),
+     STATUS varchar(50),   
+     INCOME decimal(15,2)  
+    );  
+    CREATE TABLE loanapplication 
+    (ID varchar(50),    
+     FNAME varchar(50),
+     LNAME varchar(50),     
+     LOANTYPE varchar(50),
+     OCCUPATION varchar(50),
+     STATUS varchar(50),   
+     INCOME decimal(15,2)  
+    );   
+     
+    
