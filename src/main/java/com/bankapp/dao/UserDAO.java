@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.bankapp.models.AccountDetails;
 import com.bankapp.models.UserDetails;
 import com.bankapp.models.Users;
 import com.bankapp.util.BankUtil;
@@ -19,7 +20,7 @@ public class UserDAO {
 			if (done) {
 				Connection con = DBConnection.getConnection();
 				Statement st = con.createStatement();
-				String query = "select fname,mname,lname from users where userId = (SELECT userid FROM login_details WHERE userName = '" + user.getUserName()
+				String query = "select fname,mname,lname,userid from users where userId = (SELECT userid FROM login_details WHERE userName = '" + user.getUserName()
 						+ "' AND Password = '" + user.getPassword() + "')";
 				ResultSet rs = st.executeQuery(query);
 				done = done && rs.next();
@@ -27,6 +28,7 @@ public class UserDAO {
 					dbUser.setFname(rs.getString("fname"));
 					dbUser.setMname(rs.getString("mname"));
 					dbUser.setLname(rs.getString("lname"));
+					dbUser.setUserId(rs.getInt("userid"));
 					System.out.println("LogIn Successful!");
 				}
 				st.close();
@@ -52,19 +54,13 @@ public class UserDAO {
 	}
 
 	public boolean signUp(UserDetails user) {
-
-		// boolean flag = !user.getUserName().equals("") &&
-		// !user.getPassword().equals("");
-		
+	
 		boolean flag = true;
 		try {
-			// if (flag) {
-			DBConnection conn = new DBConnection(); // Have a connection to the DB
-			Connection DBConn = conn.getConnection();
+			Connection DBConn = DBConnection.getConnection();
 			Statement Stmt = DBConn.createStatement();
 			int userId = 0;	
-			String SQL_Command = "SELECT userName FROM login_details WHERE userName ='" + user.getUserName() + "'"; // SQL query
-																											// command
+			String SQL_Command = "SELECT userName FROM login_details WHERE userName ='" + user.getUserName() + "'"; 
 			ResultSet Rslt = Stmt.executeQuery(SQL_Command); // Inquire if the username exsits.
 			flag = flag && !Rslt.next();
 			if (flag) {
@@ -84,8 +80,7 @@ public class UserDAO {
 				Stmt.executeUpdate(SQL_Command);
 			}
 			Stmt.close();
-			conn.closeConn();
-			// }
+			DBConnection.closeConn();
 		} catch (SQLException e) {
 			flag = false;
 			System.out.println("SQLException: " + e);
@@ -102,6 +97,31 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		return flag;
+	}
+
+	public AccountDetails getAccountDetails(int userId) {
+		String accountNumber = "";
+		String accounttype = "";
+		double balance = 0;
+		AccountDetails accDetails = new AccountDetails();
+		try {
+			Connection DBConn = DBConnection.getConnection();
+			Statement statement = DBConn.createStatement();
+			String SQL_Command = "SELECT accountNumber,accounttype,balance FROM account WHERE userid ='" + userId + "'"; 
+			ResultSet result = statement.executeQuery(SQL_Command);
+			while(result.next()) {
+				accountNumber = result.getString("accountNumber");
+				accounttype = result.getString("accounttype");
+				balance = result.getDouble("balance");
+				accDetails.setAccountNumber(accountNumber);
+				accDetails.setAccountType(accounttype);
+				accDetails.setBalance(balance);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return accDetails;
 	}
 
 }

@@ -7,6 +7,7 @@ public class Users {
 	String password;
 	String updatedDate;
 	String createdDate;
+	
 	public String getUserId() {
 		return userId;
 	}

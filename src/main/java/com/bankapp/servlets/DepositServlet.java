@@ -33,19 +33,19 @@ public class DepositServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	
-    		String depositSelection = request.getParameter("Deposit");
+    		String accountNumber = request.getParameter("accountNumber");
     		String amount = request.getParameter("Amount");
     		double amt = Double.parseDouble(amount);
     		
     		//Getting UserName
     		HttpSession session = request.getSession();
-    		String userName = (String)session.getAttribute("UName");
+    		String userName = (String)session.getAttribute("userName");
     		
-    		if(depositSelection != "" && amount != "") {
-    			int Acc_no = Integer.parseInt(depositSelection);
-    			ckAcc = new AccountDetails(Acc_no);
-    			svAcc = new SavingsAccount(Acc_no);
-    			if(ckAcc.is_CheckingAccount_exist()) {
+    		if(accountNumber != "" && amount != "") {
+    			
+    			ckAcc = new AccountDetails();
+    			svAcc = new SavingsAccount();
+    			/*if(ckAcc.is_CheckingAccount_exist()) {
     				
     				double bal = ckAcc.deposit_to_CheckingAccount(amt);
     				
@@ -54,10 +54,12 @@ public class DepositServlet extends HttpServlet {
 				    
 				    request.setAttribute("CBalance", bal);
 				    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
-				    rd.forward(request, response);
+				    rd.forward(request, response);*/
+    			if(svAcc.is_SavingsAccount_exist(accountNumber)) {
+    				//transaction
     				
     			}
-    			else if(svAcc.is_SavingsAccount_exist()) {
+    			else if(svAcc.is_SavingsAccount_exist(accountNumber)) {
     				double bal = svAcc.deposit_to_SavingsAccount(amt);
     				
     				tr = new Transactions("Deposit", amt, "Savings", "Savings",userName);

@@ -1,26 +1,20 @@
 package com.bankapp.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Vector;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bankapp.*;
-import com.bankapp.dao.Account;
 import com.bankapp.dao.AccountDetails;
-import com.bankapp.dao.UserDAO;
 import com.bankapp.dao.SavingsAccount;
+import com.bankapp.dao.UserDAO;
 import com.bankapp.models.UserDetails;
 import com.bankapp.models.Users;
-
-import java.util.*;
 
 /**
  * Servlet implementation class LoginServlet
@@ -52,16 +46,23 @@ public class LoginServlet extends HttpServlet {
             Users user = new Users();
             user.setUserName(userName);
             user.setPassword(password);
-            UserDetails dbUser = new UserDAO().signIn(user);
-            if(dbUser.getFname()!= "" && dbUser.getMname()!= "" && dbUser.getLname()!= "" ) {	
-            	            	
+            UserDAO userDAO = new UserDAO();
+            UserDetails dbUser = userDAO.signIn(user);
+            if(dbUser.getUserId() != 0) {	
+            	
+            	com.bankapp.models.AccountDetails accDetails = userDAO.getAccountDetails(dbUser.getUserId());
    			 	// set session scoped attribute
    		        HttpSession session = request.getSession();
-   		          		           		  
+   		        //Set Account details in session
+   		        session.setAttribute("accountNumber", accDetails.getAccountNumber());
+   		        session.setAttribute("accountType", accDetails.getAccountType());
+   		        session.setAttribute("balance", ""+accDetails.getBalance());
+   		        
    		        //Passing User Name and Customer Name in session
    		        session.setAttribute("fname", dbUser.getFname());
    		        session.setAttribute("mname", dbUser.getMname());
    		        session.setAttribute("lname", dbUser.getLname());
+   		        session.setAttribute("userName", userName);
    		        
 	   		     Cookie loginCookie = new Cookie("user",userName);
 	 			//setting cookie to expiry in 30 mins

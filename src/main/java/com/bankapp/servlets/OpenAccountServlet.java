@@ -69,10 +69,13 @@ public class OpenAccountServlet extends HttpServlet {
 		account.setAccountHolderName(fullName);
 		account.setBalance(balance);
 		AccountDetails accDetails=new AccountDetails();
-		boolean isAccountCreated = accDetails.createAccount(account, userName);
-		
-		if(isAccountCreated) {
-			request.setAttribute("msg", "Account Created Successfully!!");
+		String createAccountNumber = accDetails.createAccount(account, userName);
+		HttpSession session=request.getSession();  
+         
+		if(!createAccountNumber.equalsIgnoreCase("")) {
+			session.setAttribute("accountNumber",createAccountNumber); 
+			session.setAttribute("userName", userName);
+			request.setAttribute("msg", "Account " + createAccountNumber +" Created Successfully!!");
 			RequestDispatcher rd =	request.getRequestDispatcher("/OpenAccount.jsp?Success=1");
 			rd.forward(request, response);
 		}else {

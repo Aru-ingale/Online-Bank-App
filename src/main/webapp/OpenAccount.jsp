@@ -66,7 +66,15 @@
 		%>
 	</section>
 	<section id ="options">
-	    <p><%=request.getAttribute("msg") %></p>
+	    <p>
+	    <%
+	     if(request.getAttribute("msg") != null){
+	     %>
+	    	 <%=request.getAttribute("msg") %>
+	    <% 
+	    }
+	    %>
+	   </p>
 		<div class="container">
 			<h1 style="float:none;">Thank You for Choosing Royal City Internet Banking. You can create Account below.</h1>
 				<FORM style="float:left;" NAME="OpenAccountPage" ACTION="OpenAccountServlet.do" METHOD ="POST">

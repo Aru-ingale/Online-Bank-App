@@ -32,10 +32,11 @@ private String userId;
 	public AccountDetails(){
 	}
 	
-public boolean createAccount(Account acc, String userName) {
+public String createAccount(Account acc, String userName) {
 		
 		boolean flag = true;
 		int userId = 0;
+		String createdAccountNumber = "";
 		try {
 		    //if (flag) {
 		        Connection conn = DBConnection.getConnection();
@@ -60,6 +61,13 @@ public boolean createAccount(Account acc, String userName) {
 				    		+ "'"+acc.getAccountHolderName()+"','GPO PUNE-411001','RCIT000210','pending','"+acc.getBalance()+"')"; 
 				   
 				Stmt.executeUpdate(SQL_Command);
+				
+				
+				SQL_Command = "select accountNumber from account where userid ="+userId;
+				ResultSet rs1 =Stmt.executeQuery(SQL_Command);
+				while(rs.next()) {
+					createdAccountNumber = rs1.getString("accountNumber");
+		        }
 			    //}
 			    Stmt.close();
 			    conn.close();;
@@ -81,7 +89,7 @@ public boolean createAccount(Account acc, String userName) {
 				 System.out.println("Exception: " + e);
 				 e.printStackTrace ();
 	    }
-	    return flag;
+	    return createdAccountNumber;
 	}
 
 

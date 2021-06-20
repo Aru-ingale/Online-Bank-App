@@ -27,13 +27,11 @@ cities['Uttarakhand'] = new Array('Haridwar', 'Roorkee', 'Rishikesh', 'Kashipur'
 cities['West Bengal'] = new Array('Darjeeling', 'Siliguri', 'Asansol', 'Howrah', 'Durgapur_Haldwani');
 cities['Assam'] = new Array('Guwahati', 'Tezpur', 'Dibrugarh', 'Silchar', 'North_Lakhimpur');
 function setCities() {
-alert("In setcities");
 	statesel = document.getElementById('states')
 	cityList = cities[statesel.value];
 	changeSelect('city', cityList, cityList);
 }
 function changeSelect(fieldID, newOptions, newValues) {
-alert("In changeSelect"+ fieldID);
 	selectField = document.getElementById(fieldID);
 	selectField.options.length = 0;
 	for (i = 0; i < newOptions.length; i++) {
@@ -55,6 +53,5 @@ function addLoadEvent(func) {
 	}
 }
 addLoadEvent(function() {
-alert("Hello");
 	setCities();
 });

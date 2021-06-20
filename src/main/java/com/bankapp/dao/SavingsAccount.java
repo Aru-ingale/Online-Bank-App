@@ -27,6 +27,9 @@ private String CustomerID;
 	public SavingsAccount(String UName){
 		this.CustomerID = UName;
 	}
+	
+	public SavingsAccount(){
+	}
 
 	public double open_SavingsAccount(){
 			double bal = -100;
@@ -71,15 +74,14 @@ private String CustomerID;
 	return bal;
 	}
 	
-	public boolean is_SavingsAccount_exist() {
+	public boolean is_SavingsAccount_exist(String accountNumber) {
 		
 			boolean Acc_no = true;
 		
 			try{
-				DBConnection ToDB = new DBConnection();
-				Connection con = ToDB.getConnection();
+				Connection con = DBConnection.getConnection();
 				Statement st = con.createStatement();
-				String sql = "SELECT SavingsAccountNumber FROM SavingsAccount WHERE SavingsAccountNumber ='"+SavingsAccountNumber+"'"; //SQL query command
+				String sql = "SELECT accountNumber FROM account WHERE accountNumber ='"+accountNumber+"'"; //SQL query command
 				ResultSet Rslt = st.executeQuery(sql);
 			     
 					if (Rslt.next()) {
@@ -89,7 +91,7 @@ private String CustomerID;
 						Acc_no = false;
 					}
 				    st.close();
-				    ToDB.closeConn();
+				    DBConnection.closeConn();
 
 			}
 			catch(java.sql.SQLException e){
