@@ -162,17 +162,17 @@
 	<section id ="boxes">
 		<div class= "container">
 			<div class="box">
-				<img alt="" src="./img/HomeLoan.jpg">
+				<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100" height="100"  ></a>
 				<h3> Home Loan</h3>
 				<p>Make your dream come true. Apply for Home Loan Today.</p>
 			</div>
 			<div class="box">
-				<img alt="" src="./img/CarLoan.jpg">
+				<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100" height="100"  ></a>
 				<h3> Car Loan</h3>
 				<p>Make your dream come true. Apply for Car Loan Today.</p>
 			</div>
 			<div class="box">
-				<img alt="" src="./img/BusinessLoan.jpg">
+				<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg" width="100" height="100"  ></a>
 				<h3> Business Loan</h3>
 				<p>Make your efforts worthy. Apply for Business Loans Today.</p>
 			</div>

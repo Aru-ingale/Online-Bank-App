@@ -16,7 +16,7 @@
     (
      	USERID int, 
      	PREFIX varchar(20),
-     	FNAME varchar(50),    
+     	FNAME varchar(50),
      	MNAME varchar(50),
      	LNAME varchar(50),
   		MOBILENUMBER varchar(10),
@@ -85,14 +85,6 @@
      STATUS varchar(50),   
      INCOME decimal(15,2)  
     );  
-    CREATE TABLE loanapplication 
-    (ID varchar(50),    
-     FNAME varchar(50),
-     LNAME varchar(50),     
-     LOANTYPE varchar(50),
-     OCCUPATION varchar(50),
-     STATUS varchar(50),   
-     INCOME decimal(15,2)  
-    );   
+    
      
     
