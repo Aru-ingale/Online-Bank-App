@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.bankapp.dao.Account;
 import com.bankapp.dao.AccountDetails;
 import com.bankapp.dao.SavingsAccount;
-import com.bankapp.dao.Transactions;
+import com.bankapp.dao.TransactionsDAO;
 import com.bankapp.models.UserDetails;
 
 /**
@@ -24,7 +24,7 @@ public class OpenAccountServlet extends HttpServlet {
 
 	private AccountDetails ckAcc, nckAcc;
 	private SavingsAccount svAcc, nsvAcc;
-	private Transactions tr;
+	private TransactionsDAO tr;
 
 	/**
 	 * @see HttpServlet#HttpServlet()

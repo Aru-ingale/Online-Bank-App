@@ -15,6 +15,12 @@
 <link rel = "stylesheet" href ="./css/stylesheet.css">
 </head>
 <body>
+<div id="logout">
+		<button id='LogoutButton' style="float: right; margin-top: 70px;"
+			class="button_1">
+			<span>Logout</span>
+		</button>
+	</div>
 	<header>
 		<div class="container">
 			<div id ="branding">
@@ -60,62 +66,60 @@
 
 	
 	// This is secure page and you can perform transaction after Login only. So, if not Login then go to Login Page.
-		if(session.getAttribute("UName") == null){
+		if(session.getAttribute("userName") == null){
 			response.sendRedirect("Login.jsp");
 		}else{
 	
-				// get session scoped attribute
-		        // Getting Number of Checking Accounts of User
-				Vector ckAccounts = (Vector)session.getAttribute("ckAccounts");
-		        int NumOfCTokens = ckAccounts.size();
-		        
-		        //Getting number of Savings Account of User
-	        	Vector svAccounts = (Vector)session.getAttribute("svAccounts");
-	        	int NumOfSTokens = svAccounts.size();
+			String savaingAccountNo = (String) session.getAttribute("accountNumber");
+			String balance = (String) session.getAttribute("balance");
+
+			//Getting number of Savings Account of User
+			String currentAccounts = (String) session.getAttribute("currentAccount");
 	        	
 				%>
 				<TABLE class="table" cellPadding='3' ALIGN='center'>
-					<TR>
-					<TD>Choose Your Account :</TD>
-					<td>
-					<select name ="Withdraw" required class="drpdwn">
-						<!-- <option value="">--Select--</option> --> 
-						<%
-						for (int i=0;i<NumOfCTokens;i++) {
-		  
-		        		//Getting Checking Account Number
-		        		int CAcc_no = (Integer)ckAccounts.get(i);
-		   				%>
-  						<option value="<%=CAcc_no%>">Checking Account <%=i+1 %></option>
-						<% } 
-	    	    		for (int j=0;j<NumOfSTokens;j++) {
-	    	    		
-	    	    		//Getting Saving Account Number
-	    	    		int SAcc_no = (Integer)svAccounts.get(j);
-	    	        	%>
-	    	        	<option value="<%=SAcc_no%>">Savings Account <%=j+1 %></option>
-						<% }
-	}%>
-					</select>
-					</td>
-					</TR>
-					<TR>
-						<TD>Enter Amount :</TD>
-						<TD>
-						<INPUT TYPE='number' NAME='Amount' SIZE='15' placeholder="Enter Amount" onKeyUp ="checkAmount()">
-						</TD>
-					</TR>
+					<tr>
+						<td>Choose Your Account :</td>
+						<td><INPUT type="text" name="accountNumber" required
+							value="<%=savaingAccountNo%>" /></td>
+					</tr>
+					<tr>
+						<td>Choose Account Type :</td>
+						<td><select name="accountType" required class="drpdwn">
+								<option value="">--Select--</option>
+								<option value="Current">Current</option>
+								<option value="Savings">Savings</option>
+						</select></td>
+					</tr>
+					<tr>
+					<tr>
+						<td>DATE:</td>
+						<td><INPUT type="date" name='transDate' Value='' SIZE='15'
+							placeholder="Enter the date.."></td>
+					</tr>
+					<tr>
+						<td>MOBILE NUMBER :</td>
+						<td><INPUT TYPE='number' NAME='number' SIZE='15'
+							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
+					</tr>
+					<tr>
+						<td>AMOUNT:</td>
+						<td><INPUT TYPE='number' NAME='amount' SIZE='15'
+							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
+					</tr>
 					</TABLE>
 					<div id="formButton">
 						<button id='WithdrawButton' class = "button_1"><span>Withdraw</span></button>
 					</div>
 					<div id="show">
-						<h3>Your Current Balance is :<b>${CBalance}</b><b>${SBalance}</b></h3>
-					</div>
+					<h3>
+						Your Current Balance is :<%=balance%></b>
+					</h3>
+				</div>
+					<% }
+	%>
 				</form>
-				<div id="logout">
-					<button id='LogoutButton' style="float:right;margin-top:100px;" class = "button_1"><span>Logout</span></button>
-				</div>	
+				
 		</div>
 	</section>
 	<section id ="boxes">

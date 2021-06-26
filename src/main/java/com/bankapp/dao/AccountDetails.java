@@ -178,28 +178,27 @@ public String createAccount(Account acc, String userName) {
 	}
 
 
-	public double deposit_to_CheckingAccount(double amount){
+	public double deposit_to_CheckingAccount(double amount, String accountNumber){
 
 			double r_amount = -100;
 			boolean done;
 						try{
 
-							DBConnection ToDB = new DBConnection();
-							Connection con = ToDB.getConnection();
+							Connection con = DBConnection.getConnection();
 							Statement st = con.createStatement();
-							String sql = "SELECT accountNumber, Balance FROM CheckingAccount WHERE accountNumber ='"+accountNumber+"'"; //SQL query command
+							String sql = "SELECT accountNumber, Balance FROM account WHERE accountNumber ='"+accountNumber+"'"; //SQL query command
 							ResultSet Rslt = st.executeQuery(sql);
 					        done = Rslt.next();
 								if (done) {
 									double bal = Rslt.getDouble("Balance");
 									double New_bal = bal + amount;
-								    sql = "UPDATE CheckingAccount SET Balance = '"+New_bal+"' WHERE accountNumber='"+accountNumber+"'";
+								    sql = "UPDATE account SET Balance = '"+New_bal+"' WHERE accountNumber='"+accountNumber+"'";
 								    st.executeUpdate(sql);
 								    r_amount = New_bal;
 
 							    }
 						    st.close();
-						    ToDB.closeConn();
+						    DBConnection.closeConn();
 
 
 						}

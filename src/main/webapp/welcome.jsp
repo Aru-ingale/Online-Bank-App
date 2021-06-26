@@ -10,6 +10,12 @@
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
+	<div id="logout">
+		<button id='LogoutButton' style="float: right; margin-top: 70px;"
+			class="button_1">
+			<span>Logout</span>
+		</button>
+	</div>
 	<header>
 	<div class="container">
 		<div id="branding">
@@ -26,7 +32,7 @@
 			<li><a href="Transfer.jsp">Transfer</a></li>
 			<li><a href="OpenAccount.jsp">Open Account</a></li>
 		</ul>
-		<div>
+		<div style="float: right;">
 			<h3>
 				Welcome <i><label><%=session.getAttribute("fname")%> <%=session.getAttribute("mname")%>
 						<%=session.getAttribute("lname")%></label></i>

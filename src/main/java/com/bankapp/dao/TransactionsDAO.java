@@ -2,6 +2,8 @@ package com.bankapp.dao;
 import java.lang.*;
 import java.util.*;
 import com.bankapp.*;
+import com.bankapp.models.Transaction;
+
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -10,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Transactions{
+public class TransactionsDAO{
 
 private int TransactionID;
 private String TransactionType;
@@ -22,7 +24,7 @@ private String CustomerID;
 
 private DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
-	public Transactions(String TransactionType, double Amount, String FromAcc, String ToAcc, String UName){
+	public TransactionsDAO(String TransactionType, double Amount, String FromAcc, String ToAcc, String UName){
 
 // This code snippet will generate TransactionID using random number.
 
@@ -41,6 +43,10 @@ private DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		this.CustomerID = UName;
 
 	}
+	
+	public TransactionsDAO() {
+		
+	}
 
 	private int generator(){
 		// This code snippet is creating 6 digit random transaction id.
@@ -50,28 +56,34 @@ private DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 	}
 
 
-	public void Record_Transactions(){
+	public void Record_Transactions(Transaction trans){
 
 		try{
-			DBConnection ToDB = new DBConnection();
-			Connection con = ToDB.getConnection();
+			Connection con = DBConnection.getConnection();
 			Statement st = con.createStatement();
-			String sql = "SELECT TransactionID FROM Transactions WHERE TransactionID ='"+TransactionID+"'"; //SQL query command
+			String str = "select userid from login_details where userName='"+ trans.getUserName()+"'";
+			ResultSet rs = st.executeQuery(str);
+			int userId = 0;
+			while(rs.next()) {
+				userId = rs.getInt("userid");
+			}
+			int Tran_ID = generator();
+			String sql = "SELECT TransactionID FROM Transactions WHERE TransactionID ='"+Tran_ID+"'"; //SQL query command
 			ResultSet Rslt = st.executeQuery(sql); //Inquire if the accountNumber exsits.
 		    boolean done = !Rslt.next();
 				if (done) {
 
 				   	Statement st2 = con.createStatement();
-				    sql = "INSERT INTO Transactions(TransactionID, TransactionType, TransactionDate, Amount, FromAccount, ToAccount, CustomerID) VALUES ('"+TransactionID+ "','"+TransactionType+"', '"+TransactionDate+"', '"+Amount+"','"+FromAccount+"', '"+ToAccount+"','"+CustomerID+"')"; //Save the username, password and Name
+				    sql = "INSERT INTO Transactions(TransactionID, TransactionType, FromAccount, ToAccount, USERID,Status,AMOUNT,mobilenumber,TransactionDate) VALUES ('"+TransactionID+ "','"+trans.getTransactionType()+"','"+trans.getFromAccount()+"', '"+trans.getToAccount()+"','"+userId+"', 'pending', '"+trans.getAmount()+"','"+trans.getMobileNum()+"', curdate())"; //Save the username, password and Name
 				    st2.executeUpdate(sql);
 			    }
 			    else{
 						st.close();
-						ToDB.closeConn();
+						DBConnection.closeConn();
 					// The generator method will only generate upto 6 digit Transactions ID. Once it will use all the numbers and will start
 					// produce the same ID everytime. This recursion will go in infinite loop. Which is not good. So, This issue should be
 					// address in the near future.
-					Record_Transactions();
+					Record_Transactions(trans);
 					//System.out.println("THE TRANSACTION ID IS ALREADY EXISTS..!!!");
 				}
 

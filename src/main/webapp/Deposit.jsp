@@ -16,6 +16,12 @@
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
+	<div id="logout" >
+				<button id='LogoutButton' style="float: right; margin-top: 70px;"
+					class="button_1">
+					<span>Logout</span>
+				</button>
+			</div>
 	<header>
 		<div class="container">
 			<div id="branding">
@@ -31,6 +37,7 @@
 					<li><a href="Withdraw.jsp">Withdraw</a></li>
 					<li><a href="Transfer.jsp">Transfer</a></li>
 					<li><a href="OpenAccount.jsp">Open Account</a></li>
+					<li><a href="Admin.jsp">Admin</a>
 				</ul>
 			</nav>
 		</div>
@@ -73,10 +80,10 @@
 						// Getting Number of Checking Accounts of User
 						String savaingAccountNo = (String) session.getAttribute("accountNumber");
 						String balance = (String) session.getAttribute("balance");
-				
+
 						//Getting number of Savings Account of User
 						String currentAccounts = (String) session.getAttribute("currentAccount");
-			%>
+				%>
 				<TABLE class="table" cellPadding='3' ALIGN='center'>
 					<tr>
 						<td>Choose Your Account :</td>
@@ -84,8 +91,17 @@
 							value="<%=savaingAccountNo%>" /></td>
 					</tr>
 					<tr>
+						<td>Choose Account Type :</td>
+						<td><select name="accountType" required class="drpdwn">
+								<option value="">--Select--</option>
+								<option value="Current">Current</option>
+								<option value="Savings">Savings</option>
+						</select></td>
+					</tr>
+					<tr>
+					<tr>
 						<td>DATE:</td>
-						<td><INPUT type="date" name='bod' Value='' SIZE='15'
+						<td><INPUT type="date" name='transDate' Value='' SIZE='15'
 							placeholder="Enter the date.."></td>
 					</tr>
 					<tr>
@@ -95,7 +111,7 @@
 					</tr>
 					<tr>
 						<td>AMOUNT:</td>
-						<td><INPUT TYPE='number' NAME='Amount' SIZE='15'
+						<td><INPUT TYPE='number' NAME='amount' SIZE='15'
 							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
 					</tr>
 				</TABLE>
@@ -113,12 +129,6 @@
 					}
 				%>
 			</form>
-			<div id="logout">
-				<button id='LogoutButton' style="float: right; margin-top: 100px;"
-					class="button_1">
-					<span>Logout</span>
-				</button>
-			</div>
 		</div>
 
 	</section>
@@ -148,7 +158,7 @@
 </body>
 <script language="javascript">
 	function checkAmount() {
-		var amount = window.document.DepositPage.Amount.value;
+		var amount = window.document.DepositPage.amount.value;
 
 		var prompt = "";
 		if (amount < 0) {
@@ -160,7 +170,7 @@
 		}
 	}
 	function validation() {
-		var amount = window.document.DepositPage.Amount.value;
+		var amount = window.document.DepositPage.amount.value;
 
 		if (amount === "") {
 			window.alert("Please Enter Amount.");

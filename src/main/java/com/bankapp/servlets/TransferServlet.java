@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.bankapp.dao.AccountDetails;
 import com.bankapp.dao.SavingsAccount;
-import com.bankapp.dao.Transactions;
+import com.bankapp.dao.TransactionsDAO;
 
 
 /**
@@ -22,7 +22,7 @@ public class TransferServlet extends HttpServlet {
 	
 	private AccountDetails SckAcc, DckAcc;
 	private SavingsAccount SsvAcc, DsvAcc;
-	private Transactions tr;
+	private TransactionsDAO tr;
 	
        
     /**
@@ -62,7 +62,7 @@ public class TransferServlet extends HttpServlet {
     				double Sbal = SckAcc.withdraw_from_CheckingAccount(amt);
     				double Dbal = DckAcc.deposit_to_CheckingAccount(amt);
     				
-    				tr = new Transactions("Transfer", amt, "Checking", "Checking",userName);
+    				tr = new TransactionsDAO("Transfer", amt, "Checking", "Checking",userName);
 				    tr.Record_Transactions();
 				    
 				    response.sendRedirect("Transfer.jsp?Success=1");
@@ -81,7 +81,7 @@ public class TransferServlet extends HttpServlet {
     				double Sbal = SsvAcc.withdraw_from_SavingsAccount(amt);
     				double Dbal = DsvAcc.deposit_to_SavingsAccount(amt);
     				
-    				tr = new Transactions("Transfer", amt, "Savings", "Savings",userName);
+    				tr = new TransactionsDAO("Transfer", amt, "Savings", "Savings",userName);
 				    tr.Record_Transactions();
 				    
 				    response.sendRedirect("Transfer.jsp?Success=1");
@@ -96,7 +96,7 @@ public class TransferServlet extends HttpServlet {
     				double Sbal = SckAcc.withdraw_from_CheckingAccount(amt);
     				double Dbal = DsvAcc.deposit_to_SavingsAccount(amt);
     				
-    				tr = new Transactions("Transfer", amt, "Checking", "Savings",userName);
+    				tr = new TransactionsDAO("Transfer", amt, "Checking", "Savings",userName);
 				    tr.Record_Transactions();
 				    
 				    response.sendRedirect("Transfer.jsp?Success=1");
@@ -110,7 +110,7 @@ public class TransferServlet extends HttpServlet {
     				double Sbal = SsvAcc.withdraw_from_SavingsAccount(amt);
     				double Dbal = DckAcc.deposit_to_CheckingAccount(amt);
     				
-    				tr = new Transactions("Transfer", amt, "Savings", "Checking",userName);
+    				tr = new TransactionsDAO("Transfer", amt, "Savings", "Checking",userName);
 				    tr.Record_Transactions();
 				    
 				    response.sendRedirect("Transfer.jsp?Success=1");

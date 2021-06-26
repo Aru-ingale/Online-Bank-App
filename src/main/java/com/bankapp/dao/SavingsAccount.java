@@ -201,6 +201,50 @@ private String CustomerID;
 					    }
 		return r_amount;
 	}
+	
+	public double deposit_to_SavingsAccount(double amount, String accountNumber){
+
+		double r_amount = -100;
+		boolean done;
+					try{
+
+						Connection con = DBConnection.getConnection();
+						Statement st = con.createStatement();
+						String sql = "SELECT accountNumber, Balance FROM account WHERE accountNumber ='"+accountNumber+"'"; //SQL query command
+						ResultSet Rslt = st.executeQuery(sql);
+				        done = Rslt.next();
+							if (done) {
+								double bal = Rslt.getDouble("Balance");
+								double New_bal = bal + amount;
+							    sql = "UPDATE account SET Balance = '"+New_bal+"' WHERE accountNumber='"+accountNumber+"'";
+							    st.executeUpdate(sql);
+							    r_amount = New_bal;
+
+						    }
+					    st.close();
+					    DBConnection.closeConn();
+
+
+					}
+					catch(java.sql.SQLException e){
+						done = false;
+						System.out.println("SQLException: " + e);
+						while (e != null)
+						{   System.out.println("SQLState: " + e.getSQLState());
+							System.out.println("Message: " + e.getMessage());
+							System.out.println("Vendor: " + e.getErrorCode());
+							e = e.getNextException();
+							System.out.println("");
+						 }
+					}
+					catch (java.lang.Exception e){
+				             done = false;
+				    		 System.out.println("Exception: " + e);
+							 e.printStackTrace ();
+				    }
+return r_amount;
+
+}
 
 	public double ViewSavingsBalance(){
 			double balance = -100;

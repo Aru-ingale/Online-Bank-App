@@ -11,7 +11,8 @@ import javax.servlet.http.HttpSession;
 
 import com.bankapp.dao.AccountDetails;
 import com.bankapp.dao.SavingsAccount;
-import com.bankapp.dao.Transactions;
+import com.bankapp.dao.TransactionsDAO;
+import com.bankapp.models.Transaction;
 /**
  * Servlet implementation class Withdraw
  */
@@ -20,7 +21,7 @@ public class WithdrawServlet extends HttpServlet {
        
 	private AccountDetails ckAcc;
 	private SavingsAccount svAcc;
-	private Transactions tr;
+	private TransactionsDAO tr;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,7 +34,68 @@ public class WithdrawServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	
-    		String withdrawSelection = request.getParameter("Withdraw");
+    	String accountNumber = request.getParameter("accountNumber");
+		String amt = request.getParameter("amount");
+		String accounttype =  request.getParameter("accountType");
+		double amount = Double.parseDouble(amt);
+		String transDate = request.getParameter("transDate");
+		String mobile = request.getParameter("number");
+    	
+		//Getting UserName
+		HttpSession session = request.getSession();
+		String userName = (String)session.getAttribute("userName");
+		
+		if(accountNumber != "" && amt != "") {
+			
+			ckAcc = new AccountDetails();
+			svAcc = new SavingsAccount();
+			/*if(ckAcc.is_CheckingAccount_exist()) {
+				
+				double bal = ckAcc.deposit_to_CheckingAccount(amt);
+				
+				tr = new Transactions("Deposit", amt, "Checking", "Checking",userName);
+			    tr.Record_Transactions();
+			    
+			    request.setAttribute("CBalance", bal);
+			    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
+			    rd.forward(request, response);*/
+			if(svAcc.is_SavingsAccount_exist(accountNumber)) {
+				//transaction
+				Transaction trans = new Transaction();
+				trans.setTransactionType("deposit");
+				trans.setFromAccount(accountNumber);
+				trans.setToAccount(accountNumber);
+				trans.setUserName(userName);
+				trans.setAmount(amount);
+				trans.setMobileNum(mobile);
+				tr = new TransactionsDAO();
+				    				
+				double bal = ckAcc.deposit_to_CheckingAccount(amount,accountNumber);
+				tr.Record_Transactions(trans);
+				
+				session.setAttribute("balance", ""+bal);
+				    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
+				    rd.forward(request, response);
+				
+			}
+			else if(curr.is_CurrentAccount_exist(accountNumber)) {
+				/*double bal = svAcc.deposit_to_SavingsAccount(amt);
+				
+				tr = new Transactions("Deposit", amt, "Savings", "Savings",userName);
+			    tr.Record_Transactions();
+			    
+				request.setAttribute("SBalance", bal);
+				RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
+			    rd.forward(request, response);*/
+				
+			}
+		}
+		else {
+			//String msg = "Either your Account Selection or Amount is wrong. Please Refresh Page and Try Again!!";
+			//request.getSession().setAttribute("Message", msg);
+			response.sendRedirect("Deposit.jsp?Success=-1");
+		}
+    		/*String withdrawSelection = request.getParameter("Withdraw");
     		String amount = request.getParameter("Amount");
     		double amt = Double.parseDouble(amount);
     		
@@ -49,7 +111,7 @@ public class WithdrawServlet extends HttpServlet {
     				
     				double bal = ckAcc.withdraw_from_CheckingAccount(amt);
     				
-    				tr = new Transactions("Withdraw", amt, "Checking", "Checking",userName);
+    				tr = new TransactionsDAO("Withdraw", amt, "Checking", "Checking",userName);
 				    tr.Record_Transactions();
 				    
 				    request.setAttribute("CBalance", bal);
@@ -60,7 +122,7 @@ public class WithdrawServlet extends HttpServlet {
     			else if(svAcc.is_SavingsAccount_exist()) {
     				double bal = svAcc.withdraw_from_SavingsAccount(amt);
     				
-    				tr = new Transactions("Withdraw", amt, "Savings", "Savings",userName);
+    				tr = new TransactionsDAO("Withdraw", amt, "Savings", "Savings",userName);
 				    tr.Record_Transactions();
 				    
     				request.setAttribute("SBalance", bal);
@@ -73,7 +135,7 @@ public class WithdrawServlet extends HttpServlet {
     			//String msg = "Either your Account Selection or Amount is wrong. Please Refresh Page and Try Again!!";
     			//request.getSession().setAttribute("Message", msg);
     			response.sendRedirect("Deposit.jsp?Success=-1");
-    		}
+    		}*/
     }
     
     
