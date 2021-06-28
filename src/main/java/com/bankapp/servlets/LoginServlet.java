@@ -60,10 +60,10 @@ public class LoginServlet extends HttpServlet {
    		        
    		        //Passing User Name and Customer Name in session
    		        session.setAttribute("fname", dbUser.getFname());
-   		        session.setAttribute("mname", dbUser.getMname());
    		        session.setAttribute("lname", dbUser.getLname());
    		        session.setAttribute("userName", userName);
-   		        
+   		      session.setAttribute("mname", dbUser.getMname());
+   		          
 	   		     Cookie loginCookie = new Cookie("user",userName);
 	 			//setting cookie to expiry in 30 mins
 	 			loginCookie.setMaxAge(30*60);

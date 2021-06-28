@@ -76,7 +76,7 @@ public class TransferServlet extends HttpServlet {
 				    */
     				
     			}
-    			else if(SsvAcc.is_SavingsAccount_exist() && DsvAcc.is_SavingsAccount_exist()) {
+    			else if(SsvAcc.is_SavingsAccount_exist(userName) && DsvAcc.is_SavingsAccount_exist(userName)) {
     				
     				double Sbal = SsvAcc.withdraw_from_SavingsAccount(amt);
     				double Dbal = DsvAcc.deposit_to_SavingsAccount(amt);
@@ -91,7 +91,7 @@ public class TransferServlet extends HttpServlet {
 				    rd.forward(request, response);
 				    */
     				
-    			}else if(SckAcc.is_CheckingAccount_exist() && DsvAcc.is_SavingsAccount_exist()) {
+    			}else if(SckAcc.is_CheckingAccount_exist() && DsvAcc.is_SavingsAccount_exist(userName)) {
     				
     				double Sbal = SckAcc.withdraw_from_CheckingAccount(amt);
     				double Dbal = DsvAcc.deposit_to_SavingsAccount(amt);
@@ -105,7 +105,7 @@ public class TransferServlet extends HttpServlet {
 				    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp");
 				    rd.forward(request, response);
 				    */
-    			}else if(SsvAcc.is_SavingsAccount_exist() && DckAcc.is_CheckingAccount_exist()) {
+    			}else if(SsvAcc.is_SavingsAccount_exist(userName) && DckAcc.is_CheckingAccount_exist()) {
     				
     				double Sbal = SsvAcc.withdraw_from_SavingsAccount(amt);
     				double Dbal = DckAcc.deposit_to_CheckingAccount(amt);

@@ -156,7 +156,7 @@ header a:hover {
 	font-size: 20px;
 }
 
-/*Options*/
+
 #options {
 	padding: 15px;
 	color: #ffffff;
@@ -249,3 +249,65 @@ footer {
 	background-color: #e8491d;
 	text-align: center;
 }
+var fullame = document.getElementById('fullname').value;
+				var phone = document.getElementById('phone').value;
+				var address = document.getElementById('address').value;
+				var propertyaddress = document.getElementById('propertyaddress').value;
+				var aadharnumber = document.getElementById('aadharnumber').value;
+				var loanammount = document.getElementById('loanammount').value;
+				var email = document.getElementById('email').value;
+				
+				
+				
+                alert("0jdsaihud");
+				if (fullname == "") {
+					document.getElementById('name').innerHTML = " ** please fill the firstname field";
+					return false;
+				}
+				if (occupation == "") {
+					document.getElementById('occup').innerHTML = " ** please fill the middlename field";
+					return false;
+				}
+				if (phone == "") {
+					document.getElementById('mobilenumber').innerHTML = " ** please fill the lastname field";
+					return false;
+				}
+				if (address == "") {
+					document.getElementById('raddress').innerHTML = " ** please fill the username field";
+					return false;
+				}
+				
+				if (propertyaddress == "") {
+					document.getElementById('paddress').innerHTML = " ** please fill the password field";
+					return false;
+				}
+
+				if (aadharnumber == "") {
+					document.getElementById('number').innerHTML = " ** please fill the confirm password field";
+					return false;
+				}
+
+				if (income == "") {
+					document.getElementById('incom').innerHTML = " ** please fill the mobile number field";
+					return false;
+				}
+				if (loanammount == "") {
+					document.getElementById('loan').innerHTML = " ** please fill the mobile number field";
+					return false;
+				}
+
+				if (email == "") {
+					document.getElementById('emailid').innerHTML = " ** please fill the email id field";
+					return false;
+				}
+
+				if ((email.charAt(email.length - 4) != '.')
+						|| (email.charAt(email.length - 3) != '.')) {
+					document.getElementById('emailid').innerHTML = " ** @ invalid position";
+					return false;
+				}
+
+				if (email.indexOf('@') <= 0) {
+					document.getElementById('emailid').innerHTML = " ** @ invalid position";
+					return false;
+				}

@@ -13,6 +13,20 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="Arundhati Ingale">
 <title>Royal City Banking | Welcome.</title>
+<!--<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel = "stylesheet" href ="./css/stylesheet.css">
 <!-- <script src="./script/jquery-3.3.1.min.js"></script>
 <script src="./script/main.js"></script> -->
@@ -54,18 +68,20 @@
 	<section id ="options">
 		<div class="container">
 			<h1 style="float:none;"> Welcome to Royal City Internet Banking.</h1>
-				<FORM style="float:left;" NAME="LoginPage" ACTION="<%=request.getContextPath()%>/LoginServlet.do" METHOD ="POST">
+				<FORM style="float:left;" NAME="LoginPage" ACTION="<%=request.getContextPath()%>/LoginServlet.do" onsubmit="return validation()" METHOD ="POST">
 					<TABLE cellPadding='3' ALIGN='center'>
-						<TR>
+						<TR  class="form-group">
 						<TD>USERNAME:</TD>
 						<TD>
-						<INPUT TYPE='text' NAME='username' SIZE='15' placeholder="User Name"value = <%=uname %> >
+						<INPUT TYPE='text' NAME='username' id="username" class="form-control" SIZE='15' autocomplete="off" placeholder="User Name"value = <%=uname %> >
+						<span id="uname" class="text.danger font-weight-bold"></span>
 						</TD>
 						</TR>
-						<TR>
+						<TR  class="form-group">
 						<TD>PASSWORD:</TD>
 						<TD>
-						<INPUT TYPE='password' NAME='password' SIZE='15' placeholder="Password">
+						<INPUT TYPE='password' NAME='password' id="password" class="form-control" SIZE='15' autocomplete="off" placeholder="Password">
+						<span id="pass" class="text.danger font-weight-bold"></span>
 						</TD>
 						</TR>
 					</TABLE>
@@ -74,6 +90,40 @@
 						</div>
 				</FORM>
 		</div>
+		<script>
+			function validation() {
+				var username = document.getElementById('username').value;
+				var password = document.getElementById('password').value;
+				
+				
+				if (username == "") {
+					document.getElementById('uname').innerHTML = " ** please fill the username field";
+					return false;
+				}
+
+				if ((username.length <= 2) || (username.length > 20)) {
+					document.getElementById('uname').innerHTML = " ** user length must be between 2 and 20";
+					return false;
+				}
+
+				if (!isNaN(username)) {
+					document.getElementById('uname').innerHTML = " ** only charecters are allowed";
+					return false;
+				}
+				
+				if (password == "") {
+					document.getElementById('pass').innerHTML = " ** please fill the password field";
+					return false;
+				}
+
+				if ((password.length <= 5) || (password.length > 20)) {
+					document.getElementById('pass').innerHTML = " ** password length must be between 5 and 20";
+					return false;
+				}
+
+				
+			}
+		</script>
 	</section>
 	<section id ="boxes">
 		<div class= "container">

@@ -13,6 +13,20 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="Arundhati Ingale">
 <title>Royal City Banking | Welcome.</title>
+<!--<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
@@ -78,26 +92,29 @@
 						String currentAccounts = (String) session.getAttribute("currentAccount");
 			%>
 				<TABLE class="table" cellPadding='3' ALIGN='center'>
-					<tr>
+					<tr class="form-group">
 						<td>Choose Your Account :</td>
 						<td><INPUT type="text" name="accountNumber" required
 							value="<%=savaingAccountNo%>" /></td>
 					</tr>
-					<tr>
+					<tr class="form-group">
 						<td>DATE:</td>
 						<td><INPUT type="date" name='bod' Value='' SIZE='15'
 							placeholder="Enter the date.."></td>
 					</tr>
-					<tr>
+					<tr class="form-group">
 						<td>MOBILE NUMBER :</td>
-						<td><INPUT TYPE='number' NAME='number' SIZE='15'
-							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
+						<td><INPUT TYPE='number' NAME='number' id="number" class="form-control" SIZE='15'
+							placeholder="Enter Amount" autocomplete="off" onKeyUp="checkAmount()">
+							<span id="mobilenumber" class="text.danger font-weight-bold"></span>
+							</td>
 					</tr>
-					<tr>
+					<tr class="form-group">
 						<td>AMOUNT:</td>
-						<td><INPUT TYPE='number' NAME='Amount' SIZE='15'
-							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
-					</tr>
+						<td><INPUT TYPE='number' NAME='Amount' id="Amount'SIZE='15' class="form-control"
+							placeholder="Enter Amount" autocomplete="off" onKeyUp="checkAmount()">
+							<span id="ammount" class="text.danger font-weight-bold"></span>
+							</td>
 				</TABLE>
 				<div id="formButton">
 					<button id='DepositButton' class="button_1">
@@ -120,7 +137,22 @@
 				</button>
 			</div>
 		</div>
-
+   <script>
+			function validation() {
+				var number = document.getElementById('number').value;
+				var Amount = document.getElementById('Amount').value;
+				
+				
+				if (number == "") {
+					document.getElementById('mobilenumber').innerHTML = " ** please fill the mobile number field";
+					return false;
+				}
+				
+				if (Amount == "") {
+					document.getElementById('ammount').innerHTML = " ** please fill the address field";
+					return false;
+				}
+				</script>
 	</section>
 	<section id="boxes">
 		<div class="container">
