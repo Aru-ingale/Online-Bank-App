@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.bankapp.models.AccountDetails;
 import com.bankapp.models.UserDetails;
@@ -99,29 +101,31 @@ public class UserDAO {
 		return flag;
 	}
 
-	public AccountDetails getAccountDetails(int userId) {
+	public List<AccountDetails> getAccountDetails(int userId) {
 		String accountNumber = "";
 		String accounttype = "";
 		double balance = 0;
-		AccountDetails accDetails = new AccountDetails();
+		List<AccountDetails> accDetailsList = new ArrayList<AccountDetails>();
 		try {
 			Connection DBConn = DBConnection.getConnection();
 			Statement statement = DBConn.createStatement();
 			String SQL_Command = "SELECT accountNumber,accounttype,balance FROM account WHERE userid ='" + userId + "'"; 
 			ResultSet result = statement.executeQuery(SQL_Command);
 			while(result.next()) {
+				AccountDetails accDetails = new AccountDetails();
 				accountNumber = result.getString("accountNumber");
 				accounttype = result.getString("accounttype");
 				balance = result.getDouble("balance");
 				accDetails.setAccountNumber(accountNumber);
 				accDetails.setAccountType(accounttype);
 				accDetails.setBalance(balance);
+				accDetailsList.add(accDetails);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return accDetails;
+		return accDetailsList;
 	}
 
 }

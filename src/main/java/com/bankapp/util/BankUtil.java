@@ -4,14 +4,14 @@ import java.util.Random;
 
 public class BankUtil {
 	public static void main(String[] args) {
-		System.out.println(generateBankAccountNumber("RCITY0101"));
+		System.out.println(generateBankAccountNumber("RCITY010"));
 		System.out.println(generateUserID());
 	}
 	
 	public static String generateBankAccountNumber(String maxAccountNumber) {
 		String accountInitial = "RCITY";
 		String accountNumber = "";
-		if(maxAccountNumber.equalsIgnoreCase("")) {
+		if(!maxAccountNumber.equalsIgnoreCase("")) {
 			accountNumber = maxAccountNumber.substring(5, maxAccountNumber.length());
 			int i = Integer.parseInt(accountNumber);
 			int strLen = (i+"").length();

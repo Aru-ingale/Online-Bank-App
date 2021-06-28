@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bankapp.dao.AccountDetails;
+import com.bankapp.dao.CurrentAccount;
 import com.bankapp.dao.SavingsAccount;
 import com.bankapp.dao.TransactionsDAO;
 import com.bankapp.models.Transaction;
@@ -19,7 +20,7 @@ import com.bankapp.models.Transaction;
 public class WithdrawServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	private AccountDetails ckAcc;
+	private CurrentAccount crAcc;
 	private SavingsAccount svAcc;
 	private TransactionsDAO tr;
        
@@ -47,8 +48,8 @@ public class WithdrawServlet extends HttpServlet {
 		
 		if(accountNumber != "" && amt != "") {
 			
-			ckAcc = new AccountDetails();
-			svAcc = new SavingsAccount();
+			//ckAcc = new AccountDetails();
+			//svAcc = new SavingsAccount();
 			/*if(ckAcc.is_CheckingAccount_exist()) {
 				
 				double bal = ckAcc.deposit_to_CheckingAccount(amt);
@@ -59,18 +60,18 @@ public class WithdrawServlet extends HttpServlet {
 			    request.setAttribute("CBalance", bal);
 			    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
 			    rd.forward(request, response);*/
-			if(svAcc.is_SavingsAccount_exist(accountNumber)) {
+			Transaction trans = new Transaction();
+			trans.setTransactionType("withdraw");
+			trans.setFromAccount(accountNumber);
+			trans.setToAccount(accountNumber);
+			trans.setUserName(userName);
+			trans.setAmount(amount);
+			trans.setMobileNum(mobile);
+			tr = new TransactionsDAO();
+			
+			if(svAcc.is_SavingsAccount_exist(accountNumber, accounttype)) {
 				//transaction
-				Transaction trans = new Transaction();
-				trans.setTransactionType("deposit");
-				trans.setFromAccount(accountNumber);
-				trans.setToAccount(accountNumber);
-				trans.setUserName(userName);
-				trans.setAmount(amount);
-				trans.setMobileNum(mobile);
-				tr = new TransactionsDAO();
-				    				
-				double bal = ckAcc.deposit_to_CheckingAccount(amount,accountNumber);
+				double bal = svAcc.deposit_to_SavingsAccount(amount,accountNumber);
 				tr.Record_Transactions(trans);
 				
 				session.setAttribute("balance", ""+bal);
@@ -78,7 +79,13 @@ public class WithdrawServlet extends HttpServlet {
 				    rd.forward(request, response);
 				
 			}
-			else if(curr.is_CurrentAccount_exist(accountNumber)) {
+			else if(crAcc.is_CurrentAccount_exist(accountNumber, accounttype)) {
+				double bal = crAcc.deposit_to_CurrentAccount(amount,accountNumber);
+				tr.Record_Transactions(trans);
+				
+				session.setAttribute("balance", ""+bal);
+				    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
+				    rd.forward(request, response);
 				/*double bal = svAcc.deposit_to_SavingsAccount(amt);
 				
 				tr = new Transactions("Deposit", amt, "Savings", "Savings",userName);

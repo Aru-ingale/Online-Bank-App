@@ -1,6 +1,7 @@
 package com.bankapp.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -10,9 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.bankapp.dao.AccountDetails;
-import com.bankapp.dao.SavingsAccount;
 import com.bankapp.dao.UserDAO;
+import com.bankapp.models.AccountDetails;
 import com.bankapp.models.UserDetails;
 import com.bankapp.models.Users;
 
@@ -28,8 +28,7 @@ public class LoginServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-	private AccountDetails ckAcc;
-	private SavingsAccount svAcc;
+	
 	private Vector ckAccounts, svAccounts;
     public LoginServlet() {
         super();
@@ -47,16 +46,24 @@ public class LoginServlet extends HttpServlet {
             user.setUserName(userName);
             user.setPassword(password);
             UserDAO userDAO = new UserDAO();
-            UserDetails dbUser = userDAO.signIn(user);
+            UserDetails dbUser = new UserDAO().signIn(user);
             if(dbUser.getUserId() != 0) {	
             	
-            	com.bankapp.models.AccountDetails accDetails = userDAO.getAccountDetails(dbUser.getUserId());
+            	List<AccountDetails> accDetailsList = userDAO.getAccountDetails(dbUser.getUserId());
    			 	// set session scoped attribute
    		        HttpSession session = request.getSession();
    		        //Set Account details in session
-   		        session.setAttribute("accountNumber", accDetails.getAccountNumber());
-   		        session.setAttribute("accountType", accDetails.getAccountType());
-   		        session.setAttribute("balance", ""+accDetails.getBalance());
+   		        for(AccountDetails accdetails : accDetailsList) {
+   		        	if(accdetails.getAccountType().equalsIgnoreCase("Saving")) {
+   		        		session.setAttribute("svAccountNumber", accdetails.getAccountNumber());
+   		   		        session.setAttribute("svAccountType", accdetails.getAccountType());
+   		   		        session.setAttribute("svBalance", ""+accdetails.getBalance());
+   		        	}else {
+   		        		session.setAttribute("crAccountNumber", accdetails.getAccountNumber());
+   		   		        session.setAttribute("crAccountType", accdetails.getAccountType());
+   		   		        session.setAttribute("crBalance", ""+accdetails.getBalance());
+   		        	}
+   		        }
    		        
    		        //Passing User Name and Customer Name in session
    		        session.setAttribute("fname", dbUser.getFname());

@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 
-<%@ page import="java.io.*" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.lang.*" %>
-<%@ page import="com.bankapp.*" %>
+<%@ page import="java.io.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.lang.*"%>
+<%@ page import="com.bankapp.*"%>
 
 
 
@@ -14,10 +14,10 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="Arundhati Ingale">
 <title>Royal City Banking | Welcome.</title>
-<link rel = "stylesheet" href ="./css/stylesheet.css">
+<link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
-<div id="logout">
+	<div id="logout">
 		<button id='LogoutButton' style="float: right; margin-top: 70px;"
 			class="button_1">
 			<span>Logout</span>
@@ -25,8 +25,10 @@
 	</div>
 	<header>
 		<div class="container">
-			<div id ="branding">
-				<h1><span class="highlight">Royal City</span> Banking Inc.</h1>
+			<div id="branding">
+				<h1>
+					<span class="highlight">Royal City</span> Banking Inc.
+				</h1>
 			</div>
 			<nav>
 				<ul>
@@ -40,19 +42,22 @@
 			</nav>
 		</div>
 	</header>
-	<section id ="showcase">
+	<section id="showcase">
 		<div class="container">
-		<h1>India's Most Affordable Banking.</h1>
-		<p>Royal City banking is proud to all Indians and we are also proud to serve the nation.</p>
+			<h1>India's Most Affordable Banking.</h1>
+			<p>Royal City banking is proud to all Indians and we are also
+				proud to serve the nation.</p>
 		</div>
 	</section>
-	<section id ="options">
+	<section id="options">
 		<div class="container">
-			<h1 style="float:none;"> Enter Your Details to Transfer.</h1>
-			
-				<form style="float:left;" name="TransferPage" action="TrransferServlet.do" method = "POST" onsubmit="return validation()">
-				
-	<%
+			<h1 style="float: none;">Enter Your Details to Transfer.</h1>
+
+			<form style="float: left;" name="TransferPage"
+				action="TransferServlet.do" method="POST"
+				onsubmit="return validation()">
+
+				<%
 	
 	/*This is secure page. So, after logout the page should not go back. For that we have two ways.
 	1. Tell browser to not store cache and revalidate each page after revisiting.
@@ -68,173 +73,146 @@
 	
 	
 	// This is secure page and you can perform transaction after Login only. So, if not Login then go to Login Page.
-		if(session.getAttribute("UName") == null){
+		if(session.getAttribute("userName") == null){
 			response.sendRedirect("Login.jsp");
 		}else{
 			
-		
-				// get session scoped attribute
-		        // Getting Number of Checking Accounts of User
-				Vector ckAccounts = (Vector)session.getAttribute("ckAccounts");
-		        int NumOfCTokens = ckAccounts.size();
-		        
-		        //Getting number of Savings Account of User
-	        	Vector svAccounts = (Vector)session.getAttribute("svAccounts");
-	        	int NumOfSTokens = svAccounts.size();
+			String savingAccountNo = (String) session.getAttribute("svAccountNumber");
+			String svbalance = (String) session.getAttribute("svBalance");
+			String currentAccountNo = (String) session.getAttribute("crAccountNumber");
+			String crbalance = (String) session.getAttribute("crBalance");
 	        	
 				%>
 				<TABLE class="table" cellPadding='3' ALIGN='center'>
-					<TR>
-					<TD>Choose Your Source Account :</TD>
-					<td>
-					<select name="src" id ="Source" required class="drpdwn">
-						<!-- <option value="">--Select--</option> --> 
-						<%
-						for (int i=0;i<NumOfCTokens;i++) {
-		  
-		        		//Getting Checking Account Number
-		        		int CAcc_no = (Integer)ckAccounts.get(i);
-		   				%>
-  						<option value="<%=CAcc_no%>">Checking Account <%=i+1 %></option>
-						<% } 
-	    	    		for (int j=0;j<NumOfSTokens;j++) {
-	    	    		
-	    	    		//Getting Saving Account Number
-	    	    		int SAcc_no = (Integer)svAccounts.get(j);
-	    	        	%>
-	    	        	<option value="<%=SAcc_no%>">Savings Account <%=j+1 %></option>
-						<% }
-						%>
-					</select>
-					</td>
-					</TR>
+
 					
-					<TR>
-					<TD>Choose Your Destination Account :</TD>
-					<td>
-					<select name = "des" id ="Destination" required class="drpdwn">
-						<!-- <option value="">--Select--</option> --> 
-						<%
-						for (int i=0;i<NumOfCTokens;i++) {
-		  
-		        		//Getting Checking Account Number
-		        		int CAcc_no = (Integer)ckAccounts.get(i);
-		   				%>
-  						<option value="<%=CAcc_no%>">Checking Account <%=i+1 %></option>
-						<% } 
-	    	    		for (int j=0;j<NumOfSTokens;j++) {
-	    	    		
-	    	    		//Getting Saving Account Number
-	    	    		int SAcc_no = (Integer)svAccounts.get(j);
-	    	        	%>
-	    	        	<option value="<%=SAcc_no%>">Savings Account <%=j+1 %></option>
-						<% }
-						%>
-					</select>
-					</td>
-					</TR>
-					
-					<TR>
-						<TD>Enter Amount :</TD>
-						<TD>
-						<INPUT TYPE='number' NAME='Amount' SIZE='15' placeholder="Enter Amount" onKeyUp ="checkAmount()">
-						</TD>
-					</TR>
-					</TABLE>
-					<div id="formButton">
-						<button id='TransferButton' class = "button_1"><span>Transfer</span></button>
-					</div>
-					<div id="show">
-						<% String success = request.getParameter("Success");
+					<tr>
+						<td>Choose Your Account :</td>
+						<td><select name="fromAccountNumber" id="accnumber" required class="drpdwn" onchange="updateText('accnumber')">
+								<option value="">--Select--</option>
+								<option value="saving"><%=savingAccountNo%></option>
+								<option value="current"><%=currentAccountNo%></option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>Choose Account Type :</td>
+						<td><input type="text" value="" id="accnumberText" name="accountType"/></td>
+					</tr>
+					<tr>
+						<td>Destination Account Number:</td>
+						<td><INPUT type="text" name="toAccountNumber" required id="destination" /></td>
+					</tr>
+					<tr>
+						<td>MOBILE NUMBER :</td>
+						<td><INPUT TYPE='number' NAME='number' SIZE='15'
+							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
+					</tr>
+					<tr>
+						<td>AMOUNT:</td>
+						<td><INPUT TYPE='number' NAME='amount' SIZE='15'
+							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
+					</tr>
+				</TABLE>
+				<div id="formButton">
+					<button id='TransferButton' class="button_1">
+						<span>Transfer</span>
+					</button>
+				</div>
+				<div id="show">
+					<% String success = request.getParameter("Success");
 							if(success == "1"){%>
-								<h3>Your Transfer is Successful!!</h3>
-							<%}
-							
-	}%>
-						
-					</div>
-				</form>
-				<div id="logout">
-					<button id='LogoutButton' style="float:right;margin-top:133px;" class = "button_1"><span>Logout</span></button>
-				</div>	
+					<h3>Your Transfer is Successful!!</h3>
+					<%}
+				}%>
+
+				</div>
+			</form>
+
 		</div>
 	</section>
-	<section id ="boxes">
-		<div class= "container">
+	<section id="boxes">
+		<div class="container">
 			<div class="box">
-				<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100" height="100"  ></a>
-				<h3> Home Loan</h3>
+				<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg"
+					width="100" height="100"></a>
+				<h3>Home Loan</h3>
 				<p>Make your dream come true. Apply for Home Loan Today.</p>
 			</div>
 			<div class="box">
-				<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100" height="100"  ></a>
-				<h3> Car Loan</h3>
+				<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100"
+					height="100"></a>
+				<h3>Car Loan</h3>
 				<p>Make your dream come true. Apply for Car Loan Today.</p>
 			</div>
 			<div class="box">
-				<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg" width="100" height="100"  ></a>
-				<h3> Business Loan</h3>
+				<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg"
+					width="100" height="100"></a>
+				<h3>Business Loan</h3>
 				<p>Make your efforts worthy. Apply for Business Loans Today.</p>
 			</div>
 		</div>
 	</section>
 	<footer>
 		<p>Royal City Banking Inc. copyright &copy; 2020</p>
-	
+
 	</footer>
 </body>
-<script language = "javascript">
-function checkAmount(){
-	var amount = window.document.TransferPage.Amount.value;
-	var btn = document.getElementById("TransferButton"); 
-	var prompt ="";
-	if(amount < 0){
-		prompt +="Amount should be Positive!!";
-		if (prompt != ""){
-			window.document.TransferPage.reset();
-			window.alert(prompt);
+<script language="javascript">
+	function updateText(type) { 
+	 var id = type+'Text';
+	 document.getElementById(id).value = document.getElementById(type).value;
+	}
+
+	function checkAmount() {
+		var amount = window.document.TransferPage.amount.value;
+		var btn = document.getElementById("TransferButton");
+		var prompt = "";
+		if (amount < 0) {
+			prompt += "Amount should be Positive!!";
+			if (prompt != "") {
+				window.document.TransferPage.reset();
+				window.alert(prompt);
+			}
 		}
 	}
-}
-function validation(){
-	var amount = window.document.TransferPage.Amount.value;
-	
-	if(amount === ""){
-		window.alert("Please Enter Amount.");
-		return false;
-	}
-	
-	var source = document.getElementById("Source");
-	var Sacc_no = source.options[source.selectedIndex].value;
-	
-	var destination = document.getElementById("Destination");
-	var Dacc_no = destination.options[destination.selectedIndex].value;
-	
-	if(Sacc_no === Dacc_no){
-		
-		window.alert("You can not Transfer Within Same Account.\n Please Select Different Accounts!!");
-		return false;
-	}
-	
-}
+	function validation() {
+		var amount = window.document.TransferPage.amount.value;
 
-var logout = document.getElementById("LogoutButton");
-logout.addEventListener("click",function(){
-	document.forms[0].action = "LogoutServlet.do";
-	document.forms[0].submit();
-},false);
-/*
-function showBalance(){
-	
-	var x = document.getElementById("show");
-	if(x.style.display === "none"){
-		x.style.display = "block";
-	}
-	else{
-		x.style.display = "none";
-	}
-}
-*/
+		if (amount === "") {
+			window.alert("Please Enter Amount.");
+			return false;
+		}
 
+		var source = document.getElementById("source");
+		var Sacc_no = source.value;
+
+		var destination = document.getElementById("destination");
+		var Dacc_no = destination.value;
+
+		if (Sacc_no === Dacc_no) {
+
+			window.alert("You can not Transfer Within Same Account.\n Please Select Different Accounts!!");
+			return false;
+		}
+
+	}
+
+	var logout = document.getElementById("LogoutButton");
+	logout.addEventListener("click", function() {
+		document.forms[0].action = "LogoutServlet.do";
+		document.forms[0].submit();
+	}, false);
+	/*
+	 function showBalance(){
+	
+	 var x = document.getElementById("show");
+	 if(x.style.display === "none"){
+	 x.style.display = "block";
+	 }
+	 else{
+	 x.style.display = "none";
+	 }
+	 }
+	 */
 </script>
 </html>

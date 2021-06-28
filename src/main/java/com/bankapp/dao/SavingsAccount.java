@@ -37,8 +37,7 @@ private String CustomerID;
 			try{
 				if(done){
 
-				DBConnection ToDB = new DBConnection();
-				Connection con = ToDB.getConnection();
+				Connection con = DBConnection.getConnection();
 				Statement st = con.createStatement();
 				String sql = "SELECT SavingsAccountNumber FROM SavingsAccount WHERE SavingsAccountNumber ='"+SavingsAccountNumber+"'"; //SQL query command
 				ResultSet Rslt = st.executeQuery(sql); //Inquire if the accountNumber exsits.
@@ -51,7 +50,7 @@ private String CustomerID;
 				    }
 
 			    st.close();
-			    ToDB.closeConn();
+			    DBConnection.closeConn();
 				}
 
 			}
@@ -74,14 +73,14 @@ private String CustomerID;
 	return bal;
 	}
 	
-	public boolean is_SavingsAccount_exist(String accountNumber) {
+	public boolean is_SavingsAccount_exist(String accountNumber, String accountType) {
 		
 			boolean Acc_no = true;
 		
 			try{
 				Connection con = DBConnection.getConnection();
 				Statement st = con.createStatement();
-				String sql = "SELECT accountNumber FROM account WHERE accountNumber ='"+accountNumber+"'"; //SQL query command
+				String sql = "SELECT accountNumber FROM account WHERE accountNumber ='"+accountNumber+"' and accountType = '"+accountType+"'"; //SQL query command
 				ResultSet Rslt = st.executeQuery(sql);
 			     
 					if (Rslt.next()) {
@@ -157,14 +156,13 @@ private String CustomerID;
 
 	}
 
-	public double withdraw_from_SavingsAccount(double amount){
+	public double withdraw_from_SavingsAccount( double amount , String accountNumber){
 
 			double r_amount = -100;
 			boolean done;
 						try{
 
-								DBConnection ToDB = new DBConnection();
-								Connection con = ToDB.getConnection();
+								Connection con = DBConnection.getConnection();
 								Statement st = con.createStatement();
 								String sql = "SELECT SavingsAccountNumber, Balance FROM SavingsAccount WHERE SavingsAccountNumber ='"+SavingsAccountNumber+"'"; //SQL query command
 								ResultSet Rslt = st.executeQuery(sql);
@@ -180,7 +178,7 @@ private String CustomerID;
 									}
 
 								    st.close();
-								    ToDB.closeConn();
+								    DBConnection.closeConn();
 
 						}
 						catch(java.sql.SQLException e){

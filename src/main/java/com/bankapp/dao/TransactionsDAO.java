@@ -7,6 +7,7 @@ import com.bankapp.models.Transaction;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -74,7 +75,7 @@ private DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 				if (done) {
 
 				   	Statement st2 = con.createStatement();
-				    sql = "INSERT INTO Transactions(TransactionID, TransactionType, FromAccount, ToAccount, USERID,Status,AMOUNT,mobilenumber,TransactionDate) VALUES ('"+TransactionID+ "','"+trans.getTransactionType()+"','"+trans.getFromAccount()+"', '"+trans.getToAccount()+"','"+userId+"', 'pending', '"+trans.getAmount()+"','"+trans.getMobileNum()+"', curdate())"; //Save the username, password and Name
+				    sql = "INSERT INTO Transactions(TransactionID, TransactionType, FromAccount, ToAccount, USERID,Status,AMOUNT,mobilenumber,TransactionDate) VALUES ('"+Tran_ID+ "','"+trans.getTransactionType()+"','"+trans.getFromAccount()+"', '"+trans.getToAccount()+"','"+userId+"', 'pending', '"+trans.getAmount()+"','"+trans.getMobileNum()+"', curdate())"; //Save the username, password and Name
 				    st2.executeUpdate(sql);
 			    }
 			    else{
@@ -109,7 +110,39 @@ private DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
 
 
-/*	public static void main (String args []){
-	}*/
+	public List<Transaction> getDepositeWithdrawTransactions(String accountNumber) {
+		List<Transaction> transList = new ArrayList<>();
+		Connection conn = DBConnection.getConnection();
+		try {
+			Statement stat = conn.createStatement();
+			String query = "select t.transactiontype,t.FROMACCOUNT,t.TOACCOUNT,t.USERID,t.STATUS,t.AMOUNT,t.MOBILENUMBER,"
+					+ " t.TRANSACTIONDATE from transactions t INNER JOIN users u ON t.userid = u.userid "
+					+ " where FROMACCOUNT='"+accountNumber+"' order by TRANSACTIONDATE;";
+			ResultSet rs = stat.executeQuery(query);
+			
+			while(rs.next()) {
+				Transaction tr = new Transaction();
+				tr.setTransactionType(rs.getString("transactiontype"));
+				tr.setFromAccount(rs.getString("FROMACCOUNT"));
+				tr.setToAccount(rs.getString("TOACCOUNT"));
+				tr.setUserId(rs.getInt("USERID"));
+				tr.setStatus(rs.getString("STATUS"));
+				tr.setAmount(rs.getDouble("AMOUNT"));
+				tr.setMobileNum(rs.getString("MOBILENUMBER"));
+				tr.setTransactionDate(rs.getDate("TRANSACTIONDATE"));
+				transList.add(tr);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQLException: " + e);
+			while (e != null)
+			{   System.out.println("SQLState: " + e.getSQLState());
+				System.out.println("Message: " + e.getMessage());
+				System.out.println("Vendor: " + e.getErrorCode());
+				e = e.getNextException();
+				System.out.println("");
+			 }
+		} 
+		return transList;
+	}
 
 }

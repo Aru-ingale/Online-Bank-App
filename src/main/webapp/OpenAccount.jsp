@@ -91,7 +91,7 @@
 					<select name ="accounttype" required class="drpdwn">
 						<option value="">--Select--</option>
 						<option value = "Current">Current</option>
-						<option value = "Savings">Savings</option>
+						<option value = "Saving">Saving</option>
 					</select>
 					</td>
 					</TR>

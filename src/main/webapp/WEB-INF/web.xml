@@ -65,13 +65,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>TrransferServlet</display-name>
-    <servlet-name>TrransferServlet</servlet-name>
-    <servlet-class>com.bankapp.servlets.TrransferServlet</servlet-class>
+    <display-name>TransferServlet</display-name>
+    <servlet-name>TransferServlet</servlet-name>
+    <servlet-class>com.bankapp.servlets.TransferServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>TrransferServlet</servlet-name>
-    <url-pattern>/TrransferServlet.do</url-pattern>
+    <servlet-name>TransferServlet</servlet-name>
+    <url-pattern>/TransferServlet.do</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
