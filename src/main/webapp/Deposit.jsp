@@ -13,23 +13,15 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="Arundhati Ingale">
 <title>Royal City Banking | Welcome.</title>
-<!--<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-
-<!-- jQuery library -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<!-- Popper JS -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
+	<div id="logout">
+		<button id='LogoutButton' style="float: right; margin-top: 70px;"
+			class="button_1">
+			<span>Logout</span>
+		</button>
+	</div>
 	<header>
 		<div class="container">
 			<div id="branding">
@@ -45,6 +37,7 @@
 					<li><a href="Withdraw.jsp">Withdraw</a></li>
 					<li><a href="Transfer.jsp">Transfer</a></li>
 					<li><a href="OpenAccount.jsp">Open Account</a></li>
+					<li><a href="Admin.jsp">Admin</a>
 				</ul>
 			</nav>
 		</div>
@@ -82,39 +75,36 @@
 					if (session.getAttribute("userName") == null) {
 						response.sendRedirect("index.jsp");
 					} else {
-
-						// get session scoped attribute
-						// Getting Number of Checking Accounts of User
-						String savaingAccountNo = (String) session.getAttribute("accountNumber");
-						String balance = (String) session.getAttribute("balance");
-				
-						//Getting number of Savings Account of User
-						String currentAccounts = (String) session.getAttribute("currentAccount");
-			%>
+						String savingAccountNo = (String) session.getAttribute("svAccountNumber");
+						String svbalance = (String) session.getAttribute("svBalance");
+						String currentAccountNo = (String) session.getAttribute("crAccountNumber");
+						String crbalance = (String) session.getAttribute("crBalance");
+				%>
 				<TABLE class="table" cellPadding='3' ALIGN='center'>
-					<tr class="form-group">
+
+					<tr>
 						<td>Choose Your Account :</td>
-						<td><INPUT type="text" name="accountNumber" required
-							value="<%=savaingAccountNo%>" /></td>
+						<td><select name="accountNumber" id="accnumber" required class="drpdwn" onchange="updateText('accnumber')">
+								<option value="">--Select--</option>
+								<option value="<%=savingAccountNo%>"><%=savingAccountNo%></option>
+								<option value="<%=currentAccountNo%>"><%=currentAccountNo%></option>
+						</select></td>
 					</tr>
-					<tr class="form-group">
-						<td>DATE:</td>
-						<td><INPUT type="date" name='bod' Value='' SIZE='15'
-							placeholder="Enter the date.."></td>
+					<tr>
+						<td>Choose Account Type :</td>
+						<td><input type="text" value="" id="accnumberText" name="accountType"/></td>
 					</tr>
-					<tr class="form-group">
+
+					<tr>
 						<td>MOBILE NUMBER :</td>
-						<td><INPUT TYPE='number' NAME='number' id="number" class="form-control" SIZE='15'
-							placeholder="Enter Amount" autocomplete="off" onKeyUp="checkAmount()">
-							<span id="mobilenumber" class="text.danger font-weight-bold"></span>
-							</td>
+						<td><INPUT TYPE='number' NAME='number' SIZE='15'
+							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
 					</tr>
-					<tr class="form-group">
+					<tr>
 						<td>AMOUNT:</td>
-						<td><INPUT TYPE='number' NAME='Amount' id="Amount'SIZE='15' class="form-control"
-							placeholder="Enter Amount" autocomplete="off" onKeyUp="checkAmount()">
-							<span id="ammount" class="text.danger font-weight-bold"></span>
-							</td>
+						<td><INPUT TYPE='number' NAME='amount' SIZE='15'
+							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
+					</tr>
 				</TABLE>
 				<div id="formButton">
 					<button id='DepositButton' class="button_1">
@@ -123,51 +113,33 @@
 				</div>
 				<div id="show">
 					<h3>
-						Your Current Balance is :<%=balance%></b>
+						Your Current Balance is :<b>${svbalance}</b><b>${crbalance}</b>
 					</h3>
 				</div>
 				<%
 					}
 				%>
 			</form>
-			<div id="logout">
-				<button id='LogoutButton' style="float: right; margin-top: 100px;"
-					class="button_1">
-					<span>Logout</span>
-				</button>
-			</div>
 		</div>
-   <script>
-			function validation() {
-				var number = document.getElementById('number').value;
-				var Amount = document.getElementById('Amount').value;
-				
-				
-				if (number == "") {
-					document.getElementById('mobilenumber').innerHTML = " ** please fill the mobile number field";
-					return false;
-				}
-				
-				if (Amount == "") {
-					document.getElementById('ammount').innerHTML = " ** please fill the address field";
-					return false;
-				}
-				</script>
+
 	</section>
 	<section id="boxes">
 		<div class="container">
 			<div class="box">
-				<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100" height="100"  ></a>
+				<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg"
+					width="100" height="100"></a>
 				<h3>Home Loan</h3>
 				<p>Make your dream come true. Apply for Home Loan Today.</p>
 			</div>
 			<div class="box">
-				<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100" height="100"  ></a>
+				<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100"
+					height="100"></a>
 				<h3>Car Loan</h3>
 				<p>Make your dream come true. Apply for Car Loan Today.</p>
 			</div>
 			<div class="box">
-				<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg" width="100" height="100"  ></a>
+				<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg"
+					width="100" height="100"></a>
 				<h3>Business Loan</h3>
 				<p>Make your efforts worthy. Apply for Business Loans Today.</p>
 			</div>
@@ -179,8 +151,14 @@
 	</footer>
 </body>
 <script language="javascript">
+
+	function updateText(type) { 
+	 var id = type+'Text';
+	 document.getElementById(id).value = document.getElementById(type).value;
+	}
+	
 	function checkAmount() {
-		var amount = window.document.DepositPage.Amount.value;
+		var amount = window.document.DepositPage.amount.value;
 
 		var prompt = "";
 		if (amount < 0) {
@@ -192,7 +170,7 @@
 		}
 	}
 	function validation() {
-		var amount = window.document.DepositPage.Amount.value;
+		var amount = window.document.DepositPage.amount.value;
 
 		if (amount === "") {
 			window.alert("Please Enter Amount.");

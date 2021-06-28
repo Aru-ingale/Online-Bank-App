@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bankapp.dao.AccountDetails;
+import com.bankapp.dao.CurrentAccount;
 import com.bankapp.dao.SavingsAccount;
-import com.bankapp.dao.Transactions;
+import com.bankapp.dao.TransactionsDAO;
+import com.bankapp.models.Transaction;
 
 /**
  * Servlet implementation class DepositServlet
@@ -18,9 +20,9 @@ import com.bankapp.dao.Transactions;
 public class DepositServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private AccountDetails ckAcc;
+	private CurrentAccount currAcc;
 	private SavingsAccount svAcc;
-	private Transactions tr;
+	private TransactionsDAO trandDAO;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -34,16 +36,19 @@ public class DepositServlet extends HttpServlet {
             throws ServletException, IOException {
     	
     		String accountNumber = request.getParameter("accountNumber");
-    		String amount = request.getParameter("Amount");
-    		double amt = Double.parseDouble(amount);
+    		String amt = request.getParameter("amount");
+    		double amount = Double.parseDouble(amt);
+    		String accountType =  request.getParameter("accountType");
+    		String mobile = request.getParameter("number");
+    		
     		
     		//Getting UserName
     		HttpSession session = request.getSession();
     		String userName = (String)session.getAttribute("userName");
     		
-    		if(accountNumber != "" && amount != "") {
+    		if(accountNumber != "" && amt != "") {
     			
-    			ckAcc = new AccountDetails();
+    			currAcc = new CurrentAccount();
     			svAcc = new SavingsAccount();
     			/*if(ckAcc.is_CheckingAccount_exist()) {
     				
@@ -55,17 +60,33 @@ public class DepositServlet extends HttpServlet {
 				    request.setAttribute("CBalance", bal);
 				    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
 				    rd.forward(request, response);*/
-    			if(svAcc.is_SavingsAccount_exist(accountNumber)) {
-    				//transaction
+    			//transaction
+				Transaction trans = new Transaction();
+				trans.setTransactionType("deposit");
+				trans.setFromAccount(accountNumber);
+				trans.setToAccount(accountNumber);
+				trans.setUserName(userName);
+				trans.setAmount(amount);
+				trans.setMobileNum(mobile);
+				trandDAO = new TransactionsDAO();
+    			
+				if(svAcc.is_SavingsAccount_exist(accountNumber, accountType)) {
+    				double bal = svAcc.deposit_to_SavingsAccount(amount,accountNumber);
+    				//Record the deposit transaction
+    				trandDAO.Record_Transactions(trans);
+    				
+    				session.setAttribute("balance", ""+bal);
+ 				    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
+ 				    rd.forward(request, response);
     				
     			}
-    			else if(svAcc.is_SavingsAccount_exist(accountNumber)) {
-    				double bal = svAcc.deposit_to_SavingsAccount(amt);
+    			else if(currAcc.is_CurrentAccount_exist(accountNumber, accountType)) {
+    				double bal = currAcc.deposit_to_CurrentAccount(amount, accountType);
     				
-    				tr = new Transactions("Deposit", amt, "Savings", "Savings",userName);
-				    tr.Record_Transactions();
+    				//Record the deposit transaction
+    				trandDAO.Record_Transactions(trans);
 				    
-    				request.setAttribute("SBalance", bal);
+    				request.setAttribute("balance", ""+bal);
     				RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
 				    rd.forward(request, response);
     				

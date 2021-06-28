@@ -15,6 +15,12 @@
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
+<div id="logout">
+		<button id='LogoutButton' style="float: right; margin-top: 70px;"
+			class="button_1">
+			<span>Logout</span>
+		</button>
+	</div>
 	<header>
 		<div class="container">
 			<div id="branding">

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.bankapp.dao.Account;
 import com.bankapp.dao.AccountDetails;
 import com.bankapp.dao.SavingsAccount;
-import com.bankapp.dao.Transactions;
+import com.bankapp.dao.TransactionsDAO;
 import com.bankapp.models.UserDetails;
 
 /**
@@ -24,7 +24,7 @@ public class OpenAccountServlet extends HttpServlet {
 
 	private AccountDetails ckAcc, nckAcc;
 	private SavingsAccount svAcc, nsvAcc;
-	private Transactions tr;
+	private TransactionsDAO tr;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -55,47 +55,50 @@ public class OpenAccountServlet extends HttpServlet {
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("user"))
-			userName = cookie.getValue();
+					userName = cookie.getValue();
 			}
 		}
 		String accounttype = request.getParameter("accounttype");
 		String salutation = request.getParameter("salutation");
 		String fullName = request.getParameter("fullname");
 		String balance = request.getParameter("balance");
-		
+
 		com.bankapp.models.Account account = new com.bankapp.models.Account();
 		account.setAccountType(accounttype);
 		account.setSalution(salutation);
 		account.setAccountHolderName(fullName);
 		account.setBalance(balance);
-		AccountDetails accDetails=new AccountDetails();
-		String createAccountNumber = accDetails.createAccount(account, userName);
-		HttpSession session=request.getSession();  
-         
-		if(!createAccountNumber.equalsIgnoreCase("")) {
-			session.setAttribute("accountNumber",createAccountNumber); 
-			session.setAttribute("userName", userName);
-			request.setAttribute("msg", "Account " + createAccountNumber +" Created Successfully!!");
-			RequestDispatcher rd =	request.getRequestDispatcher("/OpenAccount.jsp?Success=1");
+		AccountDetails accDetails = new AccountDetails();
+		com.bankapp.models.Account newAccount = accDetails.createAccount(account, userName);
+		HttpSession session = request.getSession();
+
+		if (!newAccount.getAccountNumber().equalsIgnoreCase("")) {
+			if (newAccount.getAccountType().equalsIgnoreCase("saving")) {
+				session.setAttribute("svAccountNumber", newAccount.getAccountNumber());
+				session.setAttribute("svAccountType", newAccount.getAccountType());
+				session.setAttribute("svBalance", "" + newAccount.getBalance());
+			} else {
+				session.setAttribute("crAccountNumber", newAccount.getAccountNumber());
+				session.setAttribute("crAccountType", newAccount.getAccountType());
+				session.setAttribute("crBalance", "" + newAccount.getBalance());
+			}
+			request.setAttribute("msg", "Account Number "+ newAccount.getAccountNumber()+" is created successfully.!!");
+			RequestDispatcher rd = request.getRequestDispatcher("/OpenAccount.jsp?Success=1");
 			rd.forward(request, response);
-		}else {
+		} else {
 			request.setAttribute("msg", "Account Number is already Exist!!");
-			RequestDispatcher rd =	request.getRequestDispatcher("/OpenAccount.jsp?Success=-1");
+			RequestDispatcher rd = request.getRequestDispatcher("/OpenAccount.jsp?Success=-1");
 			rd.forward(request, response);
 		}
 		/*
 		 * int account_no = Integer.parseInt(acc_no); double amt =
 		 * Double.parseDouble(amount);
-
-		// Getting UserName
-		HttpSession session = request.getSession();
-		String userName = (String) session.getAttribute("user");
-		Account account = new Account();
-		account.createAccount(null);
-		response.sendRedirect("welcome.jsp");
-
-		/*
-		 * if(accountSelection != "" && amount != "") ckAcc = new
+		 * 
+		 * // Getting UserName HttpSession session = request.getSession(); String
+		 * userName = (String) session.getAttribute("user"); Account account = new
+		 * Account(); account.createAccount(null); response.sendRedirect("welcome.jsp");
+		 * 
+		 * /* if(accountSelection != "" && amount != "") ckAcc = new
 		 * AccountDetails(account_no); svAcc = new SavingsAccount(account_no);
 		 * 
 		 * if(accountSelection == "Checking") {

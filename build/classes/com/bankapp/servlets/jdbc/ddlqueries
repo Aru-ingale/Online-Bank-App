@@ -49,15 +49,19 @@
      	BALANCE decimal(15,2)  
     ); 
        
-    CREATE TABLE transaction  
+       
+    CREATE TABLE transactions  
     (
-    	TRANSACTIONID varchar(50),    
-     	ACCOUNTNUMBER varchar(50),    
+    	TRANSACTIONID varchar(50) not null,    
+    	TRANSACTIONTYPE varchar(20),
+     	FROMACCOUNT varchar(50),   
+     	TOACCOUNT varchar(50),  
      	USERID varchar(50),
      	STATUS varchar(30),
-     	APPROVAL varchar(50),
-     	TRANSACTIONDATE date,
-     	AMMOUNT decimal(15,2)  
+     	AMOUNT decimal(15,2),
+     	MOBILENUMBER varchar(10),
+     	TRANSACTIONDATE datetime,
+     	PRIMARY KEY (TRANSACTIONID) 
     );  
     
     
