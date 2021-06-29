@@ -126,7 +126,7 @@ public class WithdrawServlet extends HttpServlet {
 				    rd.forward(request, response);
     				
     			}
-    			else if(svAcc.is_SavingsAccount_exist()) {
+    			else if(svAcc.is_SavingsAccount_exist(userName)) {
     				double bal = svAcc.withdraw_from_SavingsAccount(amt);
     				
     				tr = new TransactionsDAO("Withdraw", amt, "Savings", "Savings",userName);

@@ -55,3 +55,6 @@ function addLoadEvent(func) {
 addLoadEvent(function() {
 	setCities();
 });
+
+
+

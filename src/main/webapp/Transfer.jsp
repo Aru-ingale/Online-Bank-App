@@ -14,7 +14,23 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="Arundhati Ingale">
 <title>Royal City Banking | Welcome.</title>
+
+<!--<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="./css/stylesheet.css">
+
 </head>
 <body>
 	<div id="logout">
@@ -58,37 +74,33 @@
 				onsubmit="return validation()">
 
 				<%
-	
-	/*This is secure page. So, after logout the page should not go back. For that we have two ways.
-	1. Tell browser to not store cache and revalidate each page after revisiting.
-	2. Disable browser back button. 
-	
-	However, Disabling browser back button is bad practice. It would create bad user experience. So, we have to use way no 1.
-	For that we have to tell browser to not set cache and store as well as revalidate each page.
-	So, we have to set "Browser Header".
-	*/
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); //HTTP 1.1 protocol version
-	response.setHeader("Pragma", "no-cache"); // HTTP 1.0 protocol version
-	response.setDateHeader("Expires", 0); // Proxies
-	
-	
-	// This is secure page and you can perform transaction after Login only. So, if not Login then go to Login Page.
-		if(session.getAttribute("userName") == null){
-			response.sendRedirect("Login.jsp");
-		}else{
-			
-			String savingAccountNo = (String) session.getAttribute("svAccountNumber");
-			String svbalance = (String) session.getAttribute("svBalance");
-			String currentAccountNo = (String) session.getAttribute("crAccountNumber");
-			String crbalance = (String) session.getAttribute("crBalance");
-	        	
+				/*This is secure page. So, after logout the page should not go back. For that we have two ways.
+				1. Tell browser to not store cache and revalidate each page after revisiting.
+				2. Disable browser back button. 
+
+				However, Disabling browser back button is bad practice. It would create bad user experience. So, we have to use way no 1.
+				For that we have to tell browser to not set cache and store as well as revalidate each page.
+				So, we have to set "Browser Header".
+				*/
+				response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); //HTTP 1.1 protocol version
+				response.setHeader("Pragma", "no-cache"); // HTTP 1.0 protocol version
+				response.setDateHeader("Expires", 0); // Proxies
+
+				// This is secure page and you can perform transaction after Login only. So, if not Login then go to Login Page.
+				if (session.getAttribute("userName") == null) {
+					response.sendRedirect("Login.jsp");
+				} else {
+
+					String savingAccountNo = (String) session.getAttribute("svAccountNumber");
+					String svbalance = (String) session.getAttribute("svBalance");
+					String currentAccountNo = (String) session.getAttribute("crAccountNumber");
+					String crbalance = (String) session.getAttribute("crBalance");
 				%>
 				<TABLE class="table" cellPadding='3' ALIGN='center'>
-
-					
 					<tr>
 						<td>Choose Your Account :</td>
-						<td><select name="fromAccountNumber" id="accnumber" required class="drpdwn" onchange="updateText('accnumber')">
+						<td><select name="fromAccountNumber" id="accnumber" required
+							class="drpdwn" onchange="updateText('accnumber')">
 								<option value="">--Select--</option>
 								<option value="<%=savingAccountNo%>"><%=savingAccountNo%></option>
 								<option value="<%=currentAccountNo%>"><%=currentAccountNo%></option>
@@ -96,11 +108,13 @@
 					</tr>
 					<tr>
 						<td>Choose Account Type :</td>
-						<td><input type="text" value="" id="accnumberText" name="accountType"/></td>
+						<td><input type="text" value="" id="accnumberText"
+							name="accountType" /></td>
 					</tr>
 					<tr>
 						<td>Destination Account Number:</td>
-						<td><INPUT type="text" name="toAccountNumber" required id="destination" /></td>
+						<td><INPUT type="text" name="toAccountNumber" required
+							id="destination" /></td>
 					</tr>
 					<tr>
 						<td>MOBILE NUMBER :</td>
@@ -119,11 +133,15 @@
 					</button>
 				</div>
 				<div id="show">
-					<% String success = request.getParameter("Success");
-							if(success == "1"){%>
+					<%
+					String success = request.getParameter("Success");
+					if (success == "1") {
+					%>
 					<h3>Your Transfer is Successful!!</h3>
-					<%}
-				}%>
+					<%
+					}
+					}
+					%>
 
 				</div>
 			</form>
@@ -158,9 +176,9 @@
 	</footer>
 </body>
 <script language="javascript">
-	function updateText(type) { 
-	 var id = type+'Text';
-	 document.getElementById(id).value = document.getElementById(type).value;
+	function updateText(type) {
+		var id = type + 'Text';
+		document.getElementById(id).value = document.getElementById(type).value;
 	}
 
 	function checkAmount() {
@@ -191,7 +209,8 @@
 
 		if (Sacc_no === Dacc_no) {
 
-			window.alert("You can not Transfer Within Same Account.\n Please Select Different Accounts!!");
+			window
+					.alert("You can not Transfer Within Same Account.\n Please Select Different Accounts!!");
 			return false;
 		}
 

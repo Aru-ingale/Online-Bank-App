@@ -14,6 +14,20 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="Arundhati Ingale">
 <title>Royal City Banking | Welcome.</title>
+<!--<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel = "stylesheet" href ="./css/stylesheet.css">
 <!-- <script src="./script/jquery-3.3.1.min.js"></script>
 <script src="./script/main.js"></script> -->
@@ -83,9 +97,9 @@
 	   </p>
 		<div class="container">
 			<h1 style="float:none;">Thank You for Choosing Royal City Internet Banking. You can create Account below.</h1>
-				<FORM style="float:left;" NAME="OpenAccountPage" ACTION="OpenAccountServlet.do" METHOD ="POST">
+				<FORM style="float:left;" NAME="OpenAccountPage" onsubmit="return validation()" ACTION="OpenAccountServlet.do" METHOD ="POST">
 		<TABLE cellPadding='3' ALIGN='center'>
-			<TR>
+			<TR class="form-group">
 					<TD>Choose Account Type :</TD>
 					<td>
 					<select name ="accounttype" required class="drpdwn">
@@ -95,7 +109,7 @@
 					</select>
 					</td>
 					</TR>
-			<tr>
+			<tr class="form-group">
 				<td>PREFIX</td>
                 <td><select name="salutation">
   				<option value="Miss">Miss</option>
@@ -103,15 +117,17 @@
   				<option value="Mrs">Mrs</option>
                 </select></td>
 			</tr>
-			<tr>
+			<tr class="form-group">
 				<td>FULL NAME:</td>
-				<td><input type="text" name="fullname" Value='' SIZE="15" placeholder="Enter Full Name..">
+				<td><input type="text" name="fullname" id="fullname" class="form-control" Value='' SIZE="15" placeholder="Enter Full Name.." autocomplete="off">
+				<span id="name" class="text.danger font-weight-bold"></span>
 				</td>
 			</tr>
 			
-			<tr>
+			<tr class="form-group">
 				<td>BALANCE:</td>
-				<td><input type="text" name="balance" Value='' SIZE="15" placeholder="Enter Balance..">
+				<td><input type="text" name="balance" id="balance" class="form-control" Value='' SIZE="15" placeholder="Enter Balance.." autocomplete="off">
+				<span id="balance1" class="text.danger font-weight-bold"></span>
 				</td>
 			</tr>
 		</TABLE>
@@ -120,6 +136,22 @@
 		</div>
 		</FORM>
 		</div>
+		 <script>
+			function validation() {
+				var fullname = document.getElementById('fullname').value;
+				var balance = document.getElementById('balance').value;
+				
+				
+				if (fullname == "") {
+					document.getElementById('name').innerHTML = " ** please fill the mobile number field";
+					return false;
+				}
+				
+				if (balance == "") {
+					document.getElementById('balance1').innerHTML = " ** please fill the address field";
+					return false;
+				}
+				</script>
 	</section>
 	<section id ="boxes">
 		<div class= "container">
