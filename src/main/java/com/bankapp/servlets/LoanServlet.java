@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bankapp.dao.Account;
+import com.bankapp.dao.UserDAO;
+import com.bankapp.models.LoanDetails;
+import com.bankapp.models.UserDetails;
 import com.bankapp.models.Users;
 
 /**
@@ -41,10 +44,13 @@ public class LoanServlet extends HttpServlet {
 	}
 
 	/**
+	 * @return 
+	 * @return 
+	 * @return 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected LoanDetails doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// obtains a character-based output stream that enables
@@ -66,7 +72,27 @@ public class LoanServlet extends HttpServlet {
 		String loanammount = request.getParameter("loanammount");
 		String email = request.getParameter("email");
 		
+		LoanDetails user = loanUser(fullname, occupation, dob, phone, address, propertyaddress, aadharnumber, income,
+				loanammount, email);
 		
+		UserDAO account = new UserDAO();
+		response.sendRedirect("wellcome.jsp");
+
+		LoanDetails loanUser(String fullname, String occupation ,String dob, String phone, String address, String propertyaddress,  String aadharnumber, String income, String loanammount,String email) {
+			
+			LoanDetails user = new LoanDetails();
+			user.setFullName(fullname);
+			user.setOccupation(occupation);
+			user.setDOB(dob);
+			user.setPhone(phone);
+			user.setAddress(address);
+			user.setPropertyAddress(propertyaddress);
+			user.setAadharNumber(aadharnumber);
+			user.setIncome(income);
+			user.setLoanAmmount(loanammount);
+			user.setEmail(email);
+			return user;
+		}
 		
 		//User user = new User(fullname, occupation, dob, phone, address, propertyaddress, aadharnumber, income, loanammount, email);
 
@@ -82,6 +108,12 @@ public class LoanServlet extends HttpServlet {
 					"Account creation failed because of existing username or invalid username. Please try again!");
 	}*/
 	}
+	private LoanDetails loanUser(String fullname, String occupation, String dob, String phone, String address,
+			String propertyaddress, String aadharnumber, String income, String loanammount, String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	// this "cleanup" method is called when a servlet is terminated by the server
 	public void destroy() {
 		output.close();

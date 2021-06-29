@@ -2,15 +2,15 @@ package com.bankapp.models;
 
 public class Account {
 	
-	String accountNumber;
-	String accountType;
-    int userId;
-    String salution;
-    String accountHolderName;
-    String branchAddress;
-    String IFSCCode;
-    String status;
-    String balance;
+	private String accountNumber;
+	private String accountType;
+	private int userId;
+	private String salution;
+	private String accountHolderName;
+	private String branchAddress;
+	private String IFSCCode;
+	private String status;
+	private double balance;
     
 	public String getAccountNumber() {
 		return accountNumber;
@@ -54,10 +54,10 @@ public class Account {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getBalance() {
+	public double getBalance() {
 		return balance;
 	}
-	public void setBalance(String balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
     

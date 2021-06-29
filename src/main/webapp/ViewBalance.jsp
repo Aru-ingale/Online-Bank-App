@@ -89,12 +89,12 @@
 				<%
 					}
 				%>
-				<div id="logout">
+				<!--<div id="logout">
 					<button id='LogoutButton' style="margin-top: 20px;"
 						class="button_1">
 						<span>Logout</span>
 					</button>
-				</div>
+				</div> -->
 			</form>
 
 		</div>

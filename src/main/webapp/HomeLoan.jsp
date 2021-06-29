@@ -120,7 +120,7 @@
 	<section>
 	<div>
 		<FORM style="float: left;" NAME="HomeLoanPage"
-			ACTION="HomeLoanServlet.do" METHOD="POST" onsubmit="return validation()">
+			ACTION="LoanDetailsServlet.do" METHOD="POST" onsubmit="return validation()">
 			<TABLE cellPadding='3' ALIGN='center'>
 				<tr class="form-group">
 					<td>FULL NAME:</td>
@@ -231,6 +231,15 @@
 					document.getElementById('mobilenumber').innerHTML = " ** please fill the mobile number field";
 					return false;
 				}
+				if (isNaN(phone)) {
+					document.getElementById('mobilenumber').innerHTML = " ** user must write digit only not character";
+					return false;
+				}
+				
+				if (phone.length!=10) {
+					document.getElementById('mobilenumber').innerHTML = " ** mobile number must be 10 digit onlysssss";
+					return false;
+				}
 				
 				if (address == "") {
 					document.getElementById('raddress').innerHTML = " ** please fill the address field";
@@ -258,7 +267,7 @@
 				}
 
 				if ((email.charAt(email.length - 4) != '.')
-						|| (email.charAt(email.length - 3) != '.')) {
+						&& (email.charAt(email.length - 3) != '.')) {
 					document.getElementById('emailid').innerHTML = " ** @ invalid position";
 					return false;
 				}

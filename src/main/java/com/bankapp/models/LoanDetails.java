@@ -1,69 +1,103 @@
 package com.bankapp.models;
 
 public class LoanDetails {
- 	String fullName;
-	String occupation;
-	String accountNumber;
-	String phone;
-	String address;
-	String propertyAddress;
-	String income;
-	String loanAmount;
-	String email;
+	private String fullname;
+	private String occupation;
+	private String dob;
+	private String phone;
+	private String address;
+	private String propertyaddress;
+	private String aadharnumber;
+	private String income;
+	private String loanammount;
+	private String email;
+	
+	
+	public LoanDetails() {
+
+	}
+
 	public String getFullName() {
-		return fullName;
+		return fullname;
 	}
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+
+	public void setFullName(String fullname) {
+		this.fullname = fullname;
 	}
+
 	public String getOccupation() {
 		return occupation;
 	}
+
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
 	}
-	public String getAccountNumber() {
-		return accountNumber;
+
+	public String getDOB() {
+		return dob;
 	}
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
+
+	public void setDOB(String dob) {
+		this.dob = dob;
 	}
+
 	public String getPhone() {
 		return phone;
 	}
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 	public String getPropertyAddress() {
-		return propertyAddress;
+		return propertyaddress;
 	}
-	public void setPropertyAddress(String propertyAddress) {
-		this.propertyAddress = propertyAddress;
+
+	public void setPropertyAddress(String propertyaddress) {
+		this.propertyaddress = propertyaddress;
 	}
+
+	public String getAadharNumber() {
+		return aadharnumber;
+	}
+
+	public void setAadharNumber(String aadharnumber) {
+		this.aadharnumber = aadharnumber;
+	}
+
 	public String getIncome() {
 		return income;
 	}
+
 	public void setIncome(String income) {
 		this.income = income;
 	}
-	public String getLoanAmount() {
-		return loanAmount;
+
+	public String getLoanAmmount() {
+		return loanammount;
 	}
-	public void setLoanAmount(String loanAmount) {
-		this.loanAmount = loanAmount;
+
+	public void setLoanAmmount(String loanammount) {
+		this.loanammount = loanammount;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	
 	
+
 }

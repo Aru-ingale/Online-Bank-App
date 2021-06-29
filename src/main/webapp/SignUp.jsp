@@ -83,6 +83,7 @@
 					<tr class="form-group">
 						<td>PREFIX</td>
 						<td><select name="salutation">
+						        <option value="">Select </option>
 								<option value="Miss">Miss</option>
 								<option value="Mr">Mr</option>
 								<option value="Mrs">Mrs</option>
@@ -144,7 +145,7 @@
 						<td>DATE OF BIRTH:</td>
 						<td><INPUT type="date" name="dob" id="dob"
 							class="form-control" Value='' SIZE="15"
-							placeholder="Enter Your birthdate.."></td>
+							placeholder="Enter Your birthdate.." required /></td>
 					</tr>
 					<tr class="form-group">
 						<td>EMAIL ID:</td>
@@ -155,7 +156,8 @@
 					</tr>
 					<tr class="form-group">
 						<td>GENDER</td>
-						<td><select name="gender">
+						<td><select name="gender" required />
+						        <option value="">Select gender</option>
 								<option value="MALE">MALE</option>
 								<option value="FEMALE">FEMALE</option>
 								<option value="UNSPECIFIED">UNSPECIFIED</option>
@@ -163,14 +165,17 @@
 					</tr>
 					<tr class="form-group">
 						<td>RESIDENTIAL ADDRESS:</td>
-						<td><INPUT TYPE="textarea" NAME="address" id="address"
+						<td><INPUT TYPE="text" NAME="address" id="address"
 							class="form-control" SIZE="15"
-							placeholder="Please Type address.."></td>
+							placeholder="Please Type address.." autocomplete="off">
+							<span
+							id="raddress" class="text.danger font-weight-bold"></span></td>
 					</tr>
 					<tr class="form-group">
 						<td>STATE</td>
 						<td><select name="states" id="states" class="form-control"
-							onchange="setCities();">
+							onchange="setCities();" required />
+							    <option value="">Select state</option>
 								<option value="Andhra Pradesh">Andhra Pradesh</option>
 								<option value="Bihar">Bihar</option>
 								<option value="Chhattisgarh">Chhattisgarh</option>
@@ -202,20 +207,24 @@
 					</tr>
 					<tr class="form-group">
 						<td>CITY:</td>
-						<td><select name="city" id="city" class="form-control">
+						<td><select name="city" id="city" class="form-control" required />
+						        <option value=""> Select </option>
 								<option selected="" value="-1" disabled="">Select City</option>
 								<option value="">please select a state</option>
 						</select></td>
 					</tr>
 					<tr class="form-group">
 						<td>ZIP CODE:</td>
-						<td><input type="text" name="zip" Value=''
+						<td><input type="text" name="zip" id="zip"Value=''
 							class="form-control" SIZE="15"
-							placeholder="Enter postal/zip code.."></td>
+							placeholder="Enter postal/zip code.." autocomplete="off">
+							<span
+							id="zipcode" class="text.danger font-weight-bold"></span></td>
 					</tr>
 					<tr class="form-group">
 						<td>MARITAL STATUS</td>
-						<td><select name="maritalstatus" class="form-control">
+						<td><select name="maritalstatus" class="form-control" required />
+						        <option value=""> Select </option>
 								<option value="single">single</option>
 								<option value="married">married</option>
 								<option value="Widowed">Widowed</option>
@@ -225,7 +234,8 @@
 					</tr>
 					<tr class="form-group">
 						<td>OCCUPATION</td>
-						<td><select name="occupation" class="form-control">
+						<td><select name="occupation" class="form-control" required />
+						        <option value=""> Select occupation</option>
 								<option value="service">service</option>
 								<option value="bussiness">bussiness</option>
 								<option value="goverment servent">goverment servent</option>
@@ -251,7 +261,8 @@
 				var password1 = document.getElementById('password1').value;
 				var phone = document.getElementById('phone').value;
 				var email = document.getElementById('email').value;
-				
+				var address = document.getElementById('address').value;
+				var zip = document.getElementById('zip').value;
 				
 
 				if (fname == "") {
@@ -304,6 +315,16 @@
 					document.getElementById('mobilenumber').innerHTML = " ** please fill the mobile number field";
 					return false;
 				}
+				
+				if (isNaN(phone)) {
+					document.getElementById('mobilenumber').innerHTML = " ** user must write digit only not character";
+					return false;
+				}
+				
+				if (phone.length!=10) {
+					document.getElementById('mobilenumber').innerHTML = " ** mobile number must be 10 digit onlysssss";
+					return false;
+				}
 
 				if (email == "") {
 					document.getElementById('emailid').innerHTML = " ** please fill the email id field";
@@ -311,13 +332,23 @@
 				}
 
 				if ((email.charAt(email.length - 4) != '.')
-						|| (email.charAt(email.length - 3) != '.')) {
+						&& (email.charAt(email.length - 3) != '.')) {
 					document.getElementById('emailid').innerHTML = " ** @ invalid position";
 					return false;
 				}
 
 				if (email.indexOf('@') <= 0) {
 					document.getElementById('emailid').innerHTML = " ** @ invalid position";
+					return false;
+				}
+				
+				if (zip == "") {
+					document.getElementById('zipcode').innerHTML = " ** please fill the zip code field";
+					return false;
+				}
+				
+				if (address == "") {
+					document.getElementById('raddress').innerHTML = " ** please fill the address field";
 					return false;
 				}
 			}
