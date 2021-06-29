@@ -57,11 +57,11 @@ public class LoginServlet extends HttpServlet {
    		        	if(accdetails.getAccountType().equalsIgnoreCase("Saving")) {
    		        		session.setAttribute("svAccountNumber", accdetails.getAccountNumber());
    		   		        session.setAttribute("svAccountType", accdetails.getAccountType());
-   		   		        session.setAttribute("svBalance", ""+accdetails.getBalance());
+   		   		        session.setAttribute("svBalance", ""+ ""+accdetails.getBalance());
    		        	}else {
    		        		session.setAttribute("crAccountNumber", accdetails.getAccountNumber());
    		   		        session.setAttribute("crAccountType", accdetails.getAccountType());
-   		   		        session.setAttribute("crBalance", ""+accdetails.getBalance());
+   		   		        session.setAttribute("crBalance", ""+ ""+accdetails.getBalance());
    		        	}
    		        }
    		        

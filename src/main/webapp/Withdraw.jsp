@@ -70,7 +70,10 @@
 			response.sendRedirect("Login.jsp");
 		}else{
 	
-			String savaingAccountNo = (String) session.getAttribute("accountNumber");
+			String savingAccountNo = (String) session.getAttribute("svAccountNumber");
+			String svbalance = (String) session.getAttribute("svBalance");
+			String currentAccountNo = (String) session.getAttribute("crAccountNumber");
+			String crbalance = (String) session.getAttribute("crBalance");
 			String balance = (String) session.getAttribute("balance");
 
 			//Getting number of Savings Account of User
@@ -80,23 +83,17 @@
 				<TABLE class="table" cellPadding='3' ALIGN='center'>
 					<tr>
 						<td>Choose Your Account :</td>
-						<td><INPUT type="text" name="accountNumber" required
-							value="<%=savaingAccountNo%>" /></td>
-					</tr>
-					<tr>
-						<td>Choose Account Type :</td>
-						<td><select name="accountType" required class="drpdwn">
+						<td><select name="accountNumber" id="accnumber" required class="drpdwn" onchange="updateText('accnumber')">
 								<option value="">--Select--</option>
-								<option value="Current">Current</option>
-								<option value="Saving">Saving</option>
+								<option value="<%=savingAccountNo%>"><%=savingAccountNo%></option>
+								<option value="<%=currentAccountNo%>"><%=currentAccountNo%></option>
 						</select></td>
 					</tr>
 					<tr>
-					<tr>
-						<td>DATE:</td>
-						<td><INPUT type="date" name='transDate' Value='' SIZE='15'
-							placeholder="Enter the date.."></td>
+						<td>Choose Account Type :</td>
+						<td><input type="text" value="" id="accnumberText" name="accountType"/></td>
 					</tr>
+					
 					<tr>
 						<td>MOBILE NUMBER :</td>
 						<td><INPUT TYPE='number' NAME='number' SIZE='15'
@@ -113,7 +110,7 @@
 					</div>
 					<div id="show">
 					<h3>
-						Your Current Balance is :<%=balance%></b>
+						Your Current Balance is :<b><%=balance%></b>
 					</h3>
 				</div>
 					<% }

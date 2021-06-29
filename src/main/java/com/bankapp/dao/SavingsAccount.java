@@ -122,13 +122,13 @@ private String CustomerID;
 							DBConnection ToDB = new DBConnection();
 							Connection con = ToDB.getConnection();
 							Statement st = con.createStatement();
-							String sql = "SELECT SavingsAccountNumber, Balance FROM SavingsAccount WHERE SavingsAccountNumber ='"+SavingsAccountNumber+"'"; //SQL query command
+							String sql = "SELECT account, Balance FROM SavingsAccount WHERE accountNumber ='"+SavingsAccountNumber+"'"; //SQL query command
 							ResultSet Rslt = st.executeQuery(sql); //Inquire if the username exsits.
 					        done = Rslt.next();
 								if (done) {
 									double bal = Rslt.getDouble("Balance");
 									double New_bal = bal + amount;
-									sql = "UPDATE SavingsAccount SET Balance = '"+New_bal+"' WHERE SavingsAccountNumber='"+SavingsAccountNumber+"'";
+									sql = "UPDATE account SET Balance = '"+New_bal+"' WHERE accountNumber='"+SavingsAccountNumber+"'";
 									st.executeUpdate(sql);
 								    r_amount = New_bal;
 							    }
@@ -164,14 +164,14 @@ private String CustomerID;
 
 								Connection con = DBConnection.getConnection();
 								Statement st = con.createStatement();
-								String sql = "SELECT SavingsAccountNumber, Balance FROM SavingsAccount WHERE SavingsAccountNumber ='"+SavingsAccountNumber+"'"; //SQL query command
+								String sql = "SELECT accountNumber, Balance FROM account WHERE accountNumber ='"+accountNumber+"'"; //SQL query command
 								ResultSet Rslt = st.executeQuery(sql);
 						        done = Rslt.next();
 									if (done) {
 										double bal = Rslt.getDouble("Balance");
 										if(bal>amount){
 											double New_bal = bal - amount;
-										    sql = "UPDATE SavingsAccount SET Balance = '"+New_bal+"' WHERE SavingsAccountNumber='"+SavingsAccountNumber+"'";
+										    sql = "UPDATE account SET Balance = '"+New_bal+"' WHERE accountNumber='"+accountNumber+"'";
 										    st.executeUpdate(sql);
 										    r_amount = New_bal;
 										}
@@ -200,48 +200,45 @@ private String CustomerID;
 		return r_amount;
 	}
 	
-	public double deposit_to_SavingsAccount(double amount, String accountNumber){
+	public double deposit_to_SavingsAccount(double amount, String accountNumber) {
 
 		double r_amount = -100;
 		boolean done;
-					try{
+		try {
 
-						Connection con = DBConnection.getConnection();
-						Statement st = con.createStatement();
-						String sql = "SELECT accountNumber, Balance FROM account WHERE accountNumber ='"+accountNumber+"'"; //SQL query command
-						ResultSet Rslt = st.executeQuery(sql);
-				        done = Rslt.next();
-							if (done) {
-								double bal = Rslt.getDouble("Balance");
-								double New_bal = bal + amount;
-							    sql = "UPDATE account SET Balance = '"+New_bal+"' WHERE accountNumber='"+accountNumber+"'";
-							    st.executeUpdate(sql);
-							    r_amount = New_bal;
+			Connection con = DBConnection.getConnection();
+			Statement st = con.createStatement();
+			String sql = "SELECT accountNumber, Balance FROM account WHERE accountNumber ='" + accountNumber + "'"; // SQL
+																													// query
+																													// command
+			ResultSet Rslt = st.executeQuery(sql);
+			done = Rslt.next();
+			if (done) {
+				double bal = Rslt.getDouble("Balance");
+				double New_bal = bal + amount;
+				sql = "UPDATE account SET Balance = '" + New_bal + "' WHERE accountNumber='" + accountNumber + "'";
+				st.executeUpdate(sql);
+				r_amount = New_bal;
 
-						    }
-					    st.close();
-					    DBConnection.closeConn();
-
-
-					}
-					catch(java.sql.SQLException e){
-						done = false;
-						System.out.println("SQLException: " + e);
-						while (e != null)
-						{   System.out.println("SQLState: " + e.getSQLState());
-							System.out.println("Message: " + e.getMessage());
-							System.out.println("Vendor: " + e.getErrorCode());
-							e = e.getNextException();
-							System.out.println("");
-						 }
-					}
-					catch (java.lang.Exception e){
-				             done = false;
-				    		 System.out.println("Exception: " + e);
-							 e.printStackTrace ();
-				    }
-return r_amount;
-
+			}
+			st.close();
+			DBConnection.closeConn();
+		} catch (java.sql.SQLException e) {
+			done = false;
+			System.out.println("SQLException: " + e);
+			while (e != null) {
+				System.out.println("SQLState: " + e.getSQLState());
+				System.out.println("Message: " + e.getMessage());
+				System.out.println("Vendor: " + e.getErrorCode());
+				e = e.getNextException();
+				System.out.println("");
+			}
+		} catch (java.lang.Exception e) {
+			done = false;
+			System.out.println("Exception: " + e);
+			e.printStackTrace();
+		}
+		return r_amount;
 }
 
 	public double ViewSavingsBalance(){

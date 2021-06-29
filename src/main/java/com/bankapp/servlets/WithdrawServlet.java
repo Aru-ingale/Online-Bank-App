@@ -37,9 +37,8 @@ public class WithdrawServlet extends HttpServlet {
     	
     	String accountNumber = request.getParameter("accountNumber");
 		String amt = request.getParameter("amount");
-		String accounttype =  request.getParameter("accountType");
 		double amount = Double.parseDouble(amt);
-		String transDate = request.getParameter("transDate");
+		String accounttype =  request.getParameter("accountType");
 		String mobile = request.getParameter("number");
     	
 		//Getting UserName
@@ -68,23 +67,24 @@ public class WithdrawServlet extends HttpServlet {
 			trans.setAmount(amount);
 			trans.setMobileNum(mobile);
 			tr = new TransactionsDAO();
-			
+			svAcc = new SavingsAccount();
+			crAcc = new CurrentAccount();
 			if(svAcc.is_SavingsAccount_exist(accountNumber, accounttype)) {
 				//transaction
-				double bal = svAcc.deposit_to_SavingsAccount(amount,accountNumber);
+				double bal = svAcc.withdraw_from_SavingsAccount(amount,accountNumber);
 				tr.Record_Transactions(trans);
 				
 				session.setAttribute("balance", ""+bal);
-				    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
+				    RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=1");
 				    rd.forward(request, response);
 				
 			}
 			else if(crAcc.is_CurrentAccount_exist(accountNumber, accounttype)) {
-				double bal = crAcc.deposit_to_CurrentAccount(amount,accountNumber);
+				double bal = crAcc.withdraw_from_CurrentAccount(amount,accountNumber);
 				tr.Record_Transactions(trans);
 				
 				session.setAttribute("balance", ""+bal);
-				    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
+				    RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=1");
 				    rd.forward(request, response);
 				/*double bal = svAcc.deposit_to_SavingsAccount(amt);
 				

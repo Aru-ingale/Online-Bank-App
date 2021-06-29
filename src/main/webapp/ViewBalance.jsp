@@ -70,20 +70,24 @@
 						response.sendRedirect("Login.jsp");
 					} else {
 
-						String accountNumber = (String) session.getAttribute("accountNumber");
-						//String bal = (String) session.getAttribute("balance");
-						String balance = (String) session.getAttribute("balance");
+						String savingAccountNo = (String) session.getAttribute("svAccountNumber");
+						String svbalance = (String) session.getAttribute("svBalance");
+						String currentAccountNo = (String) session.getAttribute("crAccountNumber");
+						String crbalance = (String) session.getAttribute("crBalance");
 					%>
 				<TABLE cellPadding='3' id="ViewChecking">
 					<tr>
-
-						<td>Saving Account :</td>
+						<td>Choose Your Account :</td>
+						<td><select name="accountNumber" id="accnumber" required class="drpdwn" onchange="updateText('accnumber')">
+								<option value="">--Select--</option>
+								<option value="<%=svbalance%>"><%=savingAccountNo%></option>
+								<option value="<%=crbalance%>"><%=currentAccountNo%></option>
+						</select></td>
 					</tr>
 					<tr>
-						<td>Account Number : <%=accountNumber%></td>
-					</tr>
-					<tr>
-						<td>Balance : <%=balance%></td>
+						<td>AMOUNT:</td>
+						<td><INPUT TYPE='number' NAME='amount' SIZE='15' id="accnumberText"
+							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
 					</tr>
 				</TABLE>
 				<%
@@ -124,6 +128,11 @@
 	</footer>
 </body>
 <script>
+function updateText(type) { 
+	 var id = type+'Text';
+	 document.getElementById(id).value = document.getElementById(type).value;
+	}
+	
 	var logout = document.getElementById("LogoutButton");
 	logout.addEventListener("click", function() {
 		document.forms[0].action = "LogoutServlet.do";
