@@ -79,6 +79,7 @@
 						String svbalance = (String) session.getAttribute("svBalance");
 						String currentAccountNo = (String) session.getAttribute("crAccountNumber");
 						String crbalance = (String) session.getAttribute("crBalance");
+						String balance = (String) session.getAttribute("balance");
 				%>
 				<TABLE class="table" cellPadding='3' ALIGN='center'>
 
@@ -113,7 +114,7 @@
 				</div>
 				<div id="show">
 					<h3>
-						Your Current Balance is :<b>${svbalance}</b><b>${crbalance}</b>
+						Your Current Balance is :<b>${svbalance}</b><b>${crbalance}</b><b>${balance}</b>
 					</h3>
 				</div>
 				<%

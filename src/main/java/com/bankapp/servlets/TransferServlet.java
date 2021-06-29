@@ -108,11 +108,12 @@ public class TransferServlet extends HttpServlet {
 				//Record the deposit transaction
 				trandDAO.Record_Transactions(trans);
 
-				response.sendRedirect("Transfer.jsp?Success=1");
-				/*
-				 * request.setAttribute("CBalance", bal); RequestDispatcher rd =
-				 * request.getRequestDispatcher("/Deposit.jsp"); rd.forward(request, response);
-				 */
+				//response.sendRedirect("Transfer.jsp?Success=1");
+				
+				 //request.setAttribute("CBalance", ""+Dbal); 
+				 RequestDispatcher rd =	 request.getRequestDispatcher("/Transfer.jsp?Success=1"); 
+				 rd.forward(request, response);
+				 
 
 			} else if (ScrAcc.is_CurrentAccount_exist(fromAccountNumber, accountType) 
 					&& DsvAcc.is_SavingsAccount_exist(toAccountNumber, accountType)) {

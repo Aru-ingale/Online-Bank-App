@@ -102,8 +102,8 @@
 						<td><select name="fromAccountNumber" id="accnumber" required
 							class="drpdwn" onchange="updateText('accnumber')">
 								<option value="">--Select--</option>
-								<option value="saving"><%=savingAccountNo%></option>
-								<option value="current"><%=currentAccountNo%></option>
+								<option value="<%=savingAccountNo%>"><%=savingAccountNo%></option>
+								<option value="<%=currentAccountNo%>"><%=currentAccountNo%></option>
 						</select></td>
 					</tr>
 					<tr>
