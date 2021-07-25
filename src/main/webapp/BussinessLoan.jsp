@@ -159,7 +159,7 @@
 			</TABLE>
 			<div id="formButton">
 				<button NAME='submitBTN' class="button_1">
-					<span>SignUp</span>
+					<span>Apply</span>
 				</button>
 			</div>
 		</FORM>
@@ -188,7 +188,7 @@
 				}
 				
 				if (phone.length!=10) {
-					document.getElementById('mobilenumber').innerHTML = " ** mobile number must be 10 digit onlysssss";
+					document.getElementById('mobilenumber').innerHTML = " ** mobile number must be 10 digit only";
 					return false;
 				}
 				

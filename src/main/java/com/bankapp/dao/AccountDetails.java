@@ -56,6 +56,7 @@ public class AccountDetails {
 				while (rs1.next()) {
 					account.setAccountNumber(rs1.getString("accountNumber"));
 					account.setAccountType(rs1.getString("accounttype"));
+					//account.setBalance(rs1.getDouble("balance"));
 				}
 			} else {
 				throw new CustomDBException( "User already has "+acc.getAccountType()+" account.");

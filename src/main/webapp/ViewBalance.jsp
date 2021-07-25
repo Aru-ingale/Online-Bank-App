@@ -87,7 +87,7 @@
 					<tr>
 						<td>AMOUNT:</td>
 						<td><INPUT TYPE='number' NAME='amount' SIZE='15' id="accnumberText"
-							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
+							 onKeyUp="checkAmount()"></td>
 					</tr>
 				</TABLE>
 				<%

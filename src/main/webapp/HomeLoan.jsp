@@ -207,7 +207,7 @@
 			</TABLE>
 			<div id="formButton">
 				<button NAME='submitBTN' class="button_1">
-					<span>SignUp</span>
+					<span>Apply</span>
 				</button>
 			</div>
 		</FORM>

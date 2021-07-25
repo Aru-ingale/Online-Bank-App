@@ -13,10 +13,6 @@ public class LoanDetails {
 	private String email;
 	
 	
-	public LoanDetails() {
-
-	}
-
 	public String getFullName() {
 		return fullname;
 	}

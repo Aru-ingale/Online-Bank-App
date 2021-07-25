@@ -77,11 +77,11 @@ public class OpenAccountServlet extends HttpServlet {
 			if (newAccount.getAccountType().equalsIgnoreCase("saving")) {
 				session.setAttribute("svAccountNumber", newAccount.getAccountNumber());
 				session.setAttribute("svAccountType", newAccount.getAccountType());
-				session.setAttribute("svBalance", "" + ""+newAccount.getBalance());
+				//session.setAttribute("svBalance", "" + ""+newAccount.getBalance());
 			} else {
 				session.setAttribute("crAccountNumber", newAccount.getAccountNumber());
 				session.setAttribute("crAccountType", newAccount.getAccountType());
-				session.setAttribute("crBalance", "" + ""+newAccount.getBalance());
+				//session.setAttribute("crBalance", "" + ""+newAccount.getBalance());
 			}
 			request.setAttribute("msg", "Account Number "+ newAccount.getAccountNumber()+" is created successfully.!!");
 			RequestDispatcher rd = request.getRequestDispatcher("/OpenAccount.jsp?Success=1");

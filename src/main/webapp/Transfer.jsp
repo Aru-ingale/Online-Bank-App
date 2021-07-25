@@ -107,7 +107,7 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td>Choose Account Type :</td>
+						<td>Account Type :</td>
 						<td><input type="text" value="" id="accnumberText"
 							name="accountType" /></td>
 					</tr>
