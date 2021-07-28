@@ -130,6 +130,12 @@
 				<span id="balance1" class="text.danger font-weight-bold"></span>
 				</td>
 			</tr>
+			<tr class="form-group">
+				<td>Enter Token:</td>
+				<td><input type="text" name="token" id="token" class="form-control" Value='' SIZE="15" placeholder="Enter Token Code" autocomplete="off">
+				<span id="token1" class="text.danger font-weight-bold"></span>
+				</td>
+			</tr>
 		</TABLE>
 		<div id="formButton">
 			<button NAME='submitBTN' class = "button_1"><span>OpenAccount</span></button>

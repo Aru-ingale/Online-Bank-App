@@ -1,122 +1,75 @@
 package com.bankapp.servlets;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;  
+import java.sql.*;  
+import javax.servlet.ServletException;  
+import javax.servlet.http.*;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.bankapp.dao.Account;
 import com.bankapp.dao.UserDAO;
 import com.bankapp.models.LoanDetails;
-import com.bankapp.models.UserDetails;
-import com.bankapp.models.Users;
-
-/**
- * Servlet implementation class SignUpServlet
- */
-public class LoanServlet extends HttpServlet {
+import com.bankapp.models.UserDetails;  
+  
+public class LoanServlet extends HttpServlet {  
 	private PrintWriter output;
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LoanServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	// a method called automatically to initialize the servlet
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		doPost(request, response);
-	}
-
-	/**
-	 * @return 
-	 * @return 
-	 * @return 
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected LoanDetails doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// obtains a character-based output stream that enables
-		// text data to be sent to the client
-		output = response.getWriter();
-
-		// specifies the MIME type of the response to the browser
-		response.setContentType("text/html");
-		// returns the value associated with a parameter sent to
-		// the servlet as part of a post request
-		String fullname = request.getParameter("fullname");
-		String occupation = request.getParameter("occupation");
-		String dob = request.getParameter("dob");
-		String phone = request.getParameter("phone");
-		String address = request.getParameter("address");
-		String propertyaddress = request.getParameter("propertyaddress");
-		String aadharnumber = request.getParameter("aadharnumber");
-		String income = request.getParameter("income");
-		String loanammount = request.getParameter("loanammount");
-		String email = request.getParameter("email");
+public void doPost(HttpServletRequest request, HttpServletResponse response)  
+            throws ServletException, IOException {  
+  
+response.setContentType("text/html");  
+output = response.getWriter();
+          
+String fullname=request.getParameter("fullname");  
+String occupation=request.getParameter("occupation");  
+String dob=request.getParameter("dob");  
+String phone=request.getParameter("phone");  
+String address=request.getParameter("address");
+String propertyaddress=request.getParameter("propertyaddress");
+String aadharnumber=request.getParameter("aadharnumber");
+String income=request.getParameter("income");
+String loanammount=request.getParameter("loanammount");
+String email=request.getParameter("email");
+          
+try{  
+	LoanDetails user = pupulateUser(fullname,occupation,dob,phone,address,propertyaddress,aadharnumber,income,loanammount,email);
+  
+	UserDAO account = new UserDAO();
+	if (account.loanServlet(user)) {
+		request.getSession(true).setAttribute("FULLNAME", fullname);
 		
-		LoanDetails user = loanUser(fullname, occupation, dob, phone, address, propertyaddress, aadharnumber, income,
-				loanammount, email);
-		
-		UserDAO account = new UserDAO();
-		response.sendRedirect("wellcome.jsp");
+		response.sendRedirect("Login.jsp");
+		// showSuccess();
+	} else
+		output.println(
+				"Account creation failed because of existing username or invalid username. Please try again!");
+}
 
-		LoanDetails loanUser(String fullname, String occupation ,String dob, String phone, String address, String propertyaddress,  String aadharnumber, String income, String loanammount,String email) {
-			
-			LoanDetails user = new LoanDetails();
-			user.setFullName(fullname);
-			user.setOccupation(occupation);
-			user.setDOB(dob);
-			user.setPhone(phone);
-			user.setAddress(address);
-			user.setPropertyAddress(propertyaddress);
-			user.setAadharNumber(aadharnumber);
-			user.setIncome(income);
-			user.setLoanAmmount(loanammount);
-			user.setEmail(email);
-			return user;
-		}
-		
-		//User user = new User(fullname, occupation, dob, phone, address, propertyaddress, aadharnumber, income, loanammount, email);
+private LoanDetails pupulateUser(String salutation, String fname, String mname, String lname, String phone, String dob,
+		String email, String gender, String address, String state, String city, String zip, String maritalstatus,
+		String occupation, String userName, String password) {
+	
+	UserDetails user = new UserDetails();
+	user.setSalutation(salutation);
+	user.setFname(fname);
+	user.setMname(mname);
+	user.setLname(lname);
+	user.setPhone(phone);
+	user.setDob(dob);
+	user.setEmail(email);
+	user.setGender(gender);
+	user.setAddress(address);
+	user.setState(state);
+	user.setCity(city);
+	user.setZip(zip);
+	user.setMaritalStatus(maritalstatus);
+	user.setOccupation(occupation);
+	user.setUserName(userName);
+	user.setPassword(password);
+	return user;
+}
 
-//		DB.insert();
-		//Account account = new Account();
-		/*if (account.signUp(user)) {
-			request.getSession(true).setAttribute("USERNAME", userName);
-			
-			response.sendRedirect("Login.jsp");
-			// showSuccess();
-		} else
-			output.println(
-					"Account creation failed because of existing username or invalid username. Please try again!");
-	}*/
-	}
-	private LoanDetails loanUser(String fullname, String occupation, String dob, String phone, String address,
-			String propertyaddress, String aadharnumber, String income, String loanammount, String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// this "cleanup" method is called when a servlet is terminated by the server
-	public void destroy() {
-		output.close();
-	}
+// this "cleanup" method is called when a servlet is terminated by the server
+public void destroy() {
+	output.close();
+}
 
 }

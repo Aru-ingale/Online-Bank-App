@@ -1,68 +1,51 @@
-package com.bankapp.models;
-import java.util.*;
-
-import javax.mail.*;
-import javax.mail.internet.*;
-
+  package com.bankapp.models;   
+    import java.util.Date;
+import java.util.Properties;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 public class SendEmail {
+  public static void main(String[] args) {
+    final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+ // Get a Properties object
+    Properties props = System.getProperties();
+    props.setProperty("mail.smtp.host", "smtp.gmail.com");
+    props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
+    props.setProperty("mail.smtp.socketFactory.fallback", "false");
+    props.setProperty("mail.smtp.port", "465");
+    props.setProperty("mail.smtp.socketFactory.port", "465");
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.debug", "true");
+    props.put("mail.store.protocol", "pop3");
+    props.put("mail.transport.protocol", "smtp");
+    final String username = "royalcitybank001@gmail.com";
+    final String password = "#1234royalcitybank23A";
+    try{
+      Session session = Session.getDefaultInstance(props, 
+                          new Authenticator(){
+                             protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(username, password);
+                             }});
 
-	public static void main(String[] args) {
+   // -- Create a new message --
+      Message msg = new MimeMessage(session);
 
-        // Recipient's email ID needs to be mentioned.
-        String to = "komalbabar1432@gmail.com";
-
-        // Sender's email ID needs to be mentioned
-        String from = "royalcitybank001@gmail.com";
-
-        // Assuming you are sending email from through gmails smtp
-        String host = "smtp.gmail.com";
-
-        // Get system properties
-        Properties properties = System.getProperties();
-
-        // Setup mail server
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", "465");
-        properties.put("mail.smtp.ssl.enable", "true");
-        properties.put("mail.smtp.auth", "true");
-
-        // Get the Session object.// and pass username and password
-        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
-
-            protected PasswordAuthentication getPasswordAuthentication() {
-
-                return new PasswordAuthentication("royalcitybank001@gmail.com", "#1234royalcitybank23A");
-
-            }
-
-        });
-
-        // Used to debug SMTP issues
-        session.setDebug(true);
-
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
-
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
-
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            // Set Subject: header field
-            message.setSubject("codersArea :conformation");
-
-            // Now set the actual message
-            message.setText("Hello,dear,this msg foe security checking.");
-
-            System.out.println("sending...");
-            // Send message
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-        }
-
+   // -- Set the FROM and TO fields --
+      msg.setFrom(new InternetAddress("royalcitybank001gmail.com"));
+      msg.setRecipients(Message.RecipientType.TO, 
+                        InternetAddress.parse("kalyani.sawant@gmail.com",false));
+      msg.setSubject("Hello");
+      msg.setText("How are you");
+      msg.setSentDate(new Date());
+      Transport.send(msg);
+      System.out.println("Message sent.");
+    }catch (MessagingException e){ 
+      System.out.println("Erreur d'envoi, cause: " + e);
     }
-	}
+  }
+}
