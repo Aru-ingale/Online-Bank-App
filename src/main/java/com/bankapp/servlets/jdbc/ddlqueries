@@ -51,9 +51,9 @@
     ); 
        
        
-    CREATE TABLE transactions  
+    CREATE TABLE TRANSACTIONS  
     (
-    	TRANSACTIONID varchar(50) not null,    
+    	TRANSACTIONID int not null AUTO_INCREMENT,    
     	TRANSACTIONTYPE varchar(20),
      	FROMACCOUNT varchar(50),   
      	TOACCOUNT varchar(50),  
@@ -88,4 +88,11 @@
     );  
     
      
-    
+    //ADMIN user Insert
+     insert into login_details values('admin','Talented@123',now(),now());
+     
+      insert into users (userid, fname,mname,lname,usertype,email,createddate,updateddate) values(3,'admin','admin','admin','admin','royalcitybank001@gmail.com',now(),now());
+      
+ALTER table users modify column userid int not null;
+      
+ ALTER table users modify column userid PRIMARY KEY;   

@@ -93,4 +93,37 @@
     <servlet-name>OpenAccountServlet</servlet-name>
     <url-pattern>/OpenAccountServlet.do</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>AdminServlet</display-name>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>com.bankapp.servlets.AdminServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/AdminServlet.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>AdminApproval</display-name>
+    <servlet-name>AdminApproval</servlet-name>
+    <servlet-class>com.bankapp.servlets.AdminApproval</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminApproval</servlet-name>
+    <url-pattern>/AdminApproval.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>AdminApprovalAccount</display-name>
+    <servlet-name>AdminApprovalAccount</servlet-name>
+    <servlet-class>com.bankapp.servlets.AdminApprovalAccount</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminApprovalAccount</servlet-name>
+    <url-pattern>/AdminApprovalAccount.do</url-pattern>
+  </servlet-mapping>
 </web-app>

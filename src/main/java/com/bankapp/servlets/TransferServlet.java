@@ -79,7 +79,7 @@ public class TransferServlet extends HttpServlet {
 				double Sbal = ScrAcc.withdraw_from_CurrentAccount(amount ,fromAccountNumber);
 				//Record the deposit transaction
 				trandDAO.Record_Transactions(trans);
-				
+				session.setAttribute("crBalance", ""+Sbal);
 				trans.setTransactionType("deposit");
 				double Dbal = DcrAcc.deposit_to_CurrentAccount(amount, toAccountNumber);
 				//Record the deposit transaction
@@ -102,7 +102,7 @@ public class TransferServlet extends HttpServlet {
 				double Sbal = SsvAcc.withdraw_from_SavingsAccount(amount ,fromAccountNumber);
 				//Record the deposit transaction
 				trandDAO.Record_Transactions(trans);
-				
+				session.setAttribute("svBalance", ""+Sbal);
 				trans.setTransactionType("deposit");
 				double Dbal = DsvAcc.deposit_to_SavingsAccount(amount, toAccountNumber);
 				//Record the deposit transaction

@@ -76,6 +76,7 @@ public class DepositServlet extends HttpServlet {
     				trandDAO.Record_Transactions(trans);
     				
     				session.setAttribute("balance", ""+bal);
+    				session.setAttribute("svBalance", ""+bal);
  				    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
  				    rd.forward(request, response);
     				
@@ -87,6 +88,7 @@ public class DepositServlet extends HttpServlet {
     				trandDAO.Record_Transactions(trans);
 				    
     				request.setAttribute("balance", ""+bal);
+    				session.setAttribute("crBalance", ""+bal);
     				RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
 				    rd.forward(request, response);
     				

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.management.RuntimeErrorException;
@@ -78,6 +80,65 @@ public class AccountDetails {
 			System.out.println("Exception: " + e);
 		}
 		return account;
+	}
+
+	public List<Account> getAllAccountsForApproval() {
+		List<Account> accounts = new ArrayList<>();
+		try {
+			Connection conn = DBConnection.getConnection();
+			Statement Stmt = conn.createStatement();
+			String query = "SELECT * FROM account where status = 'pending' ORDER BY accountnumber";
+			ResultSet rs = Stmt.executeQuery(query); // Inquire if the username exsits.
+			while (rs.next()) {
+				Account acc = new Account();
+				acc.setAccountHolderName(rs.getString("accountHolderName"));
+				acc.setAccountNumber(rs.getString("accountNumber"));
+				acc.setAccountType(rs.getString("accountType"));
+				acc.setBalance(rs.getDouble("balance"));
+				acc.setStatus(rs.getString("status"));
+				acc.setUserId(rs.getInt("userId"));
+				accounts.add(acc);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQLException: " + e);
+			while (e != null) {
+				System.out.println("SQLState: " + e.getSQLState());
+				System.out.println("Message: " + e.getMessage());
+				System.out.println("Vendor: " + e.getErrorCode());
+				e = e.getNextException();
+				System.out.println("");
+			}
+		} catch (Exception e) {
+			System.out.println("Exception: " + e);
+		}
+			
+		return accounts;
+	}
+
+	public boolean approveAccount(String userId, String accountType) {
+		Connection conn = DBConnection.getConnection();
+		int i = 0;
+		try {
+			Statement stat = conn.createStatement();
+			String query = "update account set status = 'approve' where userid = '"+userId+"' and accountType = '"+accountType+"'";
+			i = stat.executeUpdate(query);
+						
+		} catch (SQLException e) {
+			System.out.println("SQLException: " + e);
+			while (e != null)
+			{   System.out.println("SQLState: " + e.getSQLState());
+				System.out.println("Message: " + e.getMessage());
+				System.out.println("Vendor: " + e.getErrorCode());
+				e = e.getNextException();
+				System.out.println("");
+			 }
+		} 
+		return i > 0 ? true : false;
+	}
+
+	public List<Account> getAllAccounts() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/*

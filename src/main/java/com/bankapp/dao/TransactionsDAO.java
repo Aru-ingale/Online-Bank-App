@@ -115,8 +115,8 @@ private DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		Connection conn = DBConnection.getConnection();
 		try {
 			Statement stat = conn.createStatement();
-			String query = "select t.transactiontype,t.FROMACCOUNT,t.TOACCOUNT,t.USERID,t.STATUS,t.AMOUNT,t.MOBILENUMBER,"
-					+ " t.TRANSACTIONDATE from transactions t INNER JOIN users u ON t.userid = u.userid "
+			String query = "select t.TRANSACTIONTYPE,t.FROMACCOUNT,t.TOACCOUNT,t.USERID,t.STATUS,t.AMOUNT,"
+					+ " t.MOBILENUMBER from transactions t INNER JOIN users u ON t.userid = u.userid "
 					+ " where FROMACCOUNT='"+accountNumber+"' order by TRANSACTIONDATE;";
 			ResultSet rs = stat.executeQuery(query);
 			
@@ -129,7 +129,6 @@ private DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 				tr.setStatus(rs.getString("STATUS"));
 				tr.setAmount(rs.getDouble("AMOUNT"));
 				tr.setMobileNum(rs.getString("MOBILENUMBER"));
-				tr.setTransactionDate(rs.getDate("TRANSACTIONDATE"));
 				transList.add(tr);
 			}
 		} catch (SQLException e) {
@@ -143,6 +142,66 @@ private DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			 }
 		} 
 		return transList;
+	}
+	
+	
+	public List<Transaction> getAllTransactions() {
+		List<Transaction> transList = new ArrayList<>();
+		Connection conn = DBConnection.getConnection();
+		try {
+			Statement stat = conn.createStatement();
+			String query = "select u.fname,u.mname,u.lname, t.transactionid, t.TRANSACTIONTYPE,t.FROMACCOUNT,t.TOACCOUNT,t.USERID,t.STATUS,t.AMOUNT,"
+					+ " t.MOBILENUMBER from transactions t INNER JOIN users u ON t.userid = u.userid where t.status = 'pending'"
+					+ " order by TRANSACTIONDATE;";
+			ResultSet rs = stat.executeQuery(query);
+			
+			while(rs.next()) {
+				Transaction tr = new Transaction();
+				tr.setFname(rs.getString("fname"));
+				tr.setMname(rs.getString("mname"));
+				tr.setLname(rs.getString("lname"));
+				tr.setTransactionId(rs.getInt("transactionId"));
+				tr.setTransactionType(rs.getString("transactiontype"));
+				tr.setFromAccount(rs.getString("FROMACCOUNT"));
+				tr.setToAccount(rs.getString("TOACCOUNT"));
+				tr.setUserId(rs.getInt("USERID"));
+				tr.setStatus(rs.getString("STATUS"));
+				tr.setAmount(rs.getDouble("AMOUNT"));
+				tr.setMobileNum(rs.getString("MOBILENUMBER"));
+				transList.add(tr);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQLException: " + e);
+			while (e != null)
+			{   System.out.println("SQLState: " + e.getSQLState());
+				System.out.println("Message: " + e.getMessage());
+				System.out.println("Vendor: " + e.getErrorCode());
+				e = e.getNextException();
+				System.out.println("");
+			 }
+		} 
+		return transList;
+	}
+
+	public boolean approveTransactions(Transaction tr) {
+		Connection conn = DBConnection.getConnection();
+		int i = 0;
+		try {
+			Statement stat = conn.createStatement();
+			String query = "update transactions set status = 'approve' where userid = '"+tr.getUserId()+"' and transactionId = "+tr.getTransactionId();
+			i = stat.executeUpdate(query);
+						
+		} catch (SQLException e) {
+			System.out.println("SQLException: " + e);
+			while (e != null)
+			{   System.out.println("SQLState: " + e.getSQLState());
+				System.out.println("Message: " + e.getMessage());
+				System.out.println("Vendor: " + e.getErrorCode());
+				e = e.getNextException();
+				System.out.println("");
+			 }
+		} 
+		return i > 0 ? true : false;
 	}
 
 }

@@ -36,6 +36,7 @@
 					<li><a href="Withdraw.jsp">Withdraw</a></li>
 					<li><a href="Transfer.jsp">Transfer</a></li>
 					<li><a href="OpenAccount.jsp">Open Account</a></li>
+					<li><a href="AdminServlet.do">Admin</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -80,14 +81,17 @@
 						<td>Choose Your Account :</td>
 						<td><select name="accountNumber" id="accnumber" required class="drpdwn" onchange="updateText('accnumber')">
 								<option value="">--Select--</option>
+								<% if(savingAccountNo != null) {%>
 								<option value="<%=svbalance%>"><%=savingAccountNo%></option>
+								<% } if(currentAccountNo != null) { %>
 								<option value="<%=crbalance%>"><%=currentAccountNo%></option>
+								<% } %>
 						</select></td>
 					</tr>
 					<tr>
 						<td>AMOUNT:</td>
-						<td><INPUT TYPE='number' NAME='amount' SIZE='15' id="accnumberText"
-							 onKeyUp="checkAmount()"></td>
+						<td><INPUT TYPE='number' NAME='amount' id="accnumberText"
+							 onKeyUp="checkAmount()" disabled="disabled"></td>
 					</tr>
 				</TABLE>
 				<%
