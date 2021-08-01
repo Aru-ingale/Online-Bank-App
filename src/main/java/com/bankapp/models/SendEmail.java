@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 public class SendEmail {
-  public static void main(String[] args) {
+  public void sendEmail(String emailId, String vcode) {
     final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
  // Get a Properties object
     Properties props = System.getProperties();
@@ -38,9 +38,9 @@ public class SendEmail {
    // -- Set the FROM and TO fields --
       msg.setFrom(new InternetAddress("royalcitybank001gmail.com"));
       msg.setRecipients(Message.RecipientType.TO, 
-                        InternetAddress.parse("kalyani.sawant@gmail.com",false));
-      msg.setSubject("Hello");
-      msg.setText("How are you");
+                        InternetAddress.parse(emailId,false));
+      msg.setSubject("RCITY Bank Account Created");
+      msg.setText("Hello User \n Your User has been created. Your verification code is "+vcode);
       msg.setSentDate(new Date());
       Transport.send(msg);
       System.out.println("Message sent.");

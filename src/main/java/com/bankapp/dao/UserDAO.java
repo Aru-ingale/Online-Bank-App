@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.bankapp.models.AccountDetails;
 import com.bankapp.models.LoanDetails;
+import com.bankapp.models.SendEmail;
 import com.bankapp.models.UserDetails;
 import com.bankapp.models.Users;
 import com.bankapp.util.BankUtil;
@@ -75,12 +76,15 @@ public class UserDAO {
 				while(result.next()) {
 					userId = result.getInt("userId");
 				}
+				String vcode = BankUtil.generateRandomPassword(5);
 				SQL_Command = "INSERT INTO users VALUES ('"+userId+"','"+user.getSalutation()+"','"+user.getFname()+"',"
 			    		+ "'"+user.getMname()+"','"+user.getLname()+"','"+user.getPhone()+"','customer'"
 			    				+ ",'"+user.getDob()+"','"+user.getGender()+"','"+user.getAddress()+"','"+user.getState()+"'"
-			    						+ ",'"+user.getCity()+"','"+user.getZip()+"','"+user.getMaritalStatus()+"','"+user.getEmail()+"','"+user.getOccupation()+"','"+BankUtil.generateRandomPassword(5)+"','pending',curdate(),curdate())"; 
+			    						+ ",'"+user.getCity()+"','"+user.getZip()+"','"+user.getMaritalStatus()+"','"+user.getEmail()+"','"+user.getOccupation()+"','"+vcode+"','pending',curdate(),curdate())"; 
 			    																							
 				Stmt.executeUpdate(SQL_Command);
+				SendEmail email = new SendEmail();
+				email.sendEmail(user.getEmail(), vcode);
 			}
 			Stmt.close();
 			DBConnection.closeConn();

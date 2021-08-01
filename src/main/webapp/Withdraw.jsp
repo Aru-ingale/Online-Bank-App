@@ -96,7 +96,7 @@
 
 						//Getting number of Savings Account of User
 						String currentAccounts = (String) session.getAttribute("currentAccount");
-						if (!errMessage.equalsIgnoreCase("")) {
+						if (errMessage!= null && !errMessage.equalsIgnoreCase("")) {
 				%>
 				<label><%=errMessage%></label>
 				<%
