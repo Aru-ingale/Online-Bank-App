@@ -146,7 +146,8 @@
 						<td>DATE OF BIRTH:</td>
 						<td><INPUT type="date" name="dob" id="dob"
 							class="form-control" Value='' SIZE="15"
-							placeholder="Enter Your birthdate.." required /></td>
+							placeholder="Enter Your birthdate.." required /> <span
+							id="birthdate" class="text.danger font-weight-bold"></span></td></td>
 					</tr>
 					<tr class="form-group">
 						<td>EMAIL ID:</td>
@@ -265,7 +266,23 @@
 				var address = document.getElementById('address').value;
 				var zip = document.getElementById('zip').value;
 				
-
+				var userDateinput = document.getElementById("dob").value;  
+				 console.log(userDateinput);
+				 
+			     // convert user input value into date object
+				 var birthDate = new Date(userDateinput);
+				  console.log(" birthDate"+ birthDate);
+				 
+				 // get difference from current date;
+				 var difference=Date.now() - birthDate.getTime(); 
+				 	 
+				 var  ageDate = new Date(difference); 
+				 var calculatedAge=   Math.abs(ageDate.getUTCFullYear() - 1970);
+							    
+				if(calculatedAge < 18){
+					document.getElementById('birthdate').innerHTML = " **Age should be above 18 years";
+					return false;
+				}
 				if (fname == "") {
 					document.getElementById('firstname').innerHTML = " ** please fill the firstname field";
 					return false;
@@ -387,4 +404,24 @@
 
 	</footer>
 </body>
+<script language="javascript">
+
+	var logout = document.getElementById("LogoutButton");
+	logout.addEventListener("click", function() {
+		document.forms[0].action = "LogoutServlet.do";
+		document.forms[0].submit();
+	}, false);
+	/*
+	 function showBalance(){
+	
+	 var x = document.getElementById("show");
+	 if(x.style.display === "none"){
+	 x.style.display = "block";
+	 }
+	 else{
+	 x.style.display = "none";
+	 }
+	 }
+	 */
+</script>
 </html>

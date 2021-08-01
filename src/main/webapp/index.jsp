@@ -10,6 +10,12 @@
 <link rel = "stylesheet" href ="./css/stylesheet.css">
 </head>
 <body>
+	<div id="logout">
+		<button id='LogoutButton' style="float: right; margin-top: 70px;"
+			class="button_1">
+			<span>Logout</span>
+		</button>
+	</div>
 	<header>
 		<div class="container">
 			<div id ="branding">
@@ -36,10 +42,22 @@
 	<section id ="options">
 		<div class="container">
 			<h1> Welcome to Royal City Internet Banking. Please choose an option to proceed.</h1>
+			<%
+		String userName = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("user"))
+			userName = cookie.getValue();
+			}
+		}
+		if (userName == null){		
+		%>
 				<form action="" method = "POST">
 					<button type="submit" id="SignUp" class="button_1"><span>SignUp</span></button>
 					<button type="submit" id="Login" class="button_1"><span>Login</span></button>
 				</form>
+		<% } %>		
 		</div>
 	</section>
 	<section id ="boxes">
@@ -77,5 +95,11 @@ login.addEventListener("click", function(){
 	document.forms[0].action = "Login.jsp";
 	document.forms[0].submit();
 },false);
+
+var logout = document.getElementById("LogoutButton");
+logout.addEventListener("click", function() {
+	document.forms[0].action = "LogoutServlet.do";
+	document.forms[0].submit();
+}, false);
 </script>
 </html>

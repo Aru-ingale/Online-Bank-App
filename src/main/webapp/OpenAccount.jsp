@@ -184,5 +184,24 @@
 	
 	</footer>
 </body>
+<script language="javascript">
 
+	var logout = document.getElementById("LogoutButton");
+	logout.addEventListener("click", function() {
+		document.forms[0].action = "LogoutServlet.do";
+		document.forms[0].submit();
+	}, false);
+	/*
+	 function showBalance(){
+	
+	 var x = document.getElementById("show");
+	 if(x.style.display === "none"){
+	 x.style.display = "block";
+	 }
+	 else{
+	 x.style.display = "none";
+	 }
+	 }
+	 */
+</script>
 </html>
