@@ -1,4 +1,5 @@
 package com.bankapp.servlets;
+
 import java.io.IOException;
 import java.util.Vector;
 
@@ -14,51 +15,54 @@ import com.bankapp.dao.CurrentAccount;
 import com.bankapp.dao.SavingsAccount;
 import com.bankapp.dao.TransactionsDAO;
 import com.bankapp.models.Transaction;
+
 /**
  * Servlet implementation class Withdraw
  */
 public class WithdrawServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	private CurrentAccount crAcc;
 	private SavingsAccount svAcc;
 	private TransactionsDAO tr;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public WithdrawServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-    	
-    	String accountNumber = request.getParameter("accountNumber");
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public WithdrawServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String accountNumber = request.getParameter("accountNumber");
 		String amt = request.getParameter("amount");
 		double amount = Double.parseDouble(amt);
-		String accounttype =  request.getParameter("accountType");
+		String accounttype = request.getParameter("accountType");
 		String mobile = request.getParameter("number");
-    	
-		//Getting UserName
+
+		// Getting UserName
 		HttpSession session = request.getSession();
-		String userName = (String)session.getAttribute("userName");
-		
-		if(accountNumber != "" && amt != "") {
-			
-			//ckAcc = new AccountDetails();
-			//svAcc = new SavingsAccount();
-			/*if(ckAcc.is_CheckingAccount_exist()) {
-				
-				double bal = ckAcc.deposit_to_CheckingAccount(amt);
-				
-				tr = new Transactions("Deposit", amt, "Checking", "Checking",userName);
-			    tr.Record_Transactions();
-			    
-			    request.setAttribute("CBalance", bal);
-			    RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
-			    rd.forward(request, response);*/
+		String userName = (String) session.getAttribute("userName");
+
+		if (accountNumber != "" && amt != "") {
+
+			// ckAcc = new AccountDetails();
+			// svAcc = new SavingsAccount();
+			/*
+			 * if(ckAcc.is_CheckingAccount_exist()) {
+			 * 
+			 * double bal = ckAcc.deposit_to_CheckingAccount(amt);
+			 * 
+			 * tr = new Transactions("Deposit", amt, "Checking", "Checking",userName);
+			 * tr.Record_Transactions();
+			 * 
+			 * request.setAttribute("CBalance", bal); RequestDispatcher rd =
+			 * request.getRequestDispatcher("/Deposit.jsp?Success=1"); rd.forward(request,
+			 * response);
+			 */
 			Transaction trans = new Transaction();
 			trans.setTransactionType("withdraw");
 			trans.setFromAccount(accountNumber);
@@ -69,98 +73,101 @@ public class WithdrawServlet extends HttpServlet {
 			tr = new TransactionsDAO();
 			svAcc = new SavingsAccount();
 			crAcc = new CurrentAccount();
-			if(svAcc.is_SavingsAccount_exist(accountNumber, accounttype)) {
-				//transaction
-				double bal = svAcc.withdraw_from_SavingsAccount(amount,accountNumber);
-				tr.Record_Transactions(trans);
+			if (svAcc.is_SavingsAccount_exist(accountNumber, accounttype)) {
+				// transaction
+				double currBalance = svAcc.ViewSavingsBalance(accountNumber);
+				double tempBalance = currBalance - amount;
+				if (tempBalance >= 1000) {
+					double bal = svAcc.withdraw_from_SavingsAccount(amount, accountNumber);
+					tr.Record_Transactions(trans);
+
+					session.setAttribute("balance", "" + bal);
+					RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=1");
+					rd.forward(request, response);
+				}else {
+					session.setAttribute("errMessage", "Account should maintain minimum balance of Rs. 1000.00");
+					RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=-1");
+					rd.forward(request, response);
+				}
+
+			} else if (crAcc.is_CurrentAccount_exist(accountNumber, accounttype)) {
 				
-				session.setAttribute("balance", ""+bal);
-				    RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=1");
-				    rd.forward(request, response);
-				
+				double currBalance = svAcc.ViewSavingsBalance(accountNumber);
+				double tempBalance = currBalance - amount;
+				if (tempBalance >= 1000) {
+					double bal = crAcc.withdraw_from_CurrentAccount(amount, accountNumber);
+					tr.Record_Transactions(trans);
+
+					session.setAttribute("balance", "" + bal);
+					RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=1");
+					rd.forward(request, response);
+				}else {
+					session.setAttribute("errMessage", "Account should maintain minimum balance of Rs. 1000.00");
+					RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=-1");
+					rd.forward(request, response);
+				}
+
 			}
-			else if(crAcc.is_CurrentAccount_exist(accountNumber, accounttype)) {
-				double bal = crAcc.withdraw_from_CurrentAccount(amount,accountNumber);
-				tr.Record_Transactions(trans);
-				
-				session.setAttribute("balance", ""+bal);
-				    RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=1");
-				    rd.forward(request, response);
-				/*double bal = svAcc.deposit_to_SavingsAccount(amt);
-				
-				tr = new Transactions("Deposit", amt, "Savings", "Savings",userName);
-			    tr.Record_Transactions();
-			    
-				request.setAttribute("SBalance", bal);
-				RequestDispatcher rd = request.getRequestDispatcher("/Deposit.jsp?Success=1");
-			    rd.forward(request, response);*/
-				
-			}
-		}
-		else {
-			//String msg = "Either your Account Selection or Amount is wrong. Please Refresh Page and Try Again!!";
-			//request.getSession().setAttribute("Message", msg);
+		} else {
+			// String msg = "Either your Account Selection or Amount is wrong. Please
+			// Refresh Page and Try Again!!";
+			// request.getSession().setAttribute("Message", msg);
 			response.sendRedirect("Deposit.jsp?Success=-1");
 		}
-    		/*String withdrawSelection = request.getParameter("Withdraw");
-    		String amount = request.getParameter("Amount");
-    		double amt = Double.parseDouble(amount);
-    		
-    		//Getting UserName
-    		HttpSession session = request.getSession();
-    		String userName = (String)session.getAttribute("UName");
-    		
-    		if(withdrawSelection != "" && amount != "") {
-    			int Acc_no = Integer.parseInt(withdrawSelection);
-    			ckAcc = new AccountDetails(Acc_no);
-    			svAcc = new SavingsAccount(Acc_no);
-    			if(ckAcc.is_CheckingAccount_exist()) {
-    				
-    				double bal = ckAcc.withdraw_from_CheckingAccount(amt);
-    				
-    				tr = new TransactionsDAO("Withdraw", amt, "Checking", "Checking",userName);
-				    tr.Record_Transactions();
-				    
-				    request.setAttribute("CBalance", bal);
-				    RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=1");
-				    rd.forward(request, response);
-    				
-    			}
-    			else if(svAcc.is_SavingsAccount_exist(userName)) {
-    				double bal = svAcc.withdraw_from_SavingsAccount(amt);
-    				
-    				tr = new TransactionsDAO("Withdraw", amt, "Savings", "Savings",userName);
-				    tr.Record_Transactions();
-				    
-    				request.setAttribute("SBalance", bal);
-    				RequestDispatcher rd = request.getRequestDispatcher("/Withdraw.jsp?Success=1");
-				    rd.forward(request, response);
-    				
-    			}
-    		}
-    		else {
-    			//String msg = "Either your Account Selection or Amount is wrong. Please Refresh Page and Try Again!!";
-    			//request.getSession().setAttribute("Message", msg);
-    			response.sendRedirect("Deposit.jsp?Success=-1");
-    		}*/
-    }
-    
-    
-    
+		/*
+		 * String withdrawSelection = request.getParameter("Withdraw"); String amount =
+		 * request.getParameter("Amount"); double amt = Double.parseDouble(amount);
+		 * 
+		 * //Getting UserName HttpSession session = request.getSession(); String
+		 * userName = (String)session.getAttribute("UName");
+		 * 
+		 * if(withdrawSelection != "" && amount != "") { int Acc_no =
+		 * Integer.parseInt(withdrawSelection); ckAcc = new AccountDetails(Acc_no);
+		 * svAcc = new SavingsAccount(Acc_no); if(ckAcc.is_CheckingAccount_exist()) {
+		 * 
+		 * double bal = ckAcc.withdraw_from_CheckingAccount(amt);
+		 * 
+		 * tr = new TransactionsDAO("Withdraw", amt, "Checking", "Checking",userName);
+		 * tr.Record_Transactions();
+		 * 
+		 * request.setAttribute("CBalance", bal); RequestDispatcher rd =
+		 * request.getRequestDispatcher("/Withdraw.jsp?Success=1"); rd.forward(request,
+		 * response);
+		 * 
+		 * } else if(svAcc.is_SavingsAccount_exist(userName)) { double bal =
+		 * svAcc.withdraw_from_SavingsAccount(amt);
+		 * 
+		 * tr = new TransactionsDAO("Withdraw", amt, "Savings", "Savings",userName);
+		 * tr.Record_Transactions();
+		 * 
+		 * request.setAttribute("SBalance", bal); RequestDispatcher rd =
+		 * request.getRequestDispatcher("/Withdraw.jsp?Success=1"); rd.forward(request,
+		 * response);
+		 * 
+		 * } } else { //String msg =
+		 * "Either your Account Selection or Amount is wrong. Please Refresh Page and Try Again!!"
+		 * ; //request.getSession().setAttribute("Message", msg);
+		 * response.sendRedirect("Deposit.jsp?Success=-1"); }
+		 */
+	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		processRequest(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		processRequest(request, response);
 	}

@@ -31,6 +31,7 @@
 			<li><a href="Withdraw.jsp">Withdraw</a></li>
 			<li><a href="Transfer.jsp">Transfer</a></li>
 			<li><a href="OpenAccount.jsp">Open Account</a></li>
+			<li><a href="AdminServlet.do">Admin</a></li>
 		</ul>
 		<div style="float: right;">
 			<h3>

@@ -241,22 +241,21 @@ private String CustomerID;
 		return r_amount;
 }
 
-	public double ViewSavingsBalance(){
+	public double ViewSavingsBalance(String SavingsAccountNumber){
 			double balance = -100;
 			boolean done;
 
 			try{
-				DBConnection ToDB = new DBConnection();
-				Connection con = ToDB.getConnection();
+				Connection con = DBConnection.getConnection();
 				Statement st = con.createStatement();
-				String sql = "SELECT Balance FROM SavingsAccount WHERE SavingsAccountNumber ='"+SavingsAccountNumber+"'"; //SQL query command
+				String sql = "SELECT Balance FROM account WHERE accountNumber ='"+SavingsAccountNumber+"'"; //SQL query command
 				ResultSet Rslt = st.executeQuery(sql);
 			    done = Rslt.next();
 					if (done) {
 						balance = Rslt.getDouble("Balance");
 				    }
 				    st.close();
-				    ToDB.closeConn();
+				    con.close();
 
 			}
 			catch(java.sql.SQLException e){
@@ -311,6 +310,11 @@ private String CustomerID;
 					e.printStackTrace ();
 				}
 		return accounts;
+	}
+
+	public double getCurrentBalance(String accountNumber, String accounttype) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 /*	public static void main (String args []){

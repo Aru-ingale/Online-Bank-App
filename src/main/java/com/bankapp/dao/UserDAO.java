@@ -67,7 +67,7 @@ public class UserDAO {
 			ResultSet Rslt = Stmt.executeQuery(SQL_Command); // Inquire if the username exsits.
 			flag = flag && !Rslt.next();
 			if (flag) {
-				SQL_Command = "INSERT INTO login_details (username,password) values('"+user.getUserName()+"','"+user.getPassword()+"')";
+				SQL_Command = "INSERT INTO login_details (username,password,createddate,updateddate) values('"+user.getUserName()+"','"+user.getPassword()+"', now(), now())";
 				Stmt.executeUpdate(SQL_Command);
 				
 				SQL_Command = "select userid from login_details where userName = '" + user.getUserName() + "'";
@@ -130,7 +130,7 @@ public class UserDAO {
 			DBConnection.closeConn();
 		} catch (SQLException e) {
 			flag = false;
-			System.out.println("SQLException: " + e)
+			System.out.println("SQLException: " + e);
 			while (e != null) {
 				System.out.println("SQLState: " + e.getSQLState());
 				System.out.println("Message: " + e.getMessage());

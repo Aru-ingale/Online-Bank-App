@@ -2,8 +2,11 @@ package com.bankapp.models;
 
 import java.util.Date;
 
-//TransactionID, TransactionType, FromAccount, ToAccount, USERID,Status,AMOUNT,TransactionDate
+
 public class Transaction {
+	private String fname;
+	private String mname;
+	private String lname;
 	private String transactionType;
 	private String fromAccount;
 	private String toAccount;
@@ -13,7 +16,14 @@ public class Transaction {
 	private Date transactionDate;
 	private String userName;
 	private String mobileNum;
+	private int transactionId; 
 	
+	public int getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(int transactionId) {
+		this.transactionId = transactionId;
+	}
 	public String getTransactionType() {
 		return transactionType;
 	}
@@ -67,6 +77,24 @@ public class Transaction {
 	}
 	public void setMobileNum(String mobileNum) {
 		this.mobileNum = mobileNum;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+	public String getMname() {
+		return mname;
+	}
+	public void setMname(String mname) {
+		this.mname = mname;
+	}
+	public String getLname() {
+		return lname;
+	}
+	public void setLname(String lname) {
+		this.lname = lname;
 	}
 	
 	
