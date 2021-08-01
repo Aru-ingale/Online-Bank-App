@@ -13,6 +13,20 @@
 <meta name="viewport" content="width=device-width">
 <meta name="author" content="Arundhati Ingale">
 <title>Royal City Banking | Welcome.</title>
+<!--  <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+
+<!-- jQuery library -->
+  <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+ <script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
@@ -96,10 +110,11 @@
 						<td><input type="text" value="" id="accnumberText" name="accountType"/></td>
 					</tr>
 
-					<tr>
+					<tr class="form-group">
 						<td>MOBILE NUMBER :</td>
-						<td><INPUT TYPE='number' NAME='number' SIZE='15'
-							placeholder="Enter Amount" onKeyUp="checkAmount()"></td>
+						<td><INPUT TYPE='number' NAME='number' id="number" SIZE='15'
+							placeholder="Enter Amount" onKeyUp="checkAmount()"><span
+							id="mobilenumber" class="text.danger font-weight-bold"></span></td>
 					</tr>
 					<tr>
 						<td>AMOUNT:</td>
@@ -172,9 +187,25 @@
 	}
 	function validation() {
 		var amount = window.document.DepositPage.amount.value;
-
-		if (amount === "") {
+		var number = document.getElementById('number').value;
+		
+		if (amount == "") {
 			window.alert("Please Enter Amount.");
+			return false;
+		}
+		
+		if (phone == "") {
+			document.getElementById('mobilenumber').innerHTML = " ** please fill the mobile number field";
+			return false;
+		}
+		
+		if (isNaN(phone)) {
+			document.getElementById('mobilenumber').innerHTML = " ** user must write digit only not character";
+			return false;
+		}
+		
+		if (phone.length!=10) {
+			document.getElementById('mobilenumber').innerHTML = " ** mobile number must be 10 digit only";
 			return false;
 		}
 	}

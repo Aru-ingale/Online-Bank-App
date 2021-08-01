@@ -39,8 +39,7 @@ try{
 		response.sendRedirect("Login.jsp");
 		// showSuccess();
 	} else
-		output.println(
-				"Account creation failed because of existing username or invalid username. Please try again!");
+		output.println("Account creation failed because of existing username or invalid username. Please try again!");
 }
 
 private LoanDetails pupulateUser(String salutation, String fname, String mname, String lname, String phone, String dob,

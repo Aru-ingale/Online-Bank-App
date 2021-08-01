@@ -46,7 +46,8 @@
      	BRANCHADDRESS varchar(60),
      	IFSCCODE varchar(50),
      	STATUS varchar(30),
-     	BALANCE decimal(15,2)  
+     	BALANCE decimal(15,2), 
+     	PRIMARY KEY (ACCOUNTNUMBER)  
     ); 
        
        

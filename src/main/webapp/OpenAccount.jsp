@@ -32,6 +32,9 @@
 <!-- <script src="./script/jquery-3.3.1.min.js"></script>
 <script src="./script/main.js"></script> -->
 <script type="text/javascript" src="./js/statecity.js"></script>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
 <div id="logout">
@@ -97,7 +100,7 @@
 	   </p>
 		<div class="container">
 			<h1 style="float:none;">Thank You for Choosing Royal City Internet Banking. You can create Account below.</h1>
-				<FORM style="float:left;" NAME="OpenAccountPage" onsubmit="return validation()" ACTION="OpenAccountServlet.do" METHOD ="POST">
+				<FORM style="float:left;" NAME="OpenAccountPage"  ACTION="OpenAccountServlet.do" METHOD ="POST" onsubmit="return validation()">
 		<TABLE cellPadding='3' ALIGN='center'>
 			<TR class="form-group">
 					<TD>Choose Account Type :</TD>
@@ -155,6 +158,11 @@
 				
 				if (balance == "") {
 					document.getElementById('balance1').innerHTML = " ** please fill the address field";
+					return false;
+				}
+				
+				if (balance < 1000) {
+					document.getElementById('balance1').innerHTML = " ** for new account minimum balance required is 1000 Rs.";
 					return false;
 				}
 				</script>
