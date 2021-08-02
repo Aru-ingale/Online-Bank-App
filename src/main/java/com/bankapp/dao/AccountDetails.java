@@ -42,26 +42,36 @@ public class AccountDetails {
 			while (rs.next()) {
 				userId = rs.getInt("userid");
 			}
-			SQL_Command = "SELECT accountnumber FROM account WHERE userId ='" + userId + "' and accountType='"
-					+ acc.getAccountType() + "'"; 
-			ResultSet Rslt = Stmt.executeQuery(SQL_Command);
-			flag = flag && !Rslt.next();
-			if (flag) {
-				SQL_Command = "INSERT INTO account VALUES ('" + accountNumber + "','" + acc.getAccountType() + "',"
-						+ userId + ",'" + acc.getSalution() + "'," + "'" + acc.getAccountHolderName()
-						+ "','GPO PUNE-411001','RCIT000210','pending','" + acc.getBalance() + "')";
+			String vcode="";
+			String verifyCode = "SELECT vcode FROM users WHERE userId ="+ userId;
+			ResultSet tempResult = Stmt.executeQuery(verifyCode); // Inquire if the username exsits.
+			while (tempResult.next()) {
+				vcode = tempResult.getString("vcode");
+			}
+			if (vcode.equals(acc.getvCode())) {
+				SQL_Command = "SELECT accountnumber FROM account WHERE userId ='" + userId + "' and accountType='"
+						+ acc.getAccountType() + "'";
+				ResultSet Rslt = Stmt.executeQuery(SQL_Command);
+				flag = flag && !Rslt.next();
+				if (flag) {
+					SQL_Command = "INSERT INTO account VALUES ('" + accountNumber + "','" + acc.getAccountType() + "',"
+							+ userId + ",'" + acc.getSalution() + "'," + "'" + acc.getAccountHolderName()
+							+ "','GPO PUNE-411001','RCIT000210','pending','" + acc.getBalance() + "')";
 
-				Stmt.executeUpdate(SQL_Command);
+					Stmt.executeUpdate(SQL_Command);
 
-				SQL_Command = "select accountNumber,accountType from account where userid =" + userId;
-				ResultSet rs1 = Stmt.executeQuery(SQL_Command);
-				while (rs1.next()) {
-					account.setAccountNumber(rs1.getString("accountNumber"));
-					account.setAccountType(rs1.getString("accounttype"));
-					//account.setBalance(rs1.getDouble("balance"));
+					SQL_Command = "select accountNumber,accountType from account where userid =" + userId;
+					ResultSet rs1 = Stmt.executeQuery(SQL_Command);
+					while (rs1.next()) {
+						account.setAccountNumber(rs1.getString("accountNumber"));
+						account.setAccountType(rs1.getString("accounttype"));
+						// account.setBalance(rs1.getDouble("balance"));
+					}
+				} else {
+					throw new CustomDBException("User already has " + acc.getAccountType() + " account.");
 				}
 			} else {
-				throw new CustomDBException( "User already has "+acc.getAccountType()+" account.");
+				throw new CustomDBException("The verification code did not match!!!");
 			}
 			Stmt.close();
 			conn.close();
@@ -75,10 +85,7 @@ public class AccountDetails {
 				e = e.getNextException();
 				System.out.println("");
 			}
-		} catch (Exception e) {
-			flag = false;
-			System.out.println("Exception: " + e);
-		}
+		} 
 		return account;
 	}
 

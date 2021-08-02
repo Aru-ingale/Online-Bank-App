@@ -14,6 +14,7 @@ import com.bankapp.dao.Account;
 import com.bankapp.dao.AccountDetails;
 import com.bankapp.dao.SavingsAccount;
 import com.bankapp.dao.TransactionsDAO;
+import com.bankapp.exception.CustomDBException;
 import com.bankapp.models.UserDetails;
 
 /**
@@ -63,14 +64,24 @@ public class OpenAccountServlet extends HttpServlet {
 		String fullName = request.getParameter("fullname");
 		String bal = request.getParameter("balance");
 		double balance = Double.parseDouble(bal);
+		String vCode = request.getParameter("token");
 
 		com.bankapp.models.Account account = new com.bankapp.models.Account();
 		account.setAccountType(accounttype);
 		account.setSalution(salutation);
 		account.setAccountHolderName(fullName);
 		account.setBalance(balance);
+		account.setvCode(vCode);
 		AccountDetails accDetails = new AccountDetails();
-		com.bankapp.models.Account newAccount = accDetails.createAccount(account, userName);
+		com.bankapp.models.Account newAccount = new com.bankapp.models.Account();
+		try {
+		     newAccount = accDetails.createAccount(account, userName);
+		}catch(CustomDBException ex) {
+			//ex.getMessage();
+			request.setAttribute("msg", "The verification code did not match!!!");
+			RequestDispatcher rd = request.getRequestDispatcher("/OpenAccount.jsp?Success=-1");
+			rd.forward(request, response);
+		}
 		HttpSession session = request.getSession();
 
 		if (!newAccount.getAccountNumber().equalsIgnoreCase("")) {

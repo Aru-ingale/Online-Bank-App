@@ -147,11 +147,11 @@
 		</FORM>
 		</div>
 		 <script>
+		 	
 			function validation() {
 				var fullname = document.getElementById('fullname').value;
 				var balance = document.getElementById('balance').value;
-				
-				
+								
 				if (fullname == "") {
 					document.getElementById('name').innerHTML = " ** please fill the mobile number field";
 					return false;
@@ -166,7 +166,8 @@
 					document.getElementById('balance1').innerHTML = " ** for new account minimum balance required is 1000 Rs.";
 					return false;
 				}
-				</script>
+			}
+			</script>
 	</section>
 	<section id ="boxes">
 		<div class= "container">

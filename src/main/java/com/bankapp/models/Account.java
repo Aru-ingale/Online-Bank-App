@@ -11,7 +11,14 @@ public class Account {
 	private String IFSCCode;
 	private String status;
 	private double balance;
+	private String vCode;
     
+	public String getvCode() {
+		return vCode;
+	}
+	public void setvCode(String vCode) {
+		this.vCode = vCode;
+	}
 	public String getAccountNumber() {
 		return accountNumber;
 	}
