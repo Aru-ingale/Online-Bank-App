@@ -15,7 +15,11 @@
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
-<div id="logout">
+	<%
+		String userName = (String) session.getAttribute("userName");
+		String userType = (String) session.getAttribute("userType");
+	%>
+	<div id="logout">
 		<button id='LogoutButton' style="float: right; margin-top: 70px;"
 			class="button_1">
 			<span>Logout</span>
@@ -36,7 +40,14 @@
 					<li><a href="Withdraw.jsp">Withdraw</a></li>
 					<li><a href="Transfer.jsp">Transfer</a></li>
 					<li><a href="OpenAccount.jsp">Open Account</a></li>
+					<%
+						if (userName != null && userName.equalsIgnoreCase("admin")
+								&& userType != null & userType.equalsIgnoreCase("admin")) {
+					%>
 					<li><a href="AdminServlet.do">Admin</a></li>
+					<%
+						}
+					%>
 				</ul>
 			</nav>
 		</div>
@@ -75,23 +86,31 @@
 						String svbalance = (String) session.getAttribute("svBalance");
 						String currentAccountNo = (String) session.getAttribute("crAccountNumber");
 						String crbalance = (String) session.getAttribute("crBalance");
-					%>
+				%>
 				<TABLE cellPadding='3' id="ViewChecking">
 					<tr>
 						<td>Choose Your Account :</td>
-						<td><select name="accountNumber" id="accnumber" required class="drpdwn" onchange="updateText('accnumber')">
+						<td><select name="accountNumber" id="accnumber" required
+							class="drpdwn" onchange="updateText('accnumber')">
 								<option value="">--Select--</option>
-								<% if(savingAccountNo != null) {%>
+								<%
+									if (savingAccountNo != null) {
+								%>
 								<option value="<%=svbalance%>"><%=savingAccountNo%></option>
-								<% } if(currentAccountNo != null) { %>
+								<%
+									}
+										if (currentAccountNo != null) {
+								%>
 								<option value="<%=crbalance%>"><%=currentAccountNo%></option>
-								<% } %>
+								<%
+									}
+								%>
 						</select></td>
 					</tr>
 					<tr>
 						<td>AMOUNT:</td>
 						<td><INPUT TYPE='number' NAME='amount' id="accnumberText"
-							 onKeyUp="checkAmount()" disabled="disabled"></td>
+							onKeyUp="checkAmount()" disabled="disabled"></td>
 					</tr>
 				</TABLE>
 				<%
@@ -110,17 +129,20 @@
 	<section id="boxes">
 		<div class="container">
 			<div class="box">
-				<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100" height="100"  ></a>
+				<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg"
+					width="100" height="100"></a>
 				<h3>Home Loan</h3>
 				<p>Make your dream come true. Apply for Home Loan Today.</p>
 			</div>
 			<div class="box">
-				<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100" height="100"  ></a>
+				<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100"
+					height="100"></a>
 				<h3>Car Loan</h3>
 				<p>Make your dream come true. Apply for Car Loan Today.</p>
 			</div>
 			<div class="box">
-				<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg" width="100" height="100"  ></a>
+				<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg"
+					width="100" height="100"></a>
 				<h3>Business Loan</h3>
 				<p>Make your efforts worthy. Apply for Business Loans Today.</p>
 			</div>
@@ -132,11 +154,11 @@
 	</footer>
 </body>
 <script>
-function updateText(type) { 
-	 var id = type+'Text';
-	 document.getElementById(id).value = document.getElementById(type).value;
+	function updateText(type) {
+		var id = type + 'Text';
+		document.getElementById(id).value = document.getElementById(type).value;
 	}
-	
+
 	var logout = document.getElementById("LogoutButton");
 	logout.addEventListener("click", function() {
 		document.forms[0].action = "LogoutServlet.do";

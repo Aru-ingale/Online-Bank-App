@@ -24,7 +24,7 @@ public class UserDAO {
 			if (done) {
 				Connection con = DBConnection.getConnection();
 				Statement st = con.createStatement();
-				String query = "select fname,mname,lname,userid from users where userId = (SELECT userid FROM login_details WHERE userName = '" + user.getUserName()
+				String query = "select fname,mname,lname,userid,usertype from users where userId = (SELECT userid FROM login_details WHERE userName = '" + user.getUserName()
 						+ "' AND Password = '" + user.getPassword() + "')";
 				ResultSet rs = st.executeQuery(query);
 				done = done && rs.next();
@@ -33,6 +33,7 @@ public class UserDAO {
 					dbUser.setMname(rs.getString("mname"));
 					dbUser.setLname(rs.getString("lname"));
 					dbUser.setUserId(rs.getInt("userid"));
+					dbUser.setUserType(rs.getString("usertype"));
 					System.out.println("LogIn Successful!");
 				}
 				st.close();

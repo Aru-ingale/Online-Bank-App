@@ -18,6 +18,7 @@ public class UserDetails {
 	private String occupation;
 	private String userName;
 	private String password;
+	private String userType;
     private int userId;
 	
 	public UserDetails() {
@@ -163,6 +164,13 @@ public class UserDetails {
 		this.userId = userId;
 	}
 
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
 	
 
 }

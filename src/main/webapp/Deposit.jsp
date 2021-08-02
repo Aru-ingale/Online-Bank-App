@@ -16,6 +16,10 @@
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
+	<%
+		String userName = (String) session.getAttribute("userName");
+		String userType = (String) session.getAttribute("userType");
+	%>
 	<div id="logout">
 		<button id='LogoutButton' style="float: right; margin-top: 70px;"
 			class="button_1">
@@ -37,7 +41,14 @@
 					<li><a href="Withdraw.jsp">Withdraw</a></li>
 					<li><a href="Transfer.jsp">Transfer</a></li>
 					<li><a href="OpenAccount.jsp">Open Account</a></li>
+					<%
+						if (userName != null && userName.equalsIgnoreCase("admin")
+								&& userType != null & userType.equalsIgnoreCase("admin")) {
+					%>
 					<li><a href="AdminServlet.do">Admin</a></li>
+					<%
+						}
+					%>
 				</ul>
 			</nav>
 		</div>
@@ -85,7 +96,8 @@
 
 					<tr>
 						<td>Choose Your Account :</td>
-						<td><select name="accountNumber" id="accnumber" required class="drpdwn" onchange="updateText('accnumber')">
+						<td><select name="accountNumber" id="accnumber" required
+							class="drpdwn" onchange="updateText('accnumber')">
 								<option value="">--Select--</option>
 								<option value="<%=savingAccountNo%>"><%=savingAccountNo%></option>
 								<option value="<%=currentAccountNo%>"><%=currentAccountNo%></option>
@@ -93,7 +105,8 @@
 					</tr>
 					<tr>
 						<td>Account Type :</td>
-						<td><input type="text" value="" id="accnumberText" name="accountType"/></td>
+						<td><input type="text" value="" id="accnumberText"
+							name="accountType" /></td>
 					</tr>
 
 					<tr>
@@ -152,12 +165,11 @@
 	</footer>
 </body>
 <script language="javascript">
-
-	function updateText(type) { 
-	 var id = type+'Text';
-	 document.getElementById(id).value = document.getElementById(type).value;
+	function updateText(type) {
+		var id = type + 'Text';
+		document.getElementById(id).value = document.getElementById(type).value;
 	}
-	
+
 	function checkAmount() {
 		var amount = window.document.DepositPage.amount.value;
 

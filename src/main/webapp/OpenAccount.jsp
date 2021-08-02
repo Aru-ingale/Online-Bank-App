@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import="java.io.*" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.lang.*" %>
+	pageEncoding="UTF-8"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.lang.*"%>
 <%--@ page import ="com.bankapp.models.Account" --%>
-<%@ page import ="com.bankapp.dao.Account" %>
+<%@ page import="com.bankapp.dao.Account"%>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -28,34 +28,47 @@
 <!-- Latest compiled JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link rel = "stylesheet" href ="./css/stylesheet.css">
+<link rel="stylesheet" href="./css/stylesheet.css">
 <!-- <script src="./script/jquery-3.3.1.min.js"></script>
 <script src="./script/main.js"></script> -->
 <script type="text/javascript" src="./js/statecity.js"></script>
 </head>
 <body>
-<div id="logout">
+	<%
+		String userName = (String) session.getAttribute("userName");
+		String userType = (String) session.getAttribute("userType");
+	%>
+	<div id="logout">
 		<button id='LogoutButton' style="float: right; margin-top: 70px;"
 			class="button_1">
 			<span>Logout</span>
 		</button>
 	</div>
 	<header>
-		<div class="container">
-			<div id ="branding">
-				<h1><span class="highlight">Royal City</span> Banking Inc.</h1>
-			</div>
-			<nav>
-				<ul>
-					<li><a href="index.jsp">Home</a></li>
-					<li><a href="ViewBalance.jsp">View Balance</a></li>
-					<li><a href="Deposit.jsp">Deposit</a></li>
-					<li><a href="Withdraw.jsp">Withdraw</a></li>
-					<li><a href="Transfer.jsp">Transfer</a></li>
-					<li><a href="OpenAccount.jsp">Open Account</a></li>
-					<li><a href="AdminServlet.do">Admin</a></li>
-				</ul>
-				<!-- 
+	<div class="container">
+		<div id="branding">
+			<h1>
+				<span class="highlight">Royal City</span> Banking Inc.
+			</h1>
+		</div>
+		<nav>
+		<ul>
+			<li><a href="index.jsp">Home</a></li>
+			<li><a href="ViewBalance.jsp">View Balance</a></li>
+			<li><a href="Deposit.jsp">Deposit</a></li>
+			<li><a href="Withdraw.jsp">Withdraw</a></li>
+			<li><a href="Transfer.jsp">Transfer</a></li>
+			<li><a href="OpenAccount.jsp">Open Account</a></li>
+			<%
+				if (userName != null && userName.equalsIgnoreCase("admin")
+						&& userType != null & userType.equalsIgnoreCase("admin")) {
+			%>
+			<li><a href="AdminServlet.do">Admin</a></li>
+			<%
+				}
+			%>
+		</ul>
+		<!-- 
 				<select> 
    					 <option value="" selected="selected">Select</option> 
     				 <option value="index.jsp">Home</option> 
@@ -64,86 +77,91 @@
     				 <option value="Transfer.jsp">Transfer</option> 
     				 <option value="OpenAccount.jsp">Open Account</option> 
   				</select> 	
-  				 -->
-			</nav>
-		</div>
+  				 --> </nav>
+	</div>
 	</header>
-	<section id ="showcase">
-		<div class="container">
+	<section id="showcase">
+	<div class="container">
 		<h1>India's Most Affordable Banking.</h1>
-		<p>Royal City banking is proud to all Indians and we are also proud to serve the nation.</p>
-		</div>
-		<%
-		String userName = null;
+		<p>Royal City banking is proud to all Indians and we are also
+			proud to serve the nation.</p>
+	</div>
+	<%
+		String cookieUserName = null;
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("user"))
-			userName = cookie.getValue();
+					cookieUserName = cookie.getValue();
 			}
 		}
-		if (userName == null)
+		if (cookieUserName == null)
 			response.sendRedirect("index.jsp");
+	%> </section>
+	<section id="options">
+	<p>
+		<%
+			if (request.getAttribute("msg") != null) {
 		%>
-	</section>
-	<section id ="options">
-	    <p>
-	    <%
-	     if(request.getAttribute("msg") != null){
-	     %>
-	    	 <%=request.getAttribute("msg") %>
-	    <% 
-	    }
-	    %>
-	   </p>
-		<div class="container">
-			<h1 style="float:none;">Thank You for Choosing Royal City Internet Banking. You can create Account below.</h1>
-				<FORM style="float:left;" NAME="OpenAccountPage" onsubmit="return validation()" ACTION="OpenAccountServlet.do" METHOD ="POST">
-		<TABLE cellPadding='3' ALIGN='center'>
-			<TR class="form-group">
+		<%=request.getAttribute("msg")%>
+		<%
+			}
+		%>
+	</p>
+	<div class="container">
+		<h1 style="float: none;">Thank You for Choosing Royal City
+			Internet Banking. You can create Account below.</h1>
+		<FORM style="float: left;" NAME="OpenAccountPage"
+			onsubmit="return validation()" ACTION="OpenAccountServlet.do"
+			METHOD="POST">
+			<TABLE cellPadding='3' ALIGN='center'>
+				<TR class="form-group">
 					<TD>Choose Account Type :</TD>
-					<td>
-					<select name ="accounttype" required class="drpdwn">
-						<option value="">--Select--</option>
-						<option value = "Current">Current</option>
-						<option value = "Saving">Saving</option>
-					</select>
-					</td>
-					</TR>
-			<tr class="form-group">
-				<td>PREFIX</td>
-                <td><select name="salutation">
-  				<option value="Miss">Miss</option>
-  				<option value="Mr">Mr</option>
-  				<option value="Mrs">Mrs</option>
-                </select></td>
-			</tr>
-			<tr class="form-group">
-				<td>FULL NAME:</td>
-				<td><input type="text" name="fullname" id="fullname" class="form-control" Value='' SIZE="15" placeholder="Enter Full Name.." autocomplete="off">
-				<span id="name" class="text.danger font-weight-bold"></span>
-				</td>
-			</tr>
-			
-			<tr class="form-group">
-				<td>BALANCE:</td>
-				<td><input type="text" name="balance" id="balance" class="form-control" Value='' SIZE="15" placeholder="Enter Balance.." autocomplete="off">
-				<span id="balance1" class="text.danger font-weight-bold"></span>
-				</td>
-			</tr>
-			<tr class="form-group">
-				<td>Enter Token:</td>
-				<td><input type="text" name="token" id="token" class="form-control" Value='' SIZE="15" placeholder="Enter Token Code" autocomplete="off">
-				<span id="token1" class="text.danger font-weight-bold"></span>
-				</td>
-			</tr>
-		</TABLE>
-		<div id="formButton">
-			<button NAME='submitBTN' class = "button_1"><span>OpenAccount</span></button>
-		</div>
+					<td><select name="accounttype" required class="drpdwn">
+							<option value="">--Select--</option>
+							<option value="Current">Current</option>
+							<option value="Saving">Saving</option>
+					</select></td>
+				</TR>
+				<tr class="form-group">
+					<td>PREFIX</td>
+					<td><select name="salutation">
+							<option value="Miss">Miss</option>
+							<option value="Mr">Mr</option>
+							<option value="Mrs">Mrs</option>
+					</select></td>
+				</tr>
+				<tr class="form-group">
+					<td>FULL NAME:</td>
+					<td><input type="text" name="fullname" id="fullname"
+						class="form-control" Value='' SIZE="15"
+						placeholder="Enter Full Name.." autocomplete="off"> <span
+						id="name" class="text.danger font-weight-bold"></span></td>
+				</tr>
+
+				<tr class="form-group">
+					<td>BALANCE:</td>
+					<td><input type="text" name="balance" id="balance"
+						class="form-control" Value='' SIZE="15"
+						placeholder="Enter Balance.." autocomplete="off"> <span
+						id="balance1" class="text.danger font-weight-bold"></span></td>
+				</tr>
+				<tr class="form-group">
+					<td>Enter Token:</td>
+					<td><input type="text" name="token" id="token"
+						class="form-control" Value='' SIZE="15"
+						placeholder="Enter Token Code" autocomplete="off"> <span
+						id="token1" class="text.danger font-weight-bold"></span></td>
+				</tr>
+			</TABLE>
+			<div id="formButton">
+				<button NAME='submitBTN' class="button_1">
+					<span>OpenAccount</span>
+				</button>
+			</div>
 		</FORM>
-		</div>
-		 <script>
+	</div>
+	<script>
 			function validation() {
 				var fullname = document.getElementById('fullname').value;
 				var balance = document.getElementById('balance').value;
@@ -158,30 +176,32 @@
 					document.getElementById('balance1').innerHTML = " ** please fill the address field";
 					return false;
 				}
-				</script>
-	</section>
-	<section id ="boxes">
-		<div class= "container">
-			<div class="box">
-				<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100" height="100"  ></a>
-				<h3> Home Loan</h3>
-				<p>Make your dream come true. Apply for Home Loan Today.</p>
-			</div>
-			<div class="box">
-				<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100" height="100"  ></a>
-				<h3> Car Loan</h3>
-				<p>Make your dream come true. Apply for Car Loan Today.</p>
-			</div>
-			<div class="box">
-				<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg" width="100" height="100"  ></a>
-				<h3> Business Loan</h3>
-				<p>Make your efforts worthy. Apply for Business Loans Today.</p>
-			</div>
+				</script> </section>
+	<section id="boxes">
+	<div class="container">
+		<div class="box">
+			<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100"
+				height="100"></a>
+			<h3>Home Loan</h3>
+			<p>Make your dream come true. Apply for Home Loan Today.</p>
 		</div>
+		<div class="box">
+			<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100"
+				height="100"></a>
+			<h3>Car Loan</h3>
+			<p>Make your dream come true. Apply for Car Loan Today.</p>
+		</div>
+		<div class="box">
+			<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg"
+				width="100" height="100"></a>
+			<h3>Business Loan</h3>
+			<p>Make your efforts worthy. Apply for Business Loans Today.</p>
+		</div>
+	</div>
 	</section>
 	<footer>
-		<p>Royal City Banking Inc. copyright &copy; 2021</p>
-	
+	<p>Royal City Banking Inc. copyright &copy; 2021</p>
+
 	</footer>
 </body>
 <script language="javascript">

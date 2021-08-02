@@ -24,6 +24,10 @@
 <script src="./script/main.js"></script> -->
 </head>
 <body>
+	<%
+		String userName = (String) session.getAttribute("userName");
+		String userType = (String) session.getAttribute("userType");
+	%>
 	<header>
 	<div class="container">
 		<div id="branding">
@@ -39,6 +43,16 @@
 			<li><a href="Withdraw.jsp">Withdraw</a></li>
 			<li><a href="Transfer.jsp">Transfer</a></li>
 			<li><a href="OpenAccount.jsp">Open Account</a></li>
+			<%
+				if (userName != null && userName.equalsIgnoreCase("admin")
+						&& userType != null & userType.equalsIgnoreCase("admin")) {
+			%>
+
+			<li><a href="AdminServlet.do">Admin</a></li>
+
+			<%
+				}
+			%>
 		</ul>
 		<!-- 
 				<select> 
@@ -63,31 +77,42 @@
 	<section id="options">
 	<div class="container">
 		<h1 style="float: none;">Welcome to Royal City Internet Banking..</h1>
-		<h1 style="float: none; color: green;">Business Loan - Apply for Business Loan Online</h1>
-		<h1 style="float: none; color: orange;">The following people are eligible to apply for a Business Growth Loan:</h1>
+		<h1 style="float: none; color: green;">Business Loan - Apply for
+			Business Loan Online</h1>
+		<h1 style="float: none; color: orange;">The following people are
+			eligible to apply for a Business Growth Loan:</h1>
 		<ul>
-			<li> Self employed individuals, Proprietors, Private Ltd. Co. and Partnership Firms involved in the business of Manufacturing, Trading or Services.</li>
-			<li> The business should have a minimum turnover of Rs. 40 lakhs</li>
-			<li> Individuals who have been in the current business for a minimum of 3 years, with 5 years total business experience.</li>
-			<li> Those whose business has been profit making for the previous 2 years</li>
-			<li> The business should have a Minimal Annual Income (ITR) of Rs. 1.5 lakhs per annum</li>
-			<li> The applicant should be at least 21 years at the time of applying for the loan, and should be no older than 65 years at the time of loan maturity</li>
+			<li>Self employed individuals, Proprietors, Private Ltd. Co. and
+				Partnership Firms involved in the business of Manufacturing, Trading
+				or Services.</li>
+			<li>The business should have a minimum turnover of Rs. 40 lakhs</li>
+			<li>Individuals who have been in the current business for a
+				minimum of 3 years, with 5 years total business experience.</li>
+			<li>Those whose business has been profit making for the previous
+				2 years</li>
+			<li>The business should have a Minimal Annual Income (ITR) of
+				Rs. 1.5 lakhs per annum</li>
+			<li>The applicant should be at least 21 years at the time of
+				applying for the loan, and should be no older than 65 years at the
+				time of loan maturity</li>
 		</ul>
 		<FORM style="float: left;" NAME="HomeLoanPage"
-			ACTION="HomeLoanServlet.do" METHOD="POST" onsubmit="return validation()"></FORM>
+			ACTION="HomeLoanServlet.do" METHOD="POST"
+			onsubmit="return validation()"></FORM>
 	</div>
 	</section>
 	<section>
 	<div>
 		<FORM style="float: left;" NAME="CarLoanPage"
-			ACTION="LoanDetailsServlet.do" METHOD="POST" onsubmit="return validation()">
+			ACTION="LoanDetailsServlet.do" METHOD="POST"
+			onsubmit="return validation()">
 			<TABLE cellPadding='3' ALIGN='center'>
 				<tr class="form-group">
 					<td>FULL NAME:</td>
-					<td><input type="text" name="fullname" class="form-control" id="fullname" Value='' SIZE="15"
+					<td><input type="text" name="fullname" class="form-control"
+						id="fullname" Value='' SIZE="15"
 						placeholder="Enter First full name.." autocomplete="off">
-						<span id="name" class="text.danger font-weight-bold"></span>
-						</td>
+						<span id="name" class="text.danger font-weight-bold"></span></td>
 				</tr>
 				<tr class="form-group">
 					<td>OCCUPATION</td>
@@ -106,24 +131,24 @@
 				</tr>
 				<tr class="form-group">
 					<td>MOBILE NUMBER:</td>
-					<td><input type="tel" name="phone" id="phone" class="form-control" Value='' SIZE="15"
-						placeholder="Enter Mobile Number.." autocomplete="off">
-						<span id="mobilenumber" class="text.danger font-weight-bold"></span>
-						</td>
+					<td><input type="tel" name="phone" id="phone"
+						class="form-control" Value='' SIZE="15"
+						placeholder="Enter Mobile Number.." autocomplete="off"> <span
+						id="mobilenumber" class="text.danger font-weight-bold"></span></td>
 				</tr>
 				<tr class="form-group">
 					<td>RESIDENTIAL ADDRESS:</td>
-					<td><INPUT TYPE='textarea' NAME='address' id="address" class="form-control" SIZE='15'
-						placeholder="Please Type Address.." autocomplete="off">
-						<span id="raddress" class="text.danger font-weight-bold"></span>
-						</td>
+					<td><INPUT TYPE='textarea' NAME='address' id="address"
+						class="form-control" SIZE='15' placeholder="Please Type Address.."
+						autocomplete="off"> <span id="raddress"
+						class="text.danger font-weight-bold"></span></td>
 				</tr>
 				<tr class="form-group">
 					<td>AADHAR NUMBER:</td>
-					<td><input type="text" name="aadharnumber" id="aadharnumber" class="form-control" Value='' SIZE="15"
-						placeholder="Enter Adhar Number.." autocomplete="off">
-						<span id="number" class="text.danger font-weight-bold"></span>
-						</td>
+					<td><input type="text" name="aadharnumber" id="aadharnumber"
+						class="form-control" Value='' SIZE="15"
+						placeholder="Enter Adhar Number.." autocomplete="off"> <span
+						id="number" class="text.danger font-weight-bold"></span></td>
 				</tr>
 				<tr class="form-group">
 					<td>INCOME:</td>
@@ -133,7 +158,7 @@
 					<td><input type="radio" id="income2" name="income"
 						value="15000"> <label for="income2">10000 - 15000</label></td>
 					<br>
-                    <td><input type="radio" id="income3" name="income"
+					<td><input type="radio" id="income3" name="income"
 						value="20000"> <label for="income3">15000 - 20000</label></td>
 					<br>
 					<td><input type="radio" id="income4" name="income"
@@ -144,17 +169,17 @@
 				</tr>
 				<tr class="form-group">
 					<td>LOAN AMMOUNT:</td>
-					<td><input type="text" name="loanammount" id="loanammount" class="form-control" Value='' SIZE="15"
-						placeholder="Enter Loan Ammount.." autocomplete="off">
-						<span id="loan" class="text.danger font-weight-bold"></span>
-						</td>
+					<td><input type="text" name="loanammount" id="loanammount"
+						class="form-control" Value='' SIZE="15"
+						placeholder="Enter Loan Ammount.." autocomplete="off"> <span
+						id="loan" class="text.danger font-weight-bold"></span></td>
 				</tr>
 				<tr class="form-group">
 					<td>EMAIL ID:</td>
-					<td><INPUT type="email" name='email' id="email" class="form-control" Value='' SIZE='15'
-						placeholder="Enter Your email id.." autocomplete="off">
-						<span id="emailid" class="text.danger font-weight-bold"></span>
-						</td>
+					<td><INPUT type="email" name='email' id="email"
+						class="form-control" Value='' SIZE='15'
+						placeholder="Enter Your email id.." autocomplete="off"> <span
+						id="emailid" class="text.danger font-weight-bold"></span></td>
 				</tr>
 			</TABLE>
 			<div id="formButton">
@@ -164,82 +189,83 @@
 			</div>
 		</FORM>
 	</div>
-		<script>
-			function validation() {
-				var fullname = document.getElementById('fullname').value;
-				var phone = document.getElementById('phone').value;
-				var address = document.getElementById('address').value;
-				var aadharnumber = document.getElementById('aadharnumber').value;
-				var loanammount = document.getElementById('loanammount').value;
-				var email = document.getElementById('email').value;
-				
-				
-				if (fullname == "") {
-					document.getElementById('name').innerHTML = " ** please fill the fullname field";
-					return false;
-				}
-				if (phone == "") {
-					document.getElementById('mobilenumber').innerHTML = " ** please fill the mobile number field";
-					return false;
-				}
-				if (isNaN(phone)) {
-					document.getElementById('mobilenumber').innerHTML = " ** user must write digit only not character";
-					return false;
-				}
-				
-				if (phone.length!=10) {
-					document.getElementById('mobilenumber').innerHTML = " ** mobile number must be 10 digit only";
-					return false;
-				}
-				
-				if (address == "") {
-					document.getElementById('raddress').innerHTML = " ** please fill the address field";
-					return false;
-				}
+	<script>
+		function validation() {
+			var fullname = document.getElementById('fullname').value;
+			var phone = document.getElementById('phone').value;
+			var address = document.getElementById('address').value;
+			var aadharnumber = document.getElementById('aadharnumber').value;
+			var loanammount = document.getElementById('loanammount').value;
+			var email = document.getElementById('email').value;
 
-				if (aadharnumber == "") {
-					document.getElementById('number').innerHTML = " ** please fill the adhar number field";
-					return false;
-				}
-				
-				if (loanammount == "") {
-					document.getElementById('loan').innerHTML = " ** please fill the adhar number field";
-					return false;
-				}
-
-				if (email == "") {
-					document.getElementById('emailid').innerHTML = " ** please fill the email id field";
-					return false;
-				}
-
-				if ((email.charAt(email.length - 4) != '.')
-						&& (email.charAt(email.length - 3) != '.')) {
-					document.getElementById('emailid').innerHTML = " ** @ invalid position";
-					return false;
-				}
-
-				if (email.indexOf('@') <= 0) {
-					document.getElementById('emailid').innerHTML = " ** @ invalid position";
-					return false;
-				}
-				
+			if (fullname == "") {
+				document.getElementById('name').innerHTML = " ** please fill the fullname field";
+				return false;
 			}
-		</script>
-	</section>
+			if (phone == "") {
+				document.getElementById('mobilenumber').innerHTML = " ** please fill the mobile number field";
+				return false;
+			}
+			if (isNaN(phone)) {
+				document.getElementById('mobilenumber').innerHTML = " ** user must write digit only not character";
+				return false;
+			}
+
+			if (phone.length != 10) {
+				document.getElementById('mobilenumber').innerHTML = " ** mobile number must be 10 digit only";
+				return false;
+			}
+
+			if (address == "") {
+				document.getElementById('raddress').innerHTML = " ** please fill the address field";
+				return false;
+			}
+
+			if (aadharnumber == "") {
+				document.getElementById('number').innerHTML = " ** please fill the adhar number field";
+				return false;
+			}
+
+			if (loanammount == "") {
+				document.getElementById('loan').innerHTML = " ** please fill the adhar number field";
+				return false;
+			}
+
+			if (email == "") {
+				document.getElementById('emailid').innerHTML = " ** please fill the email id field";
+				return false;
+			}
+
+			if ((email.charAt(email.length - 4) != '.')
+					&& (email.charAt(email.length - 3) != '.')) {
+				document.getElementById('emailid').innerHTML = " ** @ invalid position";
+				return false;
+			}
+
+			if (email.indexOf('@') <= 0) {
+				document.getElementById('emailid').innerHTML = " ** @ invalid position";
+				return false;
+			}
+
+		}
+	</script> </section>
 	<section id="boxes">
 	<div class="container">
 		<div class="box">
-			<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100" height="100"  ></a>
+			<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100"
+				height="100"></a>
 			<h3>Home Loan</h3>
 			<p>Make your dream come true. Apply for Home Loan Today.</p>
 		</div>
 		<div class="box">
-			<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100" height="100"  ></a>
+			<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100"
+				height="100"></a>
 			<h3>Car Loan</h3>
 			<p>Make your dream come true. Apply for Car Loan Today.</p>
 		</div>
 		<div class="box">
-			<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg" width="100" height="100"  ></a>
+			<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg"
+				width="100" height="100"></a>
 			<h3>Business Loan</h3>
 			<p>Make your efforts worthy. Apply for Business Loans Today.</p>
 		</div>
@@ -251,7 +277,6 @@
 	</footer>
 </body>
 <script language="javascript">
-
 	var logout = document.getElementById("LogoutButton");
 	logout.addEventListener("click", function() {
 		document.forms[0].action = "LogoutServlet.do";

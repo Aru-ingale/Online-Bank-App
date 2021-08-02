@@ -29,6 +29,10 @@
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
+	<%
+		String userName = (String) session.getAttribute("userName");
+		String userType = (String) session.getAttribute("userType");
+	%>
 	<div id="logout">
 		<button id='LogoutButton' style="float: right; margin-top: 70px;"
 			class="button_1">
@@ -50,7 +54,14 @@
 					<li class="current"><a href="Withdraw.jsp">Withdraw</a></li>
 					<li><a href="Transfer.jsp">Transfer</a></li>
 					<li><a href="OpenAccount.jsp">Open Account</a></li>
+					<%
+						if (userName != null && userName.equalsIgnoreCase("admin")
+								&& userType != null & userType.equalsIgnoreCase("admin")) {
+					%>
 					<li><a href="AdminServlet.do">Admin</a></li>
+					<%
+						}
+					%>
 				</ul>
 			</nav>
 		</div>
@@ -96,7 +107,7 @@
 
 						//Getting number of Savings Account of User
 						String currentAccounts = (String) session.getAttribute("currentAccount");
-						if (errMessage!= null && !errMessage.equalsIgnoreCase("")) {
+						if (errMessage != null && !errMessage.equalsIgnoreCase("")) {
 				%>
 				<label><%=errMessage%></label>
 				<%
