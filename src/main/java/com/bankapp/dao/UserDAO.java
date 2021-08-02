@@ -1,11 +1,14 @@
 package com.bankapp.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import com.bankapp.models.AccountDetails;
 import com.bankapp.models.LoanDetails;
@@ -106,49 +109,36 @@ public class UserDAO {
 		return flag;
 	}
 	
-	public boolean loanDetails(LoanDetails user) {
-		
-		boolean flag = true;
-		try {
+	public boolean accountsecurity(UserDetails user)
+	{
+		try{
 			Connection DBConn = DBConnection.getConnection();
 			Statement Stmt = DBConn.createStatement();
-			int userId = 0;	
-			String SQL_Command = "SELECT userName FROM login_details WHERE userName ='" + user.getUserName() + "'"; 
-			ResultSet Rslt = Stmt.executeQuery(SQL_Command); // Inquire if the username exsits.
-			flag = flag && !Rslt.next();
-			if (flag) {
-				SQL_Command = "INSERT INTO login_details (username,password) values('"+user.getUserName()+"','"+user.getPassword()+"')";
-				Stmt.executeUpdate(SQL_Command);
-				
-				SQL_Command = "select userid from login_details where userName = '" + user.getUserName() + "'";
-				ResultSet result = Stmt.executeQuery(SQL_Command);
-				while(result.next()) {
-					userId = result.getInt("userId");
-				}
-				SQL_Command = "INSERT INTO loandetails VALUES (Id(),'"+user.getFullName()+"','"+user.getAddress()+"',"
-			    		+ "'"+user.getPropertyAddress()+"','"+user.getPhone()+"','"+user.getDOB()+"','"+user.getAadharnumber()+"','"+user.getEmail()+"',loantype(),'"+userId+"','"+user.getLoanAmmount()+"',curdate(),curdate(),AccountNumber(),'"+user.getOccupation()+"','pending','"+user.getIncome()+"')"; 
-			    																							
-				Stmt.executeUpdate(SQL_Command);
+			String SQL_Command =("SELECT * FROM login_details");//Password table in the database
+			ResultSet result = Stmt.executeQuery(SQL_Command);
+
+			System.out.println("Connection Made");//if connection was sucessful
+            while(result.next()){
+			String Usernames = result.getString("Username"); //username column in the password table in the database
+			String Passwords = result.getString("Passwords");//password column in the password table in the database
+
+			if (result.getText().equals(Usernames)&& password.getText().equals(Passwords)){
+				response.sendRedirect("Admin.jsp");//if usernames and password match this form will be displayed
 			}
-			Stmt.close();
-			DBConnection.closeConn();
-		} catch (SQLException e) {
-			flag = false;
-			System.out.println("SQLException: " + e);
-			while (e != null) {
-				System.out.println("SQLState: " + e.getSQLState());
-				System.out.println("Message: " + e.getMessage());
-				System.out.println("Vendor: " + e.getErrorCode());
-				e = e.getNextException();
-				System.out.println("");
+            else {
+			JOptionPane.showMessageDialog(null,"Invalid Credentials");
 			}
-		} catch (Exception e) {
-			flag = false;
-			System.out.println("Exception: " + e);
-			e.printStackTrace();
-		}
-		return flag;
-	}
+            }
+            catch(ClassNotFoundException cnfe)
+            {
+			System.err.println(cnfe);
+
+			}
+            catch(SQLException ex)
+            {
+			System.err.println("SQLException:"+ex.getMessage());
+			}
+	}//end of making the connection
 
 	public List<AccountDetails> getAccountDetails(int userId) {
 		String accountNumber = "";
