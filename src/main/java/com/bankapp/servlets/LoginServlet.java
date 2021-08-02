@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
             user.setUserName(userName);
             user.setPassword(password);
             UserDAO userDAO = new UserDAO();
-            UserDetails dbUser = new UserDAO().signIn(user);
+            UserDetails dbUser = userDAO.signIn(user);
             if(dbUser.getUserId() != 0) {	
             	
             	List<AccountDetails> accDetailsList = userDAO.getAccountDetails(dbUser.getUserId());
@@ -69,7 +69,8 @@ public class LoginServlet extends HttpServlet {
    		        session.setAttribute("fname", dbUser.getFname());
    		        session.setAttribute("lname", dbUser.getLname());
    		        session.setAttribute("userName", userName);
-   		      session.setAttribute("mname", dbUser.getMname());
+   		        session.setAttribute("userType", dbUser.getUserType());
+   		        session.setAttribute("mname", dbUser.getMname());
    		          
 	   		     Cookie loginCookie = new Cookie("user",userName);
 	 			//setting cookie to expiry in 30 mins

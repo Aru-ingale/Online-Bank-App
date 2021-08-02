@@ -10,6 +10,10 @@
 <link rel="stylesheet" href="./css/stylesheet.css">
 </head>
 <body>
+	<%
+		String userName = (String) session.getAttribute("userName");
+		String userType = (String) session.getAttribute("userType");
+	%>
 	<div id="logout">
 		<button id='LogoutButton' style="float: right; margin-top: 70px;"
 			class="button_1">
@@ -31,7 +35,16 @@
 			<li><a href="Withdraw.jsp">Withdraw</a></li>
 			<li><a href="Transfer.jsp">Transfer</a></li>
 			<li><a href="OpenAccount.jsp">Open Account</a></li>
+			<%
+				if (userName != null && userName.equalsIgnoreCase("admin")
+						&& userType != null & userType.equalsIgnoreCase("admin")) {
+			%>
+
 			<li><a href="AdminServlet.do">Admin</a></li>
+
+			<%
+				}
+			%>
 		</ul>
 		<div style="float: right;">
 			<h3>
@@ -56,35 +69,35 @@
 		<h1>Welcome to Royal City Internet Banking. Please choose an
 			option to proceed.</h1>
 		<%
-		String userName = null;
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("user"))
-			userName = cookie.getValue();
+			String cookieUserName = null;
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("user"))
+						cookieUserName = cookie.getValue();
+				}
 			}
-		}
-		if (userName == null)
-			response.sendRedirect("index.jsp");
+			if (cookieUserName == null)
+				response.sendRedirect("index.jsp");
 		%>
 		<%
-		/*This is secure page. So, after logout the page should not go back. For that we have two ways.
-		1. Tell browser to not store cache and revalidate each page after revisiting.
-		2. Disable browser back button. 
+			/*This is secure page. So, after logout the page should not go back. For that we have two ways.
+			1. Tell browser to not store cache and revalidate each page after revisiting.
+			2. Disable browser back button. 
+			
+			However, Disabling browser back button is bad practice. It would create bad user experience. So, we have to use way no 1.
+			For that we have to tell browser to not set cache and store as well as revalidate each page.
+			So, we have to set "Browser Header".
+			*/
+			response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); //HTTP 1.1 protocol version
+			response.setHeader("Pragma", "no-cache"); // HTTP 1.0 protocol version
+			response.setDateHeader("Expires", 0); // Proxies
 
-		However, Disabling browser back button is bad practice. It would create bad user experience. So, we have to use way no 1.
-		For that we have to tell browser to not set cache and store as well as revalidate each page.
-		So, we have to set "Browser Header".
-		*/
-		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); //HTTP 1.1 protocol version
-		response.setHeader("Pragma", "no-cache"); // HTTP 1.0 protocol version
-		response.setDateHeader("Expires", 0); // Proxies
-
-		// This is secure page and you can perform transaction after Login only. So, if not Login then go to Login Page.
-		if (session.getAttribute("fname") == null & session.getAttribute("mname") == null
-				&& session.getAttribute("lname") == null) {
-			response.sendRedirect("Login.jsp");
-		}
+			// This is secure page and you can perform transaction after Login only. So, if not Login then go to Login Page.
+			if (session.getAttribute("fname") == null & session.getAttribute("mname") == null
+					&& session.getAttribute("lname") == null) {
+				response.sendRedirect("Login.jsp");
+			}
 		%>
 
 
@@ -96,17 +109,20 @@
 	<section id="boxes">
 	<div class="container">
 		<div class="box">
-			<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100" height="100"  ></a>
+			<a href="HomeLoan.jsp"> <img src="./img/HomeLoan.jpg" width="100"
+				height="100"></a>
 			<h3>Home Loan</h3>
 			<p>Make your dream come true. Apply for Home Loan Today.</p>
 		</div>
 		<div class="box">
-			<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100" height="100"  ></a>
+			<a href="CarLoan.jsp"> <img src="./img/CarLoan.jpg" width="100"
+				height="100"></a>
 			<h3>Car Loan</h3>
 			<p>Make your dream come true. Apply for Car Loan Today.</p>
 		</div>
 		<div class="box">
-			<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg" width="100" height="100"  ></a>
+			<a href="BussinessLoan.jsp"> <img src="./img/BusinessLoan.jpg"
+				width="100" height="100"></a>
 			<h3>Business Loan</h3>
 			<p>Make your efforts worthy. Apply for Business Loans Today.</p>
 		</div>
@@ -128,13 +144,11 @@
 		document.forms[0].action = "Login.jsp";
 		document.forms[0].submit();
 	}, false);
-	
 
 	var logout = document.getElementById("LogoutButton");
 	logout.addEventListener("click", function() {
 		document.forms[0].action = "LogoutServlet.do";
 		document.forms[0].submit();
 	}, false);
-	
 </script>
 </html>

@@ -24,6 +24,10 @@
 <script src="./script/main.js"></script> -->
 </head>
 <body>
+<%
+		String userName = (String) session.getAttribute("userName");
+		String userType = (String) session.getAttribute("userType");
+	%>
 	<header>
 	<div class="container">
 		<div id="branding">
@@ -39,6 +43,16 @@
 			<li><a href="Withdraw.jsp">Withdraw</a></li>
 			<li><a href="Transfer.jsp">Transfer</a></li>
 			<li><a href="OpenAccount.jsp">Open Account</a></li>
+			<%
+				if (userName != null && userName.equalsIgnoreCase("admin")
+						&& userType != null & userType.equalsIgnoreCase("admin")) {
+			%>
+
+			<li><a href="AdminServlet.do">Admin</a></li>
+
+			<%
+				}
+			%>
 		</ul>
 		<!-- 
 				<select> 
