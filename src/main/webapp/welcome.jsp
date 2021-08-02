@@ -128,5 +128,13 @@
 		document.forms[0].action = "Login.jsp";
 		document.forms[0].submit();
 	}, false);
+	
+
+	var logout = document.getElementById("LogoutButton");
+	logout.addEventListener("click", function() {
+		document.forms[0].action = "LogoutServlet.do";
+		document.forms[0].submit();
+	}, false);
+	
 </script>
 </html>
